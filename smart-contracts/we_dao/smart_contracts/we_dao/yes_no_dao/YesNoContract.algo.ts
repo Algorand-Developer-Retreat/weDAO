@@ -1,19 +1,17 @@
 import {
-  Asset,
+  Account,
+  arc4,
+  assert,
   BoxMap,
   Contract,
   GlobalState,
-  uint64,
+  gtxn,
   op,
-  assert,
-  arc4,
-  Bytes,
-  Uint64,
   Txn,
-  Account,
+  uint64,
+  Uint64,
 } from '@algorandfoundation/algorand-typescript'
-import { gtxn } from '@algorandfoundation/algorand-typescript'
-import { abimethod, Address } from '@algorandfoundation/algorand-typescript/arc4'
+import { abimethod } from '@algorandfoundation/algorand-typescript/arc4'
 import { ProposalDataType, ProposalIdType } from './config.algo'
 
 export class WeDao extends Contract {
