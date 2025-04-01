@@ -1,5 +1,5 @@
 import { AlgorandClient } from '@algorandfoundation/algokit-utils'
-import { WeDaoFactory } from '../artifacts/we_dao/WeDaoClient'
+import { WeDaoFactory } from '../artifacts/we_dao/yes_no_dao/WeDaoClient'
 
 // Below is a showcase of various deployment options you can use in TypeScript Client
 export async function deploy() {
@@ -23,11 +23,11 @@ export async function deploy() {
     })
   }
 
-  const method = 'hello'  
-  const response = await appClient.send.hello({
-    args: { name: 'world' },
-  })
-  console.log(
-    `Called ${method} on ${appClient.appClient.appName} (${appClient.appClient.appId}) with name = world, received: ${response.return}`,
-  )
+  // const method = 'hello'
+  // const response = await appClient.send.({
+  //   args: { name: 'world' },
+  // })
+  // console.log(
+  //   `Called ${method} on ${appClient.appClient.appName} (${appClient.appClient.appId}) with name = world, received: ${response.return}`,
+  // )
 }

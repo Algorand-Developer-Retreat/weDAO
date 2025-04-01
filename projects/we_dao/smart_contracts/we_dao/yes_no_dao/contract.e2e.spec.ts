@@ -1,34 +1,104 @@
-import { Config } from '@algorandfoundation/algokit-utils'
-import { registerDebugEventHandlers } from '@algorandfoundation/algokit-utils-debug'
+import { AlgorandClient, algos, Config, microAlgo, microAlgos } from '@algorandfoundation/algokit-utils'
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
-import { Address } from 'algosdk'
-import { beforeAll, beforeEach, describe, expect, test } from 'vitest'
-import { WeDaoFactory } from '../../artifacts/we_dao/yes_no_dao/WeDaoClient'
+import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
+import { beforeAll, beforeEach, describe, test } from 'vitest'
+import { WeDaoClient, WeDaoFactory } from '../../artifacts/we_dao/yes_no_dao/WeDaoClient'
+
+const fixture = algorandFixture()
+Config.configure({ populateAppCallResources: true })
+
+const createProposalMbrValue = 144900
+
+// App clients -------------------------------------------
+let daoAppClient: WeDaoClient
+//--------------------------------------------------------
+
+// Environment clients ------------------------------------
+let algorand: AlgorandClient
+//--------------------------------------------------------
+
+// Relevant user accounts ------------------------------------
+let managerAccount: TransactionSignerAccount
+let voterAccount: TransactionSignerAccount
+let proposerAccount: TransactionSignerAccount
+let voterOneAccount: TransactionSignerAccount
+let voterTwoAccount: TransactionSignerAccount
+const votingPowerOne = 42000
+const votingPowerTwo = 30000
+//--------------------------------------------------------
+
+// Proposal data -----------------------------------------
+const poolProposalTitle = 'Pool proposal title'
+const poolProposalDescription = 'This is the pool proposal description'
+const regularProposalTitle = 'Regular proposal title'
+const regularProposalDescription = 'This is the regular proposal description'
+const expiresIn = 1000n
+//--------------------------------------------------------
 
 describe('WeDao contract', () => {
-  const localnet = algorandFixture()
-  beforeAll(() => {
-    Config.configure({
-      debug: true,
-      // traceAll: true,
+  beforeEach(fixture.newScope)
+  beforeAll(async () => {
+    await fixture.newScope()
+
+    algorand = AlgorandClient.fromEnvironment()
+
+    managerAccount = await algorand.account.kmd.getOrCreateWalletAccount('manager-account', algos(100))
+    voterAccount = await algorand.account.kmd.getOrCreateWalletAccount('voter-account', algos(100))
+    algorand.setSignerFromAccount(managerAccount)
+    algorand.setSignerFromAccount(voterAccount)
+
+    await algorand.account.ensureFundedFromEnvironment(managerAccount.addr, microAlgo(1000000))
+
+    await algorand.send.payment({
+      sender: managerAccount.addr,
+      receiver: voterAccount.addr,
+      amount: microAlgo(100000), // Send 1 Algo to the new wallet
     })
-    registerDebugEventHandlers()
-  })
-  beforeEach(localnet.newScope)
 
-  const deploy = async (account: Address) => {
-    const factory = localnet.algorand.client.getTypedAppFactory(WeDaoFactory, {
-      defaultSender: account,
-    })
+    const factory = algorand.client.getTypedAppFactory(WeDaoFactory, { defaultSender: managerAccount.addr })
 
-    const { appClient } = await factory.send.create.createApplication({ args: [false] })
-    return { client: appClient }
-  }
+    const { appClient } = await factory.send.create.createApplication({ args: [false], sender: managerAccount.addr })
 
-  test('Test if apllication got created woth anyone can vote === false', async () => {
-    const { testAccount } = localnet.context
-    const { client } = await deploy(testAccount)
-    const result = await client.appClient.getGlobalState()
+    daoAppClient = appClient
+  }, 300000)
+
+  test('Test if apllication got created with anyone can create proposal === false', async () => {
+    const result = await daoAppClient.appClient.getGlobalState()
     console.log('Global State:', result)
+  })
+
+  test('Test if manager can create a proposal', async () => {
+    const mbrTxn = algorand.createTransaction.payment({
+      sender: managerAccount.addr,
+      amount: microAlgos(createProposalMbrValue),
+      receiver: daoAppClient.appAddress,
+      extraFee: microAlgos(1000n),
+    })
+
+    const result = await daoAppClient.send.createProposal({
+      args: {
+        proposalTitle: poolProposalTitle,
+        proposalDescription: poolProposalDescription,
+        expiresIn: expiresIn,
+        mbrTxn: mbrTxn,
+      },
+      sender: managerAccount.addr,
+    })
+  })
+
+  test('Test if voter can vote on the created proposal', async () => {
+    const mbrTxn = algorand.createTransaction.payment({
+      sender: managerAccount.addr,
+      amount: microAlgos(10000),
+      receiver: daoAppClient.appAddress,
+      extraFee: microAlgos(1000n),
+    })
+
+    const result = await daoAppClient.send.voteProposal({
+      args: { proposalId: 1, vote: false, mbrTxn: mbrTxn },
+      sender: voterAccount.addr,
+    })
+
+    console.log('Vote proposal result:', result)
   })
 })
