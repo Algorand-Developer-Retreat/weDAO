@@ -32,6 +32,6 @@ A lightweight, fully open-source DAO frontend built on **Algorand**, enabling co
 
 ```bash
 git clone https://github.com/Algorand-Developer-Retreat/weDAO.git
-cd weDAO
+cd weDAO/front-end
 npm install
 npm run dev
