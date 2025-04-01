@@ -16,7 +16,7 @@ export function Header() {
   };
 
   return (
-    <header className="flex fixed top-0 left-0 w-full justify-between items-center p-4">
+    <header className="flex fixed top-0 left-0 w-full justify-between items-center p-4 z-30 bg-background">
       <img src="/project-icon.png" alt="logo" className="h-20 w-20 rounded-full"/>
       {activeAccount ? (
         <div className="flex gap-2">

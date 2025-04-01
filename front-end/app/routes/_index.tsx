@@ -2,9 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { Header } from "../components/header";
 import { Hero } from "../components/hero";
 import { WalletConnectionModal } from "../components/walletConnectModal";
-import { ProposalList } from "../components/proposalList";
-import { testProposals } from "../data/test-proposals";
-
+import { MainContainer } from "../components/mainContainer";
 export const meta: MetaFunction = () => {
   return [
     { title: "New Remix App" },
@@ -18,7 +16,7 @@ export default function Index() {
       <Header />
       <div className="flex flex-col ">
         <Hero />
-        <ProposalList proposals={testProposals} />
+        <MainContainer />
       </div>
       <WalletConnectionModal />
     </div>

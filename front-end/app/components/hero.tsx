@@ -10,7 +10,7 @@ export function Hero() {
   const projectName = import.meta.env.VITE_PROJECT_NAME || 'DAO';
 
   return (
-    <div className="min-h-[50vh] flex flex-col items-center justify-center px-4 bg-background ">
+    <div className="min-h-[50vh] flex flex-col items-center justify-center px-4 bg-background">
 
       {/* Main content */}
       <motion.div 

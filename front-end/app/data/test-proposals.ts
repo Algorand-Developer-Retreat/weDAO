@@ -1,6 +1,10 @@
 import { Proposal } from "../interfaces/proposals";
 
-export const testProposals: Proposal[] = [
+  export async function getProposals(): Promise<Proposal[]> {
+    return testProposals;
+  }
+
+ const testProposals: Proposal[] = [
     {
         "id": 1,
         "title": "Implement Weekly Meme Contests",
@@ -19,7 +23,7 @@ export const testProposals: Proposal[] = [
         "title": "Partner with DogeCoin for Cross-Chain Memes",
         "description": "Establish a partnership with DogeCoin to create cross-chain meme NFTs and shared liquidity pools.",
         "proposer": "ALGO456...012",
-        "status": "pending",
+        "status": "closed",
         "startDate": "2024-03-25T00:00:00Z",
         "endDate": "2024-04-01T00:00:00Z",
         "votesFor": 0,
@@ -32,7 +36,7 @@ export const testProposals: Proposal[] = [
         "title": "Increase Meme Creation Treasury",
         "description": "Allocate additional 100,000 tokens to the meme creation treasury to incentivize high-quality meme generation.",
         "proposer": "ALGO789...345",
-        "status": "completed",
+        "status": "closed",
         "startDate": "2024-03-10T00:00:00Z",
         "endDate": "2024-03-17T00:00:00Z",
         "votesFor": 75000,
@@ -71,7 +75,7 @@ export const testProposals: Proposal[] = [
         "title": "Community Meme Education Program",
         "description": "Fund a program to educate new members about meme creation, crypto basics, and responsible social media practices.",
         "proposer": "ALGO890...123",
-        "status": "pending",
+        "status": "closed",
         "startDate": "2024-03-28T00:00:00Z",
         "endDate": "2024-04-04T00:00:00Z",
         "votesFor": 0,
@@ -84,7 +88,7 @@ export const testProposals: Proposal[] = [
         "title": "Viral Marketing Campaign",
         "description": "Launch a coordinated marketing campaign on TikTok and Twitter to increase brand awareness and community engagement.",
         "proposer": "ALGO345...678",
-        "status": "completed",
+        "status": "closed",
         "startDate": "2024-03-05T00:00:00Z",
         "endDate": "2024-03-12T00:00:00Z",
         "votesFor": 65000,
@@ -110,7 +114,7 @@ export const testProposals: Proposal[] = [
         "title": "Meme AI Integration",
         "description": "Integrate AI tools to help community members generate and enhance memes while maintaining creative control.",
         "proposer": "ALGO678...901",
-        "status": "pending",
+        "status": "closed",
         "startDate": "2024-03-30T00:00:00Z",
         "endDate": "2024-04-06T00:00:00Z",
         "votesFor": 0,

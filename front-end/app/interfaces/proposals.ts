@@ -3,7 +3,7 @@ export interface Proposal {
   title: string;
   description: string;
   proposer: string;
-  status: 'active' | 'pending' | 'completed';
+  status: 'active' | 'closed';
   startDate: string;
   endDate: string;
   votesFor: number;
