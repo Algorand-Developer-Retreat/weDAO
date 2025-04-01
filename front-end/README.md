@@ -1,40 +1,37 @@
-# Welcome to Remix!
+# weDAO 🗳️
 
-- 📖 [Remix docs](https://remix.run/docs)
+A lightweight, fully open-source DAO frontend built on **Algorand**, enabling communities to create and vote on proposals with ease. Designed to be fun, bright, and modular, **weDAO** can be used by *any* token project or DAO.
 
-## Development
+---
 
-Run the dev server:
+## ✨ Features
 
-```shellscript
+- ✅ **Vote on Open Proposals**  
+  Users can review active proposals and cast their votes directly from the interface using their Algorand wallet.
+
+- 📝 **Create New Proposals**  
+  DAO members can submit new proposals, specifying a title, description, and voting period.
+
+- 📜 **View Past Proposals**  
+  Explore the history of passed, failed, or expired proposals with full transparency.
+
+- ⚙️ **Project Token Configurable**  
+  DAO creators can configure the app to support their own token (meme coins, base assets, or community governance tokens).
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React + Tailwind CSS (v3)
+- **Blockchain:** Algorand Smart Contracts
+- **Wallet Support:** Pera Wallet, Defly, etc.
+
+---
+
+## 🚀 Quick Start
+
+```bash
+git clone https://github.com/Algorand-Developer-Retreat/weDAO.git
+cd weDAO
+npm install
 npm run dev
-```
-
-## Deployment
-
-First, build your app for production:
-
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
