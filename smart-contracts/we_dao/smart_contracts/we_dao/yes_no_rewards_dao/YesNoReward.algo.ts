@@ -13,11 +13,8 @@ import {
 } from '@algorandfoundation/algorand-typescript'
 import { abimethod } from '@algorandfoundation/algorand-typescript/arc4'
 import { ProposalDataType, ProposalIdType } from './config.algo'
-import { PaymentTxn } from '@algorandfoundation/algorand-typescript/gtxn'
 
-const proposalMbr = 144900
-
-export class YesNoDao extends Contract {
+export class WeDao extends Contract {
   //Define the manager of the contract
   manager_address = GlobalState<Account>()
 
@@ -58,12 +55,6 @@ export class YesNoDao extends Contract {
 
     const proposal_start_timestamp: uint64 = currentTimestamp
 
-    //Check if the MBR transaction is enough to cover the proposal box creation fee
-    assert(mbr_txn.amount >= proposalMbr, 'Payment must cover the box MBR')
-
-    //Check if the receiver of the MBR txn is the contract address
-    assert(mbr_txn.receiver === op.Global.currentApplicationAddress, 'Payment must be to the contract')
-
     //Uses the current transaction timestamp and adds the expires_in value to it to get the proposal expiry timestamp
     const proposal_expiry_timestamp: uint64 = currentTimestamp + expires_in
 
@@ -74,6 +65,9 @@ export class YesNoDao extends Contract {
       proposal_start_timestamp: new arc4.UintN64(proposal_start_timestamp),
       proposal_total_votes: new arc4.UintN64(0),
       proposal_yes_votes: new arc4.UintN64(0),
+      proposal_asset: new arc4.UintN64(0),
+      proposal_prize_pool: new arc4.UintN64(0),
+      vote_price: new arc4.UintN64(0),
     })
 
     //Define the nonce for the proposal by adding one to the total proposals global state
@@ -105,14 +99,8 @@ export class YesNoDao extends Contract {
     // Then, we need to properly handle the uint64 arithmetic
     const updatedVotes = Uint64(currentProposal.proposal_total_votes.native + 1)
 
-    //Check if voter is not the manager address - manager cannot vote
     assert(Txn.sender !== this.manager_address.value, 'The manager cannot vote on proposals')
 
-    //Check if the MBR transaction is enough to cover the proposal box creation fee
-    assert(mbr_txn.amount >= proposalMbr, 'Payment must cover the box MBR')
-
-    //Check if the receiver of the MBR txn is the contract address
-    assert(mbr_txn.receiver === op.Global.currentApplicationAddress, 'Payment must be to the contract')
     // Create an updated proposal with the new vote count
     const updatedProposal = currentProposal.copy()
     updatedProposal.proposal_total_votes = new arc4.UintN64(updatedVotes)
