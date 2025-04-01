@@ -5,8 +5,6 @@ import { getEnvColor } from "./app/utils";
 // Load environment variables
 dotenv.config({ path: '../.env' });
 
-
-
 export default {
   content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -14,7 +12,7 @@ export default {
       colors: {
         background: getEnvColor('background', '#210e49'),
         primary: getEnvColor('primary', '#00f5c0'),
-        secondary: getEnvColor('secondary', '#ff92e5'),
+        secondary: getEnvColor('secondary', '#fc0589'), // Neon pink
         accent: getEnvColor('accent', '#f9a826'),
         yes: getEnvColor('yes', '#63f5bd'),
         no: getEnvColor('no', '#ff6a8c'),
@@ -33,6 +31,12 @@ export default {
           "Segoe UI Emoji",
           "Segoe UI Symbol",
           "Noto Color Emoji",
+        ],
+        display: [
+          "Space Grotesk",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
         ],
       },
     },

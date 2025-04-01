@@ -28,10 +28,10 @@ export const Tabs: React.FC<TabsPropsInterface> = ({
       {options.map((option, index) => (
         <motion.button
           key={index}
-          className={`py-2 px-6 cursor-pointer text-white text-xl md:text-4xl font-fred flex items-center
+          className={`py-2 px-6 cursor-pointer text-white text-xl md:text-2xl  flex items-center
             ${
               activeTab.label === option.label
-                ? "bg-secondary font-bold rounded-full"
+                ? "bg-secondary font-display rounded-full"
                 : `bg-primary rounded-full text-black hover:text-background ${
                     option.enabled ? "cursor-pointer" : "cursor-not-allowed"
                   }`

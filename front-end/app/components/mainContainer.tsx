@@ -32,16 +32,14 @@ export function MainContainer() {
 
   useEffect(() => {
     loadProposals().then((retreivedProposals: Proposal[]) => {
-      const activeProposals = retreivedProposals.filter(
-        (proposal) => {
-            if (currentTab.label === "All") {
-                return proposal;
-            } else {
-                return proposal.status === currentTab.label.toLowerCase();
-            }
+      const activeProposals = retreivedProposals.filter((proposal) => {
+        if (currentTab.label === "All") {
+          return proposal;
+        } else {
+          return proposal.status === currentTab.label.toLowerCase();
         }
-      );
-      console.log('active proposals', activeProposals);
+      });
+      console.log("active proposals", activeProposals);
       setProposalList(activeProposals);
     });
   }, [currentTab]);
@@ -50,14 +48,14 @@ export function MainContainer() {
     const newTab = tabOptions.find((option) => option.label === tab);
     if (newTab) {
       setCurrentTab(newTab);
-
     }
   }
 
   return (
     <div className=" h-screen justify-center space-y-5  ">
-      <div className="flex ">
+      <div className="flex justify-between">
         <Tabs options={tabOptions} onClickHandler={onSwitchTab} />
+        
       </div>
       <div className="flex flex-col">
         <ProposalList proposals={proposalList} />

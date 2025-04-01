@@ -14,7 +14,7 @@ export default function Index() {
   return (
     <div className="flex h-screen justify-center space-y-5  ">
       <Header />
-      <div className="flex flex-col ">
+      <div className="flex flex-col pt-10">
         <Hero />
         <MainContainer />
       </div>

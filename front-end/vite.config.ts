@@ -21,4 +21,12 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  resolve: {
+    alias: {
+      global: "global", // explicitly alias `global` to shim it
+    },
+  },
+  define: {
+    global: "globalThis", // map Node's global to the browser-safe globalThis
+  },
 });

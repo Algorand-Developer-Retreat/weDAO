@@ -12,10 +12,10 @@ export const ProposalCard = ({
       {/* Title + Status */}
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="text-heading text-xl font-bold">{proposal.title}</h3>
-          <p className="text-sm text-text/80">{proposal.description}</p>
+          <h3 className="text-heading text-xl font-display">{proposal.title}</h3>
+          <p className="text-sm text-text/80 font-sans">{proposal.description}</p>
         </div>
-        <span className={`text-background text-xs font-bold px-2 py-1 rounded-full ${proposal.status === "active" ? "bg-primary" : "bg-secondary"}`}>
+        <span className={`${proposal.status === "active" ? "text-background" : "text-text"} text-xs font-bold px-2 py-1 rounded-full ${proposal.status === "active" ? "bg-primary" : "bg-secondary"}`}>
           {proposal.status}
         </span>
       </div>
@@ -25,24 +25,24 @@ export const ProposalCard = ({
         {/* YES */}
         <div className="flex justify-between text-sm font-semibold">
           <span className="text-yes">Yes</span>
-          <span className="text-yes">{proposal.votesFor}%</span>
+          <span className="text-no">{Math.round((proposal.votesFor / (proposal.votesFor + proposal.votesAgainst)) * 100) || 0}%</span>
         </div>
         <div className="h-2 bg-background rounded-full overflow-hidden">
           <div
             className="bg-yes h-full"
-            style={{ width: `${proposal.votesFor}%` }}
+            style={{ width: `${Math.round((proposal.votesFor / (proposal.votesFor + proposal.votesAgainst)) * 100) || 0}%` }}
           ></div>
         </div>
 
         {/* NO */}
         <div className="flex justify-between text-sm font-semibold">
           <span className="text-no">No</span>
-          <span className="text-no">{proposal.votesAgainst}%</span>
+          <span className="text-no">{Math.round((proposal.votesAgainst / (proposal.votesFor + proposal.votesAgainst)) * 100) || 0}%</span>
         </div>
         <div className="h-2 bg-background rounded-full overflow-hidden">
           <div
             className="bg-no h-full"
-            style={{ width: `${proposal.votesAgainst}%` }}
+            style={{ width: `${Math.round((proposal.votesAgainst / (proposal.votesFor + proposal.votesAgainst)) * 100) || 0}%` }}
           ></div>
         </div>
       </div>
@@ -60,7 +60,7 @@ export const ProposalCard = ({
       ) : (
         <div className="mt-4 flex justify-between items-center">
           <p className="text-xs text-text/60">Ended at {new Date(proposal.endDate).toLocaleDateString()}</p>
-          
+
         </div>
       )}
     </div>
