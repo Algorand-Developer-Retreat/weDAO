@@ -187,7 +187,6 @@ export class YesNoReward extends Contract {
   }
 
   // Add a helper method to check if a user has voted
-  @abimethod({ allowActions: 'NoOp', readonly: true })
   private hasVoted(proposal_id: uint64, voter: Account): boolean {
     const voteId = new VoteIdType({
       proposal_id: new arc4.UintN64(proposal_id),
@@ -199,8 +198,10 @@ export class YesNoReward extends Contract {
 
   // Method for voters to claim participation rewards
   public claimParticipationReward(proposal_id: uint64): void {
-    const proposal = this.proposal(new arc4.UintN64(proposal_id)).value
+    // !!! I think having to use copy made it harder than tealscript
+    const proposal = this.proposal(new arc4.UintN64(proposal_id)).value.copy()
 
+    // !!! I like the op.Global object better than tealscript Globals
     // Check if the proposal is expired
     assert(proposal.proposal_expiry_timestamp.native < op.Global.latestTimestamp, 'The proposal does not exist')
 
@@ -213,14 +214,17 @@ export class YesNoReward extends Contract {
     //Define the reward amount based on the proposal's prize pool and total votes
     const rewardAmount = Uint64(proposal.proposal_prize_pool.native / proposal.proposal_total_votes.native)
 
+    // !!! I don't like the .submit() too much
     //Transfer the reward to the voter address
-    itxn.assetTransfer({
-      assetReceiver: Txn.sender,
-      sender: op.Global.currentApplicationAddress,
-      xferAsset: proposal.proposal_asset.native,
-      assetAmount: rewardAmount,
-      fee: 0,
-    })
+    itxn
+      .assetTransfer({
+        assetReceiver: Txn.sender,
+        sender: op.Global.currentApplicationAddress,
+        xferAsset: proposal.proposal_asset.native,
+        assetAmount: rewardAmount,
+        fee: 0,
+      })
+      .submit()
   }
 
   @abimethod({ allowActions: 'NoOp', readonly: true })

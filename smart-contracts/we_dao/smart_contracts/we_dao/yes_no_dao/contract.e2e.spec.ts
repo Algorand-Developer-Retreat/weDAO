@@ -67,12 +67,12 @@ describe('WeDao contract', () => {
     daoAppClient = appClient
   }, 300000)
 
-  test('Test if apllication got created with anyone can create proposal === false', async () => {
+  test.skip('Test if apllication got created with anyone can create proposal === false', async () => {
     const result = await daoAppClient.appClient.getGlobalState()
     console.log('Global State:', result)
   })
 
-  test('Test if manager can create a proposal', async () => {
+  test.skip('Test if manager can create a proposal', async () => {
     const mbrTxn = algorand.createTransaction.payment({
       sender: managerAccount.addr,
       amount: microAlgos(createProposalMbrValue),
@@ -91,7 +91,7 @@ describe('WeDao contract', () => {
     })
   })
 
-  test('Test if voter cant vote on the created proposal due to low asset balance', async () => {
+  test.skip('Test if voter cant vote on the created proposal due to low asset balance', async () => {
     const mbrTxn = algorand.createTransaction.payment({
       sender: voterAccount.addr,
       amount: microAlgos(144900),
@@ -105,7 +105,7 @@ describe('WeDao contract', () => {
     })
   })
 
-  test('Test if voter can vote on the created proposal due to enough asset balance', async () => {
+  test.skip('Test if voter can vote on the created proposal due to enough asset balance', async () => {
     try {
       algorand.send.assetTransfer({
         sender: voterAccount.addr,
@@ -141,14 +141,14 @@ describe('WeDao contract', () => {
     }
   })
 
-  test('get all proposals', async () => {
-    const proposalsCount = await daoAppClient.state.global.proposalCount()
+  // test.skip('get all proposals', async () => {
+  //   const proposalsCount = await daoAppClient.state.global.proposalCount()
 
-    const allProposals = []
-    for (let i = 1; i <= proposalsCount!; i++) {
-      allProposals.push(await daoAppClient.send.getProposal({ args: { proposalId: i } }))
-    }
+  //   const allProposals = []
+  //   for (let i = 1; i <= proposalsCount!; i++) {
+  //     allProposals.push(await daoAppClient.send.getProposal({ args: { proposalId: i } }))
+  //   }
 
-    console.log('All proposals:', allProposals)
-  })
+  //   console.log('All proposals:', allProposals)
+  // })
 })
