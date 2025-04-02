@@ -163,13 +163,29 @@ export class YesNoReward extends Contract {
 
   // Add a helper method to check if a user has voted
   @abimethod({ allowActions: 'NoOp', readonly: true })
-  public hasVoted(proposal_id: uint64, voter: Account): boolean {
+  private hasVoted(proposal_id: uint64, voter: Account): boolean {
     const voteId = new VoteIdType({
       proposal_id: new arc4.UintN64(proposal_id),
       voter_address: new arc4.Address(voter),
     })
 
     return this.vote(voteId).exists
+  }
+
+  // Method for voters to claim participation rewards
+  public claimParticipationReward(proposal_id: uint64): void {
+    const proposal = this.proposal(new arc4.UintN64(proposal_id)).value
+
+    // Check if the proposal is expired
+    // Convert proposal_expiry_timestamp to native uint64 for comparison
+    assert(proposal.proposal_expiry_timestamp.native < op.Global.latestTimestamp, 'The proposal does not exist')
+
+    const voteId = new VoteIdType({
+      proposal_id: new arc4.UintN64(proposal_id),
+      voter_address: new arc4.Address(Txn.sender),
+    })
+
+    const currentVote = this.vote(voteId).value.copy()
   }
 
   @abimethod({ allowActions: 'NoOp', readonly: true })
