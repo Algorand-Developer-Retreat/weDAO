@@ -1,8 +1,10 @@
+
 import { useEffect, useState } from "react";
 import { Proposal } from "../interfaces/proposals";
 import { ProposalList } from "./proposalList";
 import { getProposals } from "../data/test-proposals";
 import { TabOptionInterface, Tabs } from "./tabs";
+import { getProposals as getContractProposals } from "../contract-methods/proposals";
 
 export function MainContainer() {
   const tabOptions: TabOptionInterface[] = [
@@ -55,7 +57,7 @@ export function MainContainer() {
     <div className=" h-screen justify-center space-y-5  ">
       <div className="flex justify-between">
         <Tabs options={tabOptions} onClickHandler={onSwitchTab} />
-        
+        <button onClick={() => getContractProposals()}>Get Proposal</button>
       </div>
       <div className="flex flex-col">
         <ProposalList proposals={proposalList} />

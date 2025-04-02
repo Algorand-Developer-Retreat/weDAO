@@ -1,12 +1,13 @@
+'use client'
 import { useState } from "react";
 import { ProposalForm } from "../components/proposalForm";
 import { Header } from "../components/header";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { createProposal } from "../contract-methods/proposals";
-
+import * as algokit from "@algorandfoundation/algokit-utils";
 export default function CreateProposal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {activeAccount} = useWallet();
+  const {activeAccount, transactionSigner} = useWallet();
 
   const handleCreateProposal = async (title: string, description: string, expiryTimestamp: number) => {
     setIsSubmitting(true);
@@ -14,8 +15,9 @@ export default function CreateProposal() {
       // TODO: Implement the actual proposal creation logic here
       console.log("Creating proposal:", { title, description, expiryTimestamp });
       
-      // Simulate API call
-      await createProposal({ title, description, proposerAddress: activeAccount?.address || "", expiresIn: expiryTimestamp });
+      const algorand = algokit.AlgorandClient.mainNet();
+      algorand.setDefaultSigner(transactionSigner);
+      await createProposal({ title, description, proposerAddress: activeAccount?.address || "", expiresIn: expiryTimestamp, transactionSigner: transactionSigner });
       
       // TODO: Handle success (e.g., redirect to proposal list)
       

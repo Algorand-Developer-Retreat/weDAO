@@ -17,7 +17,7 @@ export default function Index() {
       <Header />
       <div className="flex flex-col pt-10">
         <Hero />
-        <MainContainer />
+        <MainContainer /> 
       </div>
       <WalletConnectionModal />
       <VoteModal />

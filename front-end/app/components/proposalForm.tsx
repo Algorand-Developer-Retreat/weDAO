@@ -22,9 +22,10 @@ export function ProposalForm({ onSubmit, isLoading = false }: ProposalFormProps)
       // Convert the expiry date to a timestamp (seconds since epoch)
       const expiryTimestamp = Math.floor(new Date(expiryDate).getTime() / 1000);
       
-      await onSubmit(title, description, expiryTimestamp);
-      showToast("Proposal created successfully!", "success");
-      navigate("/");
+      await onSubmit(title, description, expiryTimestamp).then(() => {
+        showToast("Proposal created successfully!", "success");
+        navigate("/");
+      });
     } catch (error) {
       showToast(error instanceof Error ? error.message : "Failed to create proposal", "error");
     }
