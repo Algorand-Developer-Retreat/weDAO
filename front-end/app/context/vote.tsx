@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 import { Proposal } from "../interfaces/proposals";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { voteOnProposal } from "../contract-methods/user";
-import { createProposal as createProposalContract } from "../contract-methods/proposals";
+import { createProposal as createProposalContract, getProposals } from "../contract-methods/proposals";
 
 interface VoteContextType {
   allProposals: Proposal[];
@@ -26,7 +26,7 @@ const VoteProvider: React.FC<{ children: React.ReactNode }> = ({
   const [allProposals, setAllProposals] = useState<Proposal[]>([]);
   const [activeProposals, setActiveProposals] = useState<Proposal[]>([]);
   const [displayVoteModal, setDisplayVoteModal] = useState<boolean>(false);
-  const {activeAccount} = useWallet();
+  const {activeAccount, transactionSigner} = useWallet();
   const [selectedProposal, setSelectedProposal] = useState<Proposal | null>(
     null
   );
@@ -38,8 +38,12 @@ const VoteProvider: React.FC<{ children: React.ReactNode }> = ({
         description: proposal.description,
         proposerAddress: activeAccount?.address || "",
         expiresIn: proposal.expiresIn,
+        transactionSigner: transactionSigner,
+      }).then(() => {
+        getProposals().then((proposals: Proposal[]) => {
+          setAllProposals(proposals);
+        });
       });
-      setAllProposals([...allProposals, proposal]);
     } catch (error) {
       console.error(error);
     }
@@ -51,9 +55,11 @@ const VoteProvider: React.FC<{ children: React.ReactNode }> = ({
         proposalId,
         vote,
         voterAddress: activeAccount?.address || "",
+        transactionSigner: transactionSigner,
       }).then(() => {
-        //re load proposals
-        //setAllProposals([...allProposals]);
+        getProposals().then((proposals: Proposal[]) => {
+          setAllProposals(proposals);
+        });
       });
     } catch (error) {
       console.error(error);

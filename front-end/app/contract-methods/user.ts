@@ -7,6 +7,7 @@ export async function voteOnProposal({
   proposalId,
   voterAddress,
   vote,
+  transactionSigner,
 }: VoteOnProposalParams) {
   try {
     const appClient = await getApplicationClient();
@@ -22,6 +23,7 @@ export async function voteOnProposal({
     await appClient.send.voteProposal({
       args: { proposalId, vote, mbrTxn },
       sender: voterAddress,
+      signer: transactionSigner,
     });
   } catch (error) {
     console.error(error);

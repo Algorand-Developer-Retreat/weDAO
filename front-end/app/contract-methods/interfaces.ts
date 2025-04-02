@@ -12,4 +12,5 @@ export interface VoteOnProposalParams {
     proposalId: number;
     voterAddress: string;
     vote: boolean;
+    transactionSigner: TransactionSigner;
 }
