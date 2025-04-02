@@ -10,16 +10,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: getEnvColor('background', '#210e49'),
-        primary: getEnvColor('primary', '#00f5c0'),
-        secondary: getEnvColor('secondary', '#fc0589'), // Neon pink
-        accent: getEnvColor('accent', '#f9a826'),
-        yes: getEnvColor('yes', '#63f5bd'),
-        no: getEnvColor('no', '#ff6a8c'),
-        surface: getEnvColor('surface', '#341f6f'),
-        text: getEnvColor('text', '#e1d5ff'),
-        heading: getEnvColor('heading', '#a788ff'),
-        vote: getEnvColor('vote', '#8f5cff'),
+        background: '#' + getEnvColor('background', '#210e49'),
+        primary: '#' + getEnvColor('primary', '#00f5c0'),
+        secondary: '#' + getEnvColor('secondary', '#fc0589'), // Neon pink
+        accent: '#' + getEnvColor('accent', '#f9a826'),
+        yes: '#' + getEnvColor('yes', '#63f5bd'),
+        no: '#' + getEnvColor('no', '#ff6a8c'),
+        surface: '#' + getEnvColor('surface', '#341f6f'),
+        text: '#' + getEnvColor('text', '#e1d5ff'),
+        heading: '#' + getEnvColor('heading', '#a788ff'),
+        vote: '#' + getEnvColor('vote', '#8f5cff'),
       },
       fontFamily: {
         sans: [

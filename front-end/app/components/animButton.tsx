@@ -8,8 +8,8 @@ interface AnimButtonProps {
   disabled?: boolean
 }
 
-const baseColor = getEnvColor('primary', '#00f5c0');
-const hoverColor = getEnvColor('secondary', '#fc0589');
+const baseColor = '#' + getEnvColor('primary', '#00f5c0');
+const hoverColor = '#' + getEnvColor('secondary', '#fc0589');
 
 const AnimButton: React.FC<AnimButtonProps> = ({ onClick, children, disabled }) => {
   return (
