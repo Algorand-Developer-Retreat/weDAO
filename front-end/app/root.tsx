@@ -1,15 +1,17 @@
+import type { LinksFunction } from "@remix-run/node";
 import {
   Links,
+  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
-
 import "./tailwind.css";
 import { Providers } from "./services/providers";
 import { WalletContextProvider } from "./context/wallet";
+import { VoteProvider } from "./context/vote";
+import { ToastProvider } from "./components/toast";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -33,12 +35,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-background ">
+      <body className="bg-background">
         <Providers>
-          <WalletContextProvider>{children}</WalletContextProvider>
+          <WalletContextProvider>
+            <VoteProvider>
+              <ToastProvider>
+                {children}
+              </ToastProvider>
+            </VoteProvider>
+          </WalletContextProvider>
         </Providers>
         <ScrollRestoration />
         <Scripts />
+        <LiveReload />
       </body>
     </html>
   );

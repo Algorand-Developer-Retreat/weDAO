@@ -12,12 +12,12 @@ export function Header() {
   const navigate = useNavigate();
 
   const createProposal = () => {
-    navigate("/create-proposal");
+    navigate("/create");
   };
 
   return (
     <header className="flex fixed top-0 left-0 w-full justify-between items-center py-2 px-4 z-30 bg-background">
-      <img src="/project-icon.png" alt="logo" className="h-20 w-20 rounded-full"/>
+      <img src="/project-icon.png" alt="logo" className="h-24 w-24 rounded-full"/>
       {activeAccount ? (
         <div className="flex gap-2">
           <AnimButton data-test-id="connect-wallet" onClick={createProposal}>

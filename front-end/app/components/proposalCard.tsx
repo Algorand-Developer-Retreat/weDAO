@@ -1,4 +1,7 @@
+import { useContext } from "react";
 import { Proposal } from "../interfaces/proposals";
+import AnimButton from "./animButton";
+import { VoteContext } from "../context/vote";
 
 interface ProposalCardProps {
   proposal: Proposal;
@@ -7,6 +10,13 @@ interface ProposalCardProps {
 export const ProposalCard = ({
   proposal
 }: ProposalCardProps) => {
+  const { setSelectedProposal, setDisplayVoteModal } = useContext(VoteContext);
+
+  function onClickVote() {
+    setSelectedProposal(proposal);
+    setDisplayVoteModal(true);
+    console.log("clicked vote");
+  }
   return (
     <div className="bg-surface rounded-2xl p-5 shadow-md text-text max-w-xl w-full">
       {/* Title + Status */}
@@ -50,16 +60,16 @@ export const ProposalCard = ({
       {/* Footer */}
       {proposal.status === "active" ? (
         <div className="mt-4 flex justify-between items-center">
-          <p className="text-xs text-text/60">Ends at {new Date(proposal.endDate).toLocaleDateString()}</p>
+          <p className="text-xs text-text/60">Ends in {new Date(proposal.expiresIn + Date.now()).toLocaleDateString()}</p>
         
         
-        <button className="bg-vote text-white text-sm font-medium px-4 py-1.5 rounded-full hover:opacity-90 transition">
+        <AnimButton onClick={() => onClickVote()}>
           Vote
-        </button>
+        </AnimButton>
       </div>
       ) : (
         <div className="mt-4 flex justify-between items-center">
-          <p className="text-xs text-text/60">Ended at {new Date(proposal.endDate).toLocaleDateString()}</p>
+          <p className="text-xs text-text/60">Ended.</p>
 
         </div>
       )}

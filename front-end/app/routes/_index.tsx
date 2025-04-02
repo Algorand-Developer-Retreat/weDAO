@@ -3,10 +3,12 @@ import { Header } from "../components/header";
 import { Hero } from "../components/hero";
 import { WalletConnectionModal } from "../components/walletConnectModal";
 import { MainContainer } from "../components/mainContainer";
+import { VoteModal } from "../components/voteModal";
+import { Footer } from "../components/footer";
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "weDAO" },
+    { name: "description", content: "weDAO" },
   ];
 };
 
@@ -16,9 +18,11 @@ export default function Index() {
       <Header />
       <div className="flex flex-col pt-10">
         <Hero />
-        <MainContainer />
+        <MainContainer /> 
       </div>
+      <Footer />
       <WalletConnectionModal />
+      <VoteModal />
     </div>
   );
 }
