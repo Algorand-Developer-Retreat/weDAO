@@ -4,6 +4,7 @@ import { Hero } from "../components/hero";
 import { WalletConnectionModal } from "../components/walletConnectModal";
 import { MainContainer } from "../components/mainContainer";
 import { VoteModal } from "../components/voteModal";
+import { Footer } from "../components/footer";
 export const meta: MetaFunction = () => {
   return [
     { title: "weDAO" },
@@ -19,6 +20,7 @@ export default function Index() {
         <Hero />
         <MainContainer /> 
       </div>
+      <Footer />
       <WalletConnectionModal />
       <VoteModal />
     </div>
