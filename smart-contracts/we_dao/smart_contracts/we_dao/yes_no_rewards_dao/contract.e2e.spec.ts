@@ -46,8 +46,8 @@ describe('WeDao contract', () => {
 
     algorand = AlgorandClient.fromEnvironment()
 
-    managerAccount = await algorand.account.kmd.getOrCreateWalletAccount('manager-account', algos(100))
-    voterAccount = await algorand.account.kmd.getOrCreateWalletAccount('voter-account', algos(100))
+    managerAccount = await algorand.account.kmd.getOrCreateWalletAccount('manager-rewards-account', algos(100))
+    voterAccount = await algorand.account.kmd.getOrCreateWalletAccount('voter-rewards-account', algos(100))
     algorand.setSignerFromAccount(managerAccount)
     algorand.setSignerFromAccount(voterAccount)
 
