@@ -2,7 +2,7 @@ import { AlgorandClient, algos, Config, microAlgo, microAlgos } from '@algorandf
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
 import { beforeAll, beforeEach, describe, test } from 'vitest'
-import { WeDaoClient, WeDaoFactory } from '../../artifacts/we_dao/yes_no_dao/WeDaoClient'
+import { YesNoDaoClient, YesNoDaoFactory } from '../../artifacts/we_dao/yes_no_dao/YesNoDaoClient'
 
 const fixture = algorandFixture()
 Config.configure({ populateAppCallResources: true })
@@ -10,7 +10,7 @@ Config.configure({ populateAppCallResources: true })
 const createProposalMbrValue = 144900
 
 // App clients -------------------------------------------
-let daoAppClient: WeDaoClient
+let daoAppClient: YesNoDaoClient
 //--------------------------------------------------------
 
 // Environment clients ------------------------------------
@@ -55,7 +55,7 @@ describe('WeDao contract', () => {
       amount: microAlgo(100000), // Send 1 Algo to the new wallet
     })
 
-    const factory = algorand.client.getTypedAppFactory(WeDaoFactory, { defaultSender: managerAccount.addr })
+    const factory = algorand.client.getTypedAppFactory(YesNoDaoFactory, { defaultSender: managerAccount.addr })
 
     const { appClient } = await factory.send.create.createApplication({ args: [false], sender: managerAccount.addr })
 
@@ -88,17 +88,15 @@ describe('WeDao contract', () => {
 
   test('Test if voter can vote on the created proposal', async () => {
     const mbrTxn = algorand.createTransaction.payment({
-      sender: managerAccount.addr,
-      amount: microAlgos(10000),
+      sender: voterAccount.addr,
+      amount: microAlgos(144900),
       receiver: daoAppClient.appAddress,
       extraFee: microAlgos(1000n),
     })
 
-    const result = await daoAppClient.send.voteProposal({
+    await daoAppClient.send.voteProposal({
       args: { proposalId: 1, vote: false, mbrTxn: mbrTxn },
       sender: voterAccount.addr,
     })
-
-    console.log('Vote proposal result:', result)
   })
 })
