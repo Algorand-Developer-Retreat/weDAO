@@ -7,7 +7,7 @@ import { YesNoDaoClient, YesNoDaoFactory } from '../../artifacts/we_dao/yes_no_d
 const fixture = algorandFixture()
 Config.configure({ populateAppCallResources: true })
 
-const createProposalMbrValue = 144900
+const createProposalMbrValue = 156500
 
 // App clients -------------------------------------------
 let daoAppClient: YesNoDaoClient

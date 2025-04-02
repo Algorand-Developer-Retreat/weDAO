@@ -58,7 +58,7 @@ export class YesNoDao extends Contract {
     const proposal_start_timestamp: uint64 = currentTimestamp
 
     // Check if the MBR transaction is enough to cover the proposal box creation fee
-    assert(mbr_txn.amount >= 14490, 'Payment must cover the box MBR')
+    assert(mbr_txn.amount >= 16490, 'Payment must cover the box MBR')
 
     // Check if the receiver of the MBR txn is the contract address
     assert(mbr_txn.receiver === op.Global.currentApplicationAddress, 'Payment must be to the contract')
@@ -72,8 +72,7 @@ export class YesNoDao extends Contract {
       proposal_total_votes: new arc4.UintN64(0),
       proposal_yes_votes: new arc4.UintN64(0),
       proposal_creator: new arc4.Address(Txn.sender),
-      proposal_title: new arc4.Str(proposal_title),
-      proposal_description: new arc4.Str(proposal_description),
+      proposal_title_and_description: new arc4.Str(proposal_title + ':' + proposal_description),
     })
 
     // Define the nonce for the proposal by adding one to the total proposals global state
@@ -118,7 +117,7 @@ export class YesNoDao extends Contract {
     assert(Txn.sender !== this.manager_address.value, 'The manager cannot vote on proposals')
 
     // Check if the MBR transaction is enough to cover the vote box creation fee
-    assert(mbr_txn.amount >= 14490, 'Payment must cover the vote box MBR')
+    assert(mbr_txn.amount >= 16490, 'Payment must cover the vote box MBR')
 
     // Check if the receiver of the MBR txn is the contract address
     assert(mbr_txn.receiver === op.Global.currentApplicationAddress, 'Payment must be to the contract')

@@ -2,6 +2,7 @@
 import { microAlgos } from "@algorandfoundation/algokit-utils";
 import { getApplicationClient } from "./get-client";
 import { CreateProposalParams } from "./interfaces";
+import algosdk from "algosdk";
 import * as algokit from "@algorandfoundation/algokit-utils";
 import { Proposal } from "../interfaces/proposals";
 
@@ -14,7 +15,7 @@ export async function createProposal({
 }: CreateProposalParams) {
   try {
     const appClient = await getApplicationClient();
-    const createProposalMbrValue = 144900;
+    const createProposalMbrValue = 156500;
     const algorand = algokit.AlgorandClient.mainNet();
 
     const mbrTxn = algorand.createTransaction.payment({
@@ -89,13 +90,17 @@ async function decodeBoxValues(boxValues: Uint8Array, proposalId: number){
     const proposal_total_votes = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
     index += BYTE_LENGTH;
     const proposal_yes_votes = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH + 4;
-    const proposal_title = new TextDecoder().decode(boxValues.slice(index));
+    index += BYTE_LENGTH;
+    const account = algosdk.encodeAddress(boxValues.slice(index, index + 32));
+    index += 32 + 6;
+    const proposal_title = new TextDecoder().decode(boxValues.slice(index, index + 32));
+    index += 32;
+    const proposal_description = new TextDecoder().decode(boxValues.slice(index));
   const newProposal: Proposal =  {
-    description: '',
+    description: proposal_description,
     expiresIn: Number(proposal_expiry_timestamp),
     id: proposalId,
-    proposer: '',
+    proposer: account,
     status: 'active',
     title: proposal_title,
     votesFor: Number(proposal_yes_votes),
