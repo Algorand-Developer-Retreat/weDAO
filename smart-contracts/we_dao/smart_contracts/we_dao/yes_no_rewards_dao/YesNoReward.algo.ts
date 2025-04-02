@@ -2,10 +2,12 @@ import {
   Account,
   arc4,
   assert,
+  Asset,
   BoxMap,
   Contract,
   GlobalState,
   gtxn,
+  itxn,
   op,
   Txn,
   uint64,
@@ -43,15 +45,34 @@ export class YesNoReward extends Contract {
   }
 
   @abimethod({ allowActions: 'NoOp' })
+  public optInToAsset(assetId: uint64): void {
+    itxn
+      .assetTransfer({
+        assetReceiver: op.Global.currentApplicationAddress,
+        sender: op.Global.currentApplicationAddress,
+        xferAsset: assetId,
+        assetAmount: 0,
+        fee: 0,
+      })
+      .submit()
+  }
+
+  @abimethod({ allowActions: 'NoOp' })
   public createProposal(
     proposal_title: string,
     proposal_description: string,
     expires_in: uint64,
+    fundPoolTxn: gtxn.AssetTransferTxn,
     mbr_txn: gtxn.PaymentTxn,
   ): void {
     if (this.anyone_can_create.value === false) {
       assert(this.manager_address.value === Txn.sender, 'Only the manager can create proposals')
     }
+
+    // assert(fundPoolTxn.assetAmount > 0, 'The fund pool transaction must have a positive asset amount')
+
+    const assetId: uint64 = fundPoolTxn.xferAsset.id
+    const initialPrizePool: uint64 = fundPoolTxn.assetAmount
 
     // Gets the timestamp of the current transaction to be used as the proposal start timestamp
     const currentTimestamp: uint64 = op.Global.latestTimestamp
@@ -62,15 +83,14 @@ export class YesNoReward extends Contract {
     const proposal_expiry_timestamp: uint64 = currentTimestamp + expires_in
 
     const proposal: ProposalDataType = new ProposalDataType({
-      proposal_title: new arc4.Str(proposal_title),
-      proposal_description: new arc4.Str(proposal_description),
       proposal_expiry_timestamp: new arc4.UintN64(proposal_expiry_timestamp),
       proposal_start_timestamp: new arc4.UintN64(proposal_start_timestamp),
       proposal_total_votes: new arc4.UintN64(0),
       proposal_yes_votes: new arc4.UintN64(0),
-      proposal_asset: new arc4.UintN64(0),
-      proposal_prize_pool: new arc4.UintN64(0),
+      proposal_asset: new arc4.UintN64(assetId),
+      proposal_prize_pool: new arc4.UintN64(initialPrizePool),
       vote_price: new arc4.UintN64(0),
+      proposal_title: new arc4.Str(proposal_title),
     })
 
     //Define the nonce for the proposal by adding one to the total proposals global state

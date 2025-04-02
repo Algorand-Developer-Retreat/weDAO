@@ -67,12 +67,11 @@ export class YesNoDao extends Contract {
     const proposal_expiry_timestamp: uint64 = currentTimestamp + expires_in
 
     const proposal: ProposalDataType = new ProposalDataType({
-      proposal_title: new arc4.Str(proposal_title),
-      proposal_description: new arc4.Str(proposal_description),
       proposal_expiry_timestamp: new arc4.UintN64(proposal_expiry_timestamp),
       proposal_start_timestamp: new arc4.UintN64(proposal_start_timestamp),
       proposal_total_votes: new arc4.UintN64(0),
       proposal_yes_votes: new arc4.UintN64(0),
+      proposal_title: new arc4.Str(proposal_title),
     })
 
     // Define the nonce for the proposal by adding one to the total proposals global state

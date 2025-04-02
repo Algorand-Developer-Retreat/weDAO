@@ -4,12 +4,11 @@ import { arc4 } from '@algorandfoundation/algorand-typescript'
 export type ProposalIdType = arc4.UintN64
 
 export class ProposalDataType extends arc4.Struct<{
-  proposal_title: arc4.Str
-  proposal_description: arc4.Str
   proposal_expiry_timestamp: arc4.UintN64
   proposal_start_timestamp: arc4.UintN64
   proposal_total_votes: arc4.UintN64
   proposal_yes_votes: arc4.UintN64
+  proposal_title: arc4.Str
 }> {}
 
 // Define ProposalIdType as a UintN64 for numeric IDs
