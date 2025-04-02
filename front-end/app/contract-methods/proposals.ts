@@ -15,7 +15,7 @@ export async function createProposal({
 }: CreateProposalParams) {
   try {
     const appClient = await getApplicationClient();
-    const createProposalMbrValue = 156500;
+    const createProposalMbrValue = 163700;
     const algorand = algokit.AlgorandClient.mainNet();
 
     const mbrTxn = algorand.createTransaction.payment({
@@ -92,10 +92,10 @@ async function decodeBoxValues(boxValues: Uint8Array, proposalId: number){
     const proposal_yes_votes = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
     index += BYTE_LENGTH;
     const account = algosdk.encodeAddress(boxValues.slice(index, index + 32));
-    index += 32 + 6;
-    const proposal_title = new TextDecoder().decode(boxValues.slice(index, index + 32));
-    index += 32;
-    const proposal_description = new TextDecoder().decode(boxValues.slice(index));
+    index += 32 + 4;
+    const proposal_title_and_description = new TextDecoder().decode(boxValues.slice(index));
+    const proposal_title = proposal_title_and_description.split(':')[0];
+    const proposal_description = proposal_title_and_description.split(':')[1];
   const newProposal: Proposal =  {
     description: proposal_description,
     expiresIn: Number(proposal_expiry_timestamp),
