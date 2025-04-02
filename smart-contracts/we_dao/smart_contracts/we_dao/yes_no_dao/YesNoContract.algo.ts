@@ -24,6 +24,12 @@ export class YesNoDao extends Contract {
   // Keeps track if this contract will enable anyone to create proposals
   anyone_can_create = GlobalState<boolean>()
 
+  // Keeps track of the asset id needed to be held in order to vote
+  asset_id = GlobalState<uint64>()
+
+  // Keeps track of the minimum holding a usr needs in order to able to vote to all proposals in this contract
+  minimum_holding = GlobalState<uint64>()
+
   // Define the proposal boxes - use a string for keyPrefix
   proposal = BoxMap<ProposalIdType, ProposalDataType>({ keyPrefix: '_p' })
 
@@ -31,15 +37,34 @@ export class YesNoDao extends Contract {
   vote = BoxMap<VoteIdType, VoteDataType>({ keyPrefix: '_v' })
 
   @abimethod({ allowActions: 'NoOp', onCreate: 'require' })
-  public createApplication(anyone_can_create: boolean): void {
+  public createApplication(anyone_can_create: boolean, minimum_holding: uint64, asset_id: uint64): void {
     // When creating the application we set the manager address
     this.manager_address.value = Txn.sender
 
     // Set the total proposals within this contract to 0
     this.proposal_count.value = 0
 
-    // Set if anyone or only the manager will be able to create a proposal
+    // Set the anyone_can_create value
     this.anyone_can_create.value = anyone_can_create
+    // Set the minimum holding value
+    this.minimum_holding.value = minimum_holding
+
+    // Set the asset id value
+    this.asset_id.value = asset_id
+  }
+
+  @abimethod({ allowActions: 'NoOp' })
+  public configureContract(anyone_can_create: boolean, minimum_holding: uint64, assetId: uint64): void {
+    // Only the manager can configure the contract
+    assert(this.manager_address.value === Txn.sender, 'Only the manager can configure the contract')
+    // Set the anyone_can_create value
+    this.anyone_can_create.value = anyone_can_create
+
+    // Set the minimum holding value
+    this.minimum_holding.value = minimum_holding
+
+    // Set the asset id value
+    this.asset_id.value = assetId
   }
 
   @abimethod({ allowActions: 'NoOp' })
@@ -87,6 +112,7 @@ export class YesNoDao extends Contract {
     this.proposal(new arc4.UintN64(newProposalNonce)).value = proposal.copy()
   }
 
+  // Method to enable users to vote yes or no to a proposal
   @abimethod({ allowActions: 'NoOp' })
   public voteProposal(proposal_id: uint64, vote: boolean, mbr_txn: gtxn.PaymentTxn): void {
     // Check if proposal exists
@@ -120,6 +146,11 @@ export class YesNoDao extends Contract {
 
     // Check if the receiver of the MBR txn is the contract address
     assert(mbr_txn.receiver === op.Global.currentApplicationAddress, 'Payment must be to the contract')
+
+    // Check if the current voter has the minimum holding to vote
+    const [assetBalance, hasAsset] = op.AssetHolding.assetBalance(Txn.sender, this.asset_id.value)
+
+    assert(assetBalance >= this.minimum_holding.value, 'The user does not have enough asset to vote')
 
     // Create the vote record
     const voteData = new VoteDataType({
