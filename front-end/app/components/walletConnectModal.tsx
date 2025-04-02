@@ -19,9 +19,9 @@ export const WalletConnectionModal: React.FC = () => {
   async function handleOnConnect(wallet: any) {
     setLoading(true);
     wallet.connect().then(async () => {
+      setDisplayWalletConnectModal(false);
       const algorand = algokit.AlgorandClient.mainNet();
       algorand.setDefaultSigner(wallet.signer);
-      setDisplayWalletConnectModal(false);
       setLoading(false);
       showToast("Wallet connected successfully!", "success");
     });

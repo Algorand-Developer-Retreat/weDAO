@@ -1,10 +1,5 @@
 import { createContext, useContext, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Lottie from 'lottie-react';
-import successAnimation from '../assets/lottie/success.json';
-import errorAnimation from '../assets/lottie/error.json';
-import infoAnimation from '../assets/lottie/info.json';
-
 type ToastType = 'success' | 'error' | 'info';
 
 interface Toast {
@@ -38,17 +33,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     }, 4000);
   }, []);
 
-  const getAnimationData = (type: ToastType) => {
-    switch (type) {
-      case 'success':
-        return successAnimation;
-      case 'error':
-        return errorAnimation;
-      case 'info':
-        return infoAnimation;
-    }
-  };
-
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
@@ -72,14 +56,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               `}
               role="alert"
             >
-              <div className="w-6 h-6 flex items-center justify-center">
-                <Lottie
-                  animationData={getAnimationData(toast.type)}
-                  loop={false}
-                  autoplay={true}
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </div>
+
               <p className="font-medium flex-1">{toast.message}</p>
             </motion.div>
           ))}
