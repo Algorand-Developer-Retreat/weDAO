@@ -25,8 +25,7 @@ export function Hero() {
           <span className="font-display text-primary">{projectName}</span>
         </h1>
         <p className="text-xl md:text-2xl text-text mb-8 max-w-2xl mx-auto">
-          Participate in decentralized governance and shape the future of meme
-          coins through community-driven proposals.
+          {import.meta.env.VITE_PROJECT_DESCRIPTION}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
