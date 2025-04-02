@@ -7,7 +7,7 @@ import { YesNoDaoClient, YesNoDaoFactory } from '../../artifacts/we_dao/yes_no_d
 const fixture = algorandFixture()
 Config.configure({ populateAppCallResources: true })
 
-const createProposalMbrValue = 156500
+const createProposalMbrValue = 156501
 
 // App clients -------------------------------------------
 let daoAppClient: YesNoDaoClient
@@ -20,12 +20,9 @@ let algorand: AlgorandClient
 // Relevant user accounts ------------------------------------
 let managerAccount: TransactionSignerAccount
 let voterAccount: TransactionSignerAccount
-let proposerAccount: TransactionSignerAccount
-let voterOneAccount: TransactionSignerAccount
-let voterTwoAccount: TransactionSignerAccount
-const votingPowerOne = 42000
-const votingPowerTwo = 30000
 //--------------------------------------------------------
+
+let daoAssetId: bigint
 
 // Proposal data -----------------------------------------
 const poolProposalTitle = 'Pool proposal title'
@@ -55,9 +52,17 @@ describe('WeDao contract', () => {
       amount: microAlgo(100000), // Send 1 Algo to the new wallet
     })
 
+    const createdAsset = (await algorand.send.assetCreate({ sender: managerAccount.addr, total: BigInt(10_000) }))
+      .confirmation.assetIndex
+
+    daoAssetId = createdAsset!
+
     const factory = algorand.client.getTypedAppFactory(YesNoDaoFactory, { defaultSender: managerAccount.addr })
 
-    const { appClient } = await factory.send.create.createApplication({ args: [false], sender: managerAccount.addr })
+    const { appClient } = await factory.send.create.createApplication({
+      args: [false, 1, daoAssetId],
+      sender: managerAccount.addr,
+    })
 
     daoAppClient = appClient
   }, 300000)
@@ -86,10 +91,40 @@ describe('WeDao contract', () => {
     })
   })
 
-  test('Test if voter can vote on the created proposal', async () => {
+  test('Test if voter cant vote on the created proposal due to low asset balance', async () => {
     const mbrTxn = algorand.createTransaction.payment({
       sender: voterAccount.addr,
       amount: microAlgos(144900),
+      receiver: daoAppClient.appAddress,
+      extraFee: microAlgos(1000n),
+    })
+
+    await daoAppClient.send.voteProposal({
+      args: { proposalId: 1, vote: false, mbrTxn: mbrTxn },
+      sender: voterAccount.addr,
+    })
+  })
+
+  test('Test if voter can vote on the created proposal due to enough asset balance', async () => {
+    algorand.send.assetTransfer({
+      sender: voterAccount.addr,
+      receiver: voterAccount.addr,
+      assetId: daoAssetId,
+      amount: BigInt(0),
+      extraFee: microAlgos(1000n),
+    })
+
+    algorand.send.assetTransfer({
+      sender: managerAccount.addr,
+      receiver: voterAccount.addr,
+      assetId: daoAssetId,
+      amount: BigInt(420),
+      extraFee: microAlgos(1000n),
+    })
+
+    const mbrTxn = algorand.createTransaction.payment({
+      sender: voterAccount.addr,
+      amount: microAlgos(144901),
       receiver: daoAppClient.appAddress,
       extraFee: microAlgos(1000n),
     })
