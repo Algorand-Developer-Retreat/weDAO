@@ -12,7 +12,7 @@ export class ProposalDataType extends arc4.Struct<{
   proposal_yes_votes: arc4.UintN64
 }> {}
 
-// Define your ProposalIdType as a UintN64 for numeric IDs
+// Define ProposalIdType as a UintN64 for numeric IDs
 export class VoteIdType extends arc4.Struct<{ proposal_id: arc4.UintN64; voter_address: arc4.Address }> {}
 
 export class VoteDataType extends arc4.Struct<{

@@ -2,15 +2,15 @@ import { AlgorandClient, algos, Config, microAlgo, microAlgos } from '@algorandf
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
 import { beforeAll, beforeEach, describe, test } from 'vitest'
-import { YesNoDaoClient, YesNoDaoFactory } from '../../artifacts/we_dao/yes_no_dao/YesNoDaoClient'
+import { YesNoRewardClient, YesNoRewardFactory } from '../../artifacts/we_dao/yes_no_rewards_dao/YesNoRewardClient'
 
 const fixture = algorandFixture()
 Config.configure({ populateAppCallResources: true })
 
-const createProposalMbrValue = 144900
+const createProposalMbrValue = 154500
 
 // App clients -------------------------------------------
-let daoAppClient: YesNoDaoClient
+let daoAppClient: YesNoRewardClient
 //--------------------------------------------------------
 
 // Environment clients ------------------------------------
@@ -52,20 +52,15 @@ describe('WeDao contract', () => {
     await algorand.send.payment({
       sender: managerAccount.addr,
       receiver: voterAccount.addr,
-      amount: microAlgo(100000), // Send 1 Algo to the new wallet
+      amount: microAlgo(100001), // Send 1 Algo to the new wallet
     })
 
-    const factory = algorand.client.getTypedAppFactory(YesNoDaoFactory, { defaultSender: managerAccount.addr })
+    const factory = algorand.client.getTypedAppFactory(YesNoRewardFactory, { defaultSender: managerAccount.addr })
 
     const { appClient } = await factory.send.create.createApplication({ args: [false], sender: managerAccount.addr })
 
     daoAppClient = appClient
   }, 300000)
-
-  test('Test if apllication got created with anyone can create proposal === false', async () => {
-    const result = await daoAppClient.appClient.getGlobalState()
-    console.log('Global State:', result)
-  })
 
   test('Test if manager can create a proposal', async () => {
     const mbrTxn = algorand.createTransaction.payment({
@@ -86,7 +81,12 @@ describe('WeDao contract', () => {
     })
   })
 
-  test('Test if voter can vote on the created proposal', async () => {
+  test('Test if apllication with rewards got created with anyone can create reward proposal === false', async () => {
+    const result = await daoAppClient.appClient.getGlobalState()
+    console.log('Global State rewards:', result)
+  })
+
+  test('Test if voter can vote on a rewards created proposal', async () => {
     const mbrTxn = algorand.createTransaction.payment({
       sender: voterAccount.addr,
       amount: microAlgos(144900),
