@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="fixed bottom-0 w-full bg-[#341f6f] text-[#e1d5ff] py-4">
+    <footer className="fixed bottom-0 left-0 w-full bg-heading/50 text-text py-3">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <div className="text-sm">
           © {new Date().getFullYear()} {import.meta.env.VITE_PROJECT_NAME}. All rights reserved.

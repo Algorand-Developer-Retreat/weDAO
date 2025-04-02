@@ -6,6 +6,10 @@ const walletManager = new WalletManager({
   wallets: [
     WalletId.DEFLY,
     WalletId.PERA,
+    {
+      id: WalletId.LUTE,
+      options: { siteName: import.meta.env.VITE_PROJECT_NAME }
+    },
   ],
   defaultNetwork: NetworkId.MAINNET
 })

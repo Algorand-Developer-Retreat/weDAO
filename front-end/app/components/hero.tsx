@@ -1,5 +1,4 @@
-'use client'
-
+import ClientOnly from "./clientOnly";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { motion } from "framer-motion";
 import { useContext } from "react";
@@ -12,7 +11,7 @@ export function Hero() {
   const projectName = import.meta.env.VITE_PROJECT_NAME || "DAO";
 
   return (
-    <div className="min-h-[50vh] flex flex-col items-center justify-center px-4 bg-background">
+    <div className="mt-24 md:mt-32 mb-8  flex flex-col items-center justify-center px-4 bg-background">
       {/* Main content */}
       <motion.div
         className="text-center z-10 max-w-4xl mx-auto"
@@ -24,17 +23,18 @@ export function Hero() {
           Welcome to{" "}
           <span className="font-display text-primary">{projectName}</span>
         </h1>
-        <p className="text-xl md:text-2xl text-text mb-8 max-w-2xl mx-auto">
+        <p className="text-xl md:text-2xl text-primary mb-8 max-w-2xl mx-auto">
           {import.meta.env.VITE_PROJECT_DESCRIPTION}
         </p>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          {!activeAccount && (
-            <AnimButton onClick={() => setDisplayWalletConnectModal(true)}>
-              Connect Wallet to Start
-            </AnimButton>
-          )}
-        </div>
+        <ClientOnly>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            {!activeAccount && (
+              <AnimButton onClick={() => setDisplayWalletConnectModal(true)}>
+                Connect Wallet to Start
+              </AnimButton>
+            )}
+          </div>
+        </ClientOnly>
       </motion.div>
     </div>
   );

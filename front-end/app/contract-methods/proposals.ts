@@ -15,7 +15,7 @@ export async function createProposal({
 }: CreateProposalParams) {
   try {
     const appClient = await getApplicationClient();
-    const createProposalMbrValue = 163700;
+    const createProposalMbrValue = 168900;
     const algorand = algokit.AlgorandClient.mainNet();
 
     const mbrTxn = algorand.createTransaction.payment({
@@ -45,7 +45,7 @@ export async function createProposal({
 export async function getProposals() {
   try {
     const appClient = await getApplicationClient();
-    const proposalsCount = await appClient.state.global.proposalCount();
+    
     const proposals: Proposal[] = [];
     const boxCount = await appClient.appClient.getBoxNames();
     console.log("boxCount", boxCount);

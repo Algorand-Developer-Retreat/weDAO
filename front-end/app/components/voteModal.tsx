@@ -10,6 +10,7 @@ export function VoteModal() {
   const [transactionLoading, setTransactionLoading] = useState(false);
 
   useEffect(() => {
+    console.log("selectedProposal", selectedProposal);
     if (selectedProposal) {
       const total = selectedProposal?.votesFor + selectedProposal?.votesAgainst;
       const yes = total > 0 ? (selectedProposal?.votesFor / total) * 100 : 0;
@@ -36,7 +37,7 @@ export function VoteModal() {
       aria-modal="true"
     >
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center"
+        className="fixed inset-0 z-50 flex items-center justify-center mx-2"
         aria-labelledby="modal-title"
         role="dialog"
         aria-modal="true"

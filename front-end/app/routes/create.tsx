@@ -5,6 +5,7 @@ import { Header } from "../components/header";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { createProposal } from "../contract-methods/proposals";
 import * as algokit from "@algorandfoundation/algokit-utils";
+import { Footer } from "../components/footer";
 export default function CreateProposal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {activeAccount, transactionSigner} = useWallet();
@@ -23,21 +24,22 @@ export default function CreateProposal() {
       
     } catch (error) {
       console.error("Failed to create proposal:", error);
-      // TODO: Handle error (e.g., show error message)
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-10">
       <Header />
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 mt-24 md:mt-32">
         <ProposalForm 
           onSubmit={handleCreateProposal}
           isLoading={isSubmitting}
         />
       </main>
+      <Footer />
     </div>
   );
 } 
