@@ -7,7 +7,7 @@ import { YesNoRewardClient, YesNoRewardFactory } from '../../artifacts/we_dao/ye
 const fixture = algorandFixture()
 Config.configure({ populateAppCallResources: true })
 
-const createProposalMbrValue = 154500
+const createProposalMbrValue = 254500
 
 // App clients -------------------------------------------
 let daoAppClient: YesNoRewardClient
@@ -16,6 +16,10 @@ let daoAppClient: YesNoRewardClient
 // Environment clients ------------------------------------
 let algorand: AlgorandClient
 //--------------------------------------------------------
+
+// Dao Asset ------------------------------------
+let daoAssetId: bigint
+// ---------------------------------------------------------
 
 // Relevant user accounts ------------------------------------
 let managerAccount: TransactionSignerAccount
@@ -55,12 +59,31 @@ describe('WeDao contract', () => {
       amount: microAlgo(100001), // Send 1 Algo to the new wallet
     })
 
+    const createdAsset = (await algorand.send.assetCreate({ sender: managerAccount.addr, total: BigInt(10_000) }))
+      .confirmation.assetIndex
+
+    daoAssetId = createdAsset!
+
     const factory = algorand.client.getTypedAppFactory(YesNoRewardFactory, { defaultSender: managerAccount.addr })
 
     const { appClient } = await factory.send.create.createApplication({ args: [false], sender: managerAccount.addr })
 
     daoAppClient = appClient
   }, 300000)
+
+  test('Test if contract address can optin to dao asset', async () => {
+    await algorand.send.payment({
+      sender: managerAccount.addr,
+      receiver: daoAppClient.appAddress,
+      amount: microAlgo(200001), // Send 1 Algo to the new wallet
+    })
+
+    await daoAppClient.send.optInToAsset({
+      args: { assetId: daoAssetId },
+      sender: managerAccount.addr,
+      extraFee: microAlgos(1000n),
+    })
+  })
 
   test('Test if manager can create a proposal', async () => {
     const mbrTxn = algorand.createTransaction.payment({
@@ -70,12 +93,21 @@ describe('WeDao contract', () => {
       extraFee: microAlgos(1000n),
     })
 
+    const fundTxn = algorand.createTransaction.assetTransfer({
+      sender: managerAccount.addr,
+      receiver: daoAppClient.appAddress,
+      assetId: daoAssetId,
+      amount: BigInt(420),
+      extraFee: microAlgos(1000n),
+    })
+
     const result = await daoAppClient.send.createProposal({
       args: {
         proposalTitle: poolProposalTitle,
         proposalDescription: poolProposalDescription,
         expiresIn: expiresIn,
         mbrTxn: mbrTxn,
+        fundPoolTxn: fundTxn,
       },
       sender: managerAccount.addr,
     })
