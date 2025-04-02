@@ -33,14 +33,22 @@ export class YesNoReward extends Contract {
   vote = BoxMap<VoteIdType, VoteDataType>({ keyPrefix: '_v' })
 
   @abimethod({ allowActions: 'NoOp', onCreate: 'require' })
-  public createApplication(anyone_can_create: boolean): void {
+  public createApplication(anyone_can_create: boolean, minimum_holding: uint64, asset_id: uint64): void {
     // When creating the application we set the manager address
     this.manager_address.value = Txn.sender
 
-    //Set the total proposals within this contract to 0
+    // Set the total proposals within this contract to 0
     this.proposal_count.value = 0
 
-    //Set if anyone r only the manager will e able to create a proposal
+    // Set the anyone_can_create value
+    this.anyone_can_create.value = anyone_can_create
+  }
+
+  @abimethod({ allowActions: 'NoOp' })
+  public configureContract(anyone_can_create: boolean, minimum_holding: uint64, assetId: uint64): void {
+    // Only the manager can configure the contract
+    assert(this.manager_address.value === Txn.sender, 'Only the manager can configure the contract')
+    // Set the anyone_can_create value
     this.anyone_can_create.value = anyone_can_create
   }
 
@@ -107,7 +115,12 @@ export class YesNoReward extends Contract {
   }
 
   @abimethod({ allowActions: 'NoOp' })
-  public voteProposal(proposal_id: uint64, vote: boolean, mbr_txn: gtxn.PaymentTxn): void {
+  public voteProposal(
+    proposal_id: uint64,
+    vote: boolean,
+    mbr_txn: gtxn.PaymentTxn,
+    fundVoteTxn: gtxn.AssetTransferTxn,
+  ): void {
     // Check if proposal exists
     assert(
       this.proposal(new arc4.UintN64(proposal_id)).exists,
@@ -125,6 +138,18 @@ export class YesNoReward extends Contract {
 
     // Get a copy of the current proposal
     const currentProposal: ProposalDataType = this.proposal(new arc4.UintN64(proposal_id)).value.copy()
+
+    //  Check if the fundVoteTxn is equal the vote price
+    assert(
+      fundVoteTxn.assetAmount === currentProposal.vote_price.native,
+      'The fund vote transaction must be equal to the vote price',
+    )
+
+    //Check if the receiver of the fund vote transaction is the contract address
+    assert(
+      fundVoteTxn.assetReceiver === op.Global.currentApplicationAddress,
+      'The fund vote transaction must be to the contract',
+    )
 
     // Convert timestamp to uint64 for checking the proposal expiry
     const currentTime = op.Global.latestTimestamp
@@ -163,13 +188,39 @@ export class YesNoReward extends Contract {
 
   // Add a helper method to check if a user has voted
   @abimethod({ allowActions: 'NoOp', readonly: true })
-  public hasVoted(proposal_id: uint64, voter: Account): boolean {
+  private hasVoted(proposal_id: uint64, voter: Account): boolean {
     const voteId = new VoteIdType({
       proposal_id: new arc4.UintN64(proposal_id),
       voter_address: new arc4.Address(voter),
     })
 
     return this.vote(voteId).exists
+  }
+
+  // Method for voters to claim participation rewards
+  public claimParticipationReward(proposal_id: uint64): void {
+    const proposal = this.proposal(new arc4.UintN64(proposal_id)).value
+
+    // Check if the proposal is expired
+    assert(proposal.proposal_expiry_timestamp.native < op.Global.latestTimestamp, 'The proposal does not exist')
+
+    //Check if the user actually voted on the proposal
+    assert(
+      this.hasVoted(proposal_id, Txn.sender),
+      'The user has not voted on this proposal, therefore cannot claim rewards',
+    )
+
+    //Define the reward amount based on the proposal's prize pool and total votes
+    const rewardAmount = Uint64(proposal.proposal_prize_pool.native / proposal.proposal_total_votes.native)
+
+    //Transfer the reward to the voter address
+    itxn.assetTransfer({
+      assetReceiver: Txn.sender,
+      sender: op.Global.currentApplicationAddress,
+      xferAsset: proposal.proposal_asset.native,
+      assetAmount: rewardAmount,
+      fee: 0,
+    })
   }
 
   @abimethod({ allowActions: 'NoOp', readonly: true })

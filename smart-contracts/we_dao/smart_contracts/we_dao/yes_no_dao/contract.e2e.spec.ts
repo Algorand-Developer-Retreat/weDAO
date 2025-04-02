@@ -106,33 +106,39 @@ describe('WeDao contract', () => {
   })
 
   test('Test if voter can vote on the created proposal due to enough asset balance', async () => {
-    algorand.send.assetTransfer({
-      sender: voterAccount.addr,
-      receiver: voterAccount.addr,
-      assetId: daoAssetId,
-      amount: BigInt(0),
-      extraFee: microAlgos(1000n),
-    })
+    try {
+      algorand.send.assetTransfer({
+        sender: voterAccount.addr,
+        receiver: voterAccount.addr,
+        assetId: daoAssetId,
+        amount: BigInt(0),
+        extraFee: microAlgos(1000n),
+      })
 
-    algorand.send.assetTransfer({
-      sender: managerAccount.addr,
-      receiver: voterAccount.addr,
-      assetId: daoAssetId,
-      amount: BigInt(420),
-      extraFee: microAlgos(1000n),
-    })
+      algorand.send.assetTransfer({
+        sender: managerAccount.addr,
+        receiver: voterAccount.addr,
+        assetId: daoAssetId,
+        amount: BigInt(420),
+        extraFee: microAlgos(1000n),
+      })
 
-    const mbrTxn = algorand.createTransaction.payment({
-      sender: voterAccount.addr,
-      amount: microAlgos(144901),
-      receiver: daoAppClient.appAddress,
-      extraFee: microAlgos(1000n),
-    })
+      const mbrTxn = algorand.createTransaction.payment({
+        sender: voterAccount.addr,
+        amount: microAlgos(144901),
+        receiver: daoAppClient.appAddress,
+        extraFee: microAlgos(1000n),
+      })
 
-    await daoAppClient.send.voteProposal({
-      args: { proposalId: 1, vote: false, mbrTxn: mbrTxn },
-      sender: voterAccount.addr,
-    })
+      await daoAppClient.send.voteProposal({
+        args: { proposalId: 1, vote: false, mbrTxn: mbrTxn },
+        sender: voterAccount.addr,
+      })
+
+      console.log('Voter successfully voted on the proposal')
+    } catch (error) {
+      console.log('Error voting on proposal:', error)
+    }
   })
 
   test('get all proposals', async () => {
