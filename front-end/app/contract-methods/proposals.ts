@@ -48,10 +48,12 @@ export async function getProposals() {
     const proposals: Proposal[] = [];
     const boxCount = await appClient.appClient.getBoxNames();
     console.log("boxCount", boxCount);
+    let index = 1;
     for (const name of boxCount) {
       const boxValues = await appClient.appClient.getBoxValue(name.name);
-      const proposal = await decodeBoxValues(boxValues, Number(name.name));
+      const proposal = await decodeBoxValues(boxValues, index);
       proposals.push(proposal);
+      index++;
     }
     console.log("proposals", proposals);
 
