@@ -10,7 +10,7 @@ import type { LinksFunction } from "@remix-run/node";
 import "./tailwind.css";
 import { Providers } from "./services/providers";
 import { WalletContextProvider } from "./context/wallet";
-
+import { VoteProvider } from "./context/vote";
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
@@ -35,7 +35,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="bg-background ">
         <Providers>
-          <WalletContextProvider>{children}</WalletContextProvider>
+          <WalletContextProvider>
+            <VoteProvider>
+              {children}
+            </VoteProvider>
+          </WalletContextProvider>
         </Providers>
         <ScrollRestoration />
         <Scripts />

@@ -12,7 +12,7 @@ export function Header() {
   const navigate = useNavigate();
 
   const createProposal = () => {
-    navigate("/create-proposal");
+    navigate("/create");
   };
 
   return (

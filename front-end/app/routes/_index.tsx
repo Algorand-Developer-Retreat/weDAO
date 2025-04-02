@@ -3,10 +3,11 @@ import { Header } from "../components/header";
 import { Hero } from "../components/hero";
 import { WalletConnectionModal } from "../components/walletConnectModal";
 import { MainContainer } from "../components/mainContainer";
+import { VoteModal } from "../components/voteModal";
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "weDAO" },
+    { name: "description", content: "weDAO" },
   ];
 };
 
@@ -19,6 +20,7 @@ export default function Index() {
         <MainContainer />
       </div>
       <WalletConnectionModal />
+      <VoteModal />
     </div>
   );
 }
