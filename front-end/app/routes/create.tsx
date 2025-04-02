@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { ProposalForm } from "../components/proposalForm";
 import { Header } from "../components/header";
+import { useWallet } from "@txnlab/use-wallet-react";
+import { createProposal } from "../contract-methods/proposals";
 
 export default function CreateProposal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const {activeAccount} = useWallet();
 
-  const handleCreateProposal = async (title: string, description: string) => {
+  const handleCreateProposal = async (title: string, description: string, expiryTimestamp: number) => {
     setIsSubmitting(true);
     try {
       // TODO: Implement the actual proposal creation logic here
-      console.log("Creating proposal:", { title, description });
+      console.log("Creating proposal:", { title, description, expiryTimestamp });
       
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await createProposal({ title, description, proposerAddress: activeAccount?.address || "", expiresIn: expiryTimestamp });
       
       // TODO: Handle success (e.g., redirect to proposal list)
       

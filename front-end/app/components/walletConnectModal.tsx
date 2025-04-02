@@ -6,19 +6,24 @@ import { useWallet } from "@txnlab/use-wallet-react";
 import React, { useContext, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { WalletContext } from "../context/wallet";
+import * as algokit from "@algorandfoundation/algokit-utils";
 import AnimButton from "./animButton";
+import { useToast } from "./toast";
 
 export const WalletConnectionModal: React.FC = () => {
   const { wallets } = useWallet();
   const [loading, setLoading] = useState(false);
   const { displayWalletConnectModal, setDisplayWalletConnectModal } =
     useContext(WalletContext);
-
+  const { showToast } = useToast();
   async function handleOnConnect(wallet: any) {
     setLoading(true);
     wallet.connect().then(async () => {
+      const algorand = algokit.AlgorandClient.mainNet();
+      algorand.setDefaultSigner(wallet.signer);
       setDisplayWalletConnectModal(false);
       setLoading(false);
+      showToast("Wallet connected successfully!", "success");
     });
   }
 

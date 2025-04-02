@@ -60,7 +60,7 @@ export const ProposalCard = ({
       {/* Footer */}
       {proposal.status === "active" ? (
         <div className="mt-4 flex justify-between items-center">
-          <p className="text-xs text-text/60">Ends at {new Date(proposal.endDate).toLocaleDateString()}</p>
+          <p className="text-xs text-text/60">Ends in {new Date(proposal.expiresIn + Date.now()).toLocaleDateString()}</p>
         
         
         <AnimButton onClick={() => onClickVote()}>
@@ -69,7 +69,7 @@ export const ProposalCard = ({
       </div>
       ) : (
         <div className="mt-4 flex justify-between items-center">
-          <p className="text-xs text-text/60">Ended at {new Date(proposal.endDate).toLocaleDateString()}</p>
+          <p className="text-xs text-text/60">Ended.</p>
 
         </div>
       )}

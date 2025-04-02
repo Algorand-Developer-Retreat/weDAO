@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { VoteContext } from "../context/vote";
-import AnimButton from "./animButton";
 import { motion } from "framer-motion";
 export function VoteModal() {
   const { displayVoteModal, setDisplayVoteModal, selectedProposal, vote } =
@@ -8,6 +7,7 @@ export function VoteModal() {
   const [yesPercentage, setYesPercentage] = useState(0);
   const [noPercentage, setNoPercentage] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
+  const [transactionLoading, setTransactionLoading] = useState(false);
 
   useEffect(() => {
     if (selectedProposal) {
@@ -21,8 +21,11 @@ export function VoteModal() {
   }, [displayVoteModal, selectedProposal]);
 
   function onClickVote(answer: boolean) {
-    vote(selectedProposal?.id || 0, answer);
-    setDisplayVoteModal(false);
+    setTransactionLoading(true);
+    vote(selectedProposal?.id || 0, answer).then(() => {
+      setTransactionLoading(false);
+      setDisplayVoteModal(false);
+    });
   }
 
   return displayVoteModal ? (
@@ -69,24 +72,30 @@ export function VoteModal() {
           </div>
 
           {/* Voting Options */}
-          <div className="flex gap-4">
-            <motion.button
-              onClick={() => onClickVote(true)}
-              className="flex-1 py-3 px-6 bg-yes text-background rounded-full font-display text-2xl hover:opacity-90"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-               Yes
-            </motion.button>
-            <motion.button
-              onClick={() => onClickVote(false)}
-              className="flex-1 py-3 px-6 bg-no text-background rounded-full font-display text-2xl hover:opacity-90"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-               No
-            </motion.button>
-          </div>
+          {transactionLoading ? (
+            <div className="flex justify-center items-center h-full">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yes"></div>
+            </div>
+          ) : (
+            <div className="flex gap-4">
+              <motion.button
+                onClick={() => onClickVote(true)}
+                className="flex-1 py-3 px-6 bg-yes text-background rounded-full font-display text-2xl hover:opacity-90"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Yes
+              </motion.button>
+              <motion.button
+                onClick={() => onClickVote(false)}
+                className="flex-1 py-3 px-6 bg-no text-background rounded-full font-display text-2xl hover:opacity-90"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                No
+              </motion.button>
+            </div>
+          )}
 
           {/* Close Button */}
           <button

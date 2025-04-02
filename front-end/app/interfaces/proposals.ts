@@ -4,10 +4,8 @@ export interface Proposal {
   description: string;
   proposer: string;
   status: 'active' | 'closed';
-  startDate: string;
-  endDate: string;
+  expiresIn: number;
   votesFor: number;
   votesAgainst: number;
-  quorum: number;
-  category: string;
+
 }

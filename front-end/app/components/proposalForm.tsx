@@ -1,21 +1,43 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "@remix-run/react";
+import { useToast } from "./toast";
 
 interface ProposalFormProps {
-  onSubmit: (title: string, description: string) => void;
+  onSubmit: (title: string, description: string, expiryTimestamp: number) => Promise<void>;
   isLoading?: boolean;
 }
 
 export function ProposalForm({ onSubmit, isLoading = false }: ProposalFormProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const navigate = useNavigate(); 
+  const [expiryDate, setExpiryDate] = useState("");
+  const navigate = useNavigate();
+  const { showToast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(title, description);
+    
+    try {
+      // Convert the expiry date to a timestamp (seconds since epoch)
+      const expiryTimestamp = Math.floor(new Date(expiryDate).getTime() / 1000);
+      
+      await onSubmit(title, description, expiryTimestamp);
+      showToast("Proposal created successfully!", "success");
+      navigate("/");
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "Failed to create proposal", "error");
+    }
   };
+
+  // Calculate minimum date (current date/time)
+  const now = new Date();
+  const minDateTime = now.toISOString().slice(0, 16); // Format: YYYY-MM-DDThh:mm
+
+  // Calculate maximum date (1 year from now)
+  const maxDate = new Date();
+  maxDate.setFullYear(maxDate.getFullYear() + 1);
+  const maxDateTime = maxDate.toISOString().slice(0, 16);
 
   return (
     <motion.div
@@ -59,10 +81,30 @@ export function ProposalForm({ onSubmit, isLoading = false }: ProposalFormProps)
           />
         </div>
 
+        <div>
+          <label htmlFor="expiryDate" className="block text-text font-medium mb-2">
+            Expiry Date and Time
+          </label>
+          <input
+            id="expiryDate"
+            type="datetime-local"
+            value={expiryDate}
+            onChange={(e) => setExpiryDate(e.target.value)}
+            min={minDateTime}
+            max={maxDateTime}
+            className="w-full px-4 py-3 rounded-lg bg-background text-text border border-text/10 focus:outline-none focus:border-primary transition-colors"
+            required
+          />
+          <p className="mt-1 text-sm text-text/70">
+            Set when this proposal will expire (maximum 1 year from now)
+          </p>
+        </div>
+
         <div className="flex justify-end gap-4">
           <button
-          onClick={() => navigate("/")}
-          className="px-6 py-3 rounded-lg font-semibold text-background bg-secondary hover:bg-secondary/90 transition-colors"
+            type="button"
+            onClick={() => navigate("/")}
+            className="px-6 py-3 rounded-lg font-semibold text-background bg-secondary hover:bg-secondary/90 transition-colors"
           >
             Cancel
           </button>
