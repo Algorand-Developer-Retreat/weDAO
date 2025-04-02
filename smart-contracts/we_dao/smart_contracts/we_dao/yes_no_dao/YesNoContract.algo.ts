@@ -157,4 +157,7 @@ export class YesNoDao extends Contract {
     const proposal: ProposalDataType = this.proposal(new arc4.UintN64(proposal_id)).value.copy()
     return proposal
   }
+
+
+
 }
