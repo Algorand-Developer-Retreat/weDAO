@@ -12,9 +12,9 @@ import {
   Uint64,
 } from '@algorandfoundation/algorand-typescript'
 import { abimethod } from '@algorandfoundation/algorand-typescript/arc4'
-import { ProposalDataType, ProposalIdType } from './config.algo'
+import { ProposalDataType, ProposalIdType, VoteIdType, VoteDataType } from './config.algo'
 
-export class WeDao extends Contract {
+export class YesNoReward extends Contract {
   //Define the manager of the contract
   manager_address = GlobalState<Account>()
 
@@ -26,6 +26,9 @@ export class WeDao extends Contract {
 
   //Define the proposal boxes - use a string for keyPrefix instead of empty Bytes()
   proposal = BoxMap<ProposalIdType, ProposalDataType>({ keyPrefix: '_p' })
+
+  // Define the vote boxes - use a string for keyPrefix
+  vote = BoxMap<VoteIdType, VoteDataType>({ keyPrefix: '_v' })
 
   @abimethod({ allowActions: 'NoOp', onCreate: 'require' })
   public createApplication(anyone_can_create: boolean): void {
@@ -85,28 +88,73 @@ export class WeDao extends Contract {
 
   @abimethod({ allowActions: 'NoOp' })
   public voteProposal(proposal_id: uint64, vote: boolean, mbr_txn: gtxn.PaymentTxn): void {
-    // Check if proposal exists - the current assertion is incorrect
+    // Check if proposal exists
     assert(
       this.proposal(new arc4.UintN64(proposal_id)).exists,
       'The proposal the user is trying to vote on does not exist',
     )
 
+    // Create the vote ID
+    const voteId = new VoteIdType({
+      proposal_id: new arc4.UintN64(proposal_id),
+      voter_address: new arc4.Address(Txn.sender),
+    })
+
+    // Users can only vote once on a proposal
+    assert(!this.vote(voteId).exists, 'The user has already voted on this proposal')
+
     // Get a copy of the current proposal
     const currentProposal: ProposalDataType = this.proposal(new arc4.UintN64(proposal_id)).value.copy()
 
-    // Update the proposal's vote count
-    // First, we need to ensure proposal_total_votes is part of your ProposalDataType struct
-    // Then, we need to properly handle the uint64 arithmetic
-    const updatedVotes = Uint64(currentProposal.proposal_total_votes.native + 1)
+    // Convert timestamp to uint64 for checking the proposal expiry
+    const currentTime = op.Global.latestTimestamp
+    const expiryTime = currentProposal.proposal_expiry_timestamp.native
+    assert(currentTime < expiryTime, 'The proposal has expired')
 
+    // Check if voter is not the manager address - manager cannot vote
     assert(Txn.sender !== this.manager_address.value, 'The manager cannot vote on proposals')
+
+    // Check if the MBR transaction is enough to cover the vote box creation fee
+    assert(mbr_txn.amount >= 14490, 'Payment must cover the vote box MBR')
+
+    // Check if the receiver of the MBR txn is the contract address
+    assert(mbr_txn.receiver === op.Global.currentApplicationAddress, 'Payment must be to the contract')
+
+    // Create the vote record
+    const voteData = new VoteDataType({
+      vote_timestamp: new arc4.UintN64(currentTime),
+      claimed: new arc4.Bool(false),
+    })
+
+    // Update the proposal's vote count
+    const updatedVotes = Uint64(currentProposal.proposal_total_votes.native + 1)
+    const updatedYesVotes = Uint64(currentProposal.proposal_yes_votes.native + (vote ? 1 : 0))
 
     // Create an updated proposal with the new vote count
     const updatedProposal = currentProposal.copy()
     updatedProposal.proposal_total_votes = new arc4.UintN64(updatedVotes)
-    updatedProposal.proposal_yes_votes = new arc4.UintN64(currentProposal.proposal_yes_votes.native + (vote ? 1 : 0))
+    updatedProposal.proposal_yes_votes = new arc4.UintN64(updatedYesVotes)
 
+    // Store the vote in box storage
+    this.vote(voteId).value = voteData.copy()
     // Store the updated proposal back in the box
     this.proposal(new arc4.UintN64(proposal_id)).value = updatedProposal.copy()
+  }
+
+  // Add a helper method to check if a user has voted
+  @abimethod({ allowActions: 'NoOp', readonly: true })
+  public hasVoted(proposal_id: uint64, voter: Account): boolean {
+    const voteId = new VoteIdType({
+      proposal_id: new arc4.UintN64(proposal_id),
+      voter_address: new arc4.Address(voter),
+    })
+
+    return this.vote(voteId).exists
+  }
+
+  @abimethod({ allowActions: 'NoOp', readonly: true })
+  public getProposal(proposal_id: uint64): ProposalDataType {
+    const proposal: ProposalDataType = this.proposal(new arc4.UintN64(proposal_id)).value.copy()
+    return proposal
   }
 }

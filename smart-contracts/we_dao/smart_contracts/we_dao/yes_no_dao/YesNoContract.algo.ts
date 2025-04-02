@@ -14,8 +14,6 @@ import {
 import { abimethod } from '@algorandfoundation/algorand-typescript/arc4'
 import { ProposalDataType, ProposalIdType, VoteDataType, VoteIdType } from './config.algo'
 
-//
-
 export class YesNoDao extends Contract {
   // Define the manager of the contract
   manager_address = GlobalState<Account>()
@@ -59,8 +57,8 @@ export class YesNoDao extends Contract {
     const currentTimestamp: uint64 = op.Global.latestTimestamp
     const proposal_start_timestamp: uint64 = currentTimestamp
 
-    // // Check if the MBR transaction is enough to cover the proposal box creation fee
-    // assert(mbr_txn.amount >= proposalMbr, 'Payment must cover the box MBR')
+    // Check if the MBR transaction is enough to cover the proposal box creation fee
+    assert(mbr_txn.amount >= 14490, 'Payment must cover the box MBR')
 
     // Check if the receiver of the MBR txn is the contract address
     assert(mbr_txn.receiver === op.Global.currentApplicationAddress, 'Payment must be to the contract')
@@ -118,8 +116,8 @@ export class YesNoDao extends Contract {
     // Check if voter is not the manager address - manager cannot vote
     assert(Txn.sender !== this.manager_address.value, 'The manager cannot vote on proposals')
 
-    // // Check if the MBR transaction is enough to cover the vote box creation fee
-    // assert(mbr_txn.amount >= voteMbr, 'Payment must cover the vote box MBR')
+    // Check if the MBR transaction is enough to cover the vote box creation fee
+    assert(mbr_txn.amount >= 14490, 'Payment must cover the vote box MBR')
 
     // Check if the receiver of the MBR txn is the contract address
     assert(mbr_txn.receiver === op.Global.currentApplicationAddress, 'Payment must be to the contract')
@@ -157,10 +155,7 @@ export class YesNoDao extends Contract {
 
   @abimethod({ allowActions: 'NoOp', readonly: true })
   public getProposal(proposal_id: uint64): ProposalDataType {
-    // Check if the proposal exists
-    assert(this.proposal(new arc4.UintN64(proposal_id)).exists, 'Proposal does not exist')
-
-    // Return the proposal data
-    return this.proposal(new arc4.UintN64(proposal_id)).value.copy()
+    const proposal: ProposalDataType = this.proposal(new arc4.UintN64(proposal_id)).value.copy()
+    return proposal
   }
 }
