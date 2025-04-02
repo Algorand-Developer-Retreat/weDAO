@@ -89,7 +89,7 @@ async function decodeBoxValues(boxValues: Uint8Array, proposalId: number){
     const proposal_total_votes = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
     index += BYTE_LENGTH;
     const proposal_yes_votes = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH;
+    index += BYTE_LENGTH + 4;
     const proposal_title = new TextDecoder().decode(boxValues.slice(index));
   const newProposal: Proposal =  {
     description: '',

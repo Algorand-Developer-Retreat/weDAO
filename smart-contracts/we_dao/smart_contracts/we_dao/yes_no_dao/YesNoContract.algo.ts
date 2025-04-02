@@ -71,7 +71,9 @@ export class YesNoDao extends Contract {
       proposal_start_timestamp: new arc4.UintN64(proposal_start_timestamp),
       proposal_total_votes: new arc4.UintN64(0),
       proposal_yes_votes: new arc4.UintN64(0),
+      proposal_creator: new arc4.Address(Txn.sender),
       proposal_title: new arc4.Str(proposal_title),
+      proposal_description: new arc4.Str(proposal_description),
     })
 
     // Define the nonce for the proposal by adding one to the total proposals global state
@@ -157,7 +159,4 @@ export class YesNoDao extends Contract {
     const proposal: ProposalDataType = this.proposal(new arc4.UintN64(proposal_id)).value.copy()
     return proposal
   }
-
-
-
 }

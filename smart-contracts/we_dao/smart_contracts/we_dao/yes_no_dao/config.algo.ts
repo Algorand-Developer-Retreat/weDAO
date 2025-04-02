@@ -8,7 +8,9 @@ export class ProposalDataType extends arc4.Struct<{
   proposal_start_timestamp: arc4.UintN64
   proposal_total_votes: arc4.UintN64
   proposal_yes_votes: arc4.UintN64
+  proposal_creator: arc4.Address
   proposal_title: arc4.Str
+  proposal_description: arc4.Str
 }> {}
 
 // Define ProposalIdType as a UintN64 for numeric IDs
