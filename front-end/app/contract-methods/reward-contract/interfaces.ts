@@ -19,3 +19,9 @@ export interface VoteOnProposalParams {
     assetId: number;
     amount: number;
 }
+
+export interface ClaimRewardsParams {
+    proposalId: number;
+    voterAddress: string;
+    transactionSigner: TransactionSigner;
+}

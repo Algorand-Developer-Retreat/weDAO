@@ -1,5 +1,5 @@
 import { microAlgos } from "@algorandfoundation/algokit-utils";
-import { VoteOnProposalParams } from "./interfaces";
+import { ClaimRewardsParams, VoteOnProposalParams } from "./interfaces";
 import * as algokit from "@algorandfoundation/algokit-utils";
 import { getApplicationClient } from "./get-client";
 
@@ -33,7 +33,25 @@ export async function voteOnProposal({
     });
 
     await appClient.send.voteProposal({
-      args: { proposalId, vote, mbrTxn,fundVoteTxn },
+      args: { proposalId, vote, mbrTxn, fundVoteTxn },
+      sender: voterAddress,
+      signer: transactionSigner,
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function claimRewards({
+  proposalId,
+  voterAddress,
+  transactionSigner,
+}: ClaimRewardsParams) {
+  try {
+    const appClient = await getApplicationClient();
+    await appClient.send.claimParticipationReward({
+      args: { proposalId },
       sender: voterAddress,
       signer: transactionSigner,
     });
