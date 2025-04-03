@@ -3,6 +3,7 @@ import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
 import { beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import { YesNoRewardClient, YesNoRewardFactory } from '../../artifacts/we_dao/yes_no_rewards_dao/YesNoRewardClient'
+import { balance } from '@algorandfoundation/algorand-typescript/op'
 
 const fixture = algorandFixture()
 Config.configure({ populateAppCallResources: true })
@@ -29,7 +30,7 @@ const poolProposalTitle = 'Pool proposal title'
 const poolProposalDescription = 'This is the pool proposal description'
 const regularProposalTitle = 'Regular proposal title'
 const regularProposalDescription = 'This is the regular proposal description'
-const expiresIn = 1000n
+const expiresIn = 10n
 //--------------------------------------------------------
 
 describe('WeDao contract', () => {
@@ -109,6 +110,7 @@ describe('WeDao contract', () => {
         expiresIn: expiresIn,
         mbrTxn: mbrTxn,
         fundPoolTxn: fundPoolTxn,
+        votePrice: 10,
       },
       sender: managerAccount.addr,
     })
@@ -162,7 +164,7 @@ describe('WeDao contract', () => {
         sender: managerAccount.addr,
         receiver: voterAccount.addr,
         assetId: daoAssetId,
-        amount: BigInt(420),
+        amount: BigInt(100),
         extraFee: microAlgos(1001n),
       })
 
@@ -170,7 +172,7 @@ describe('WeDao contract', () => {
         sender: managerAccount.addr,
         receiver: daoAppClient.appAddress,
         assetId: daoAssetId,
-        amount: BigInt(100),
+        amount: BigInt(10),
         extraFee: microAlgos(1001n),
       })
 
@@ -192,14 +194,67 @@ describe('WeDao contract', () => {
     }
   })
 
-  // test('get all proposals', async () => {
-  //   const proposalsCount = await daoAppClient.state.global.proposalCount()
+  test('claim prize pool share', async () => {
+    // Wait until the proposal expires before trying to claim
+    await new Promise((resolve) => setTimeout(resolve, 12000)) // 9 seconds
 
-  //   const allProposals = []
-  //   for (let i = 1; i <= proposalsCount!; i++) {
-  //     allProposals.push(await daoAppClient.send.getProposal({ args: { proposalId: i } }))
-  //   }
+    await daoAppClient.send.claimParticipationReward({
+      args: { proposalId: 1 },
+      sender: voterAccount.addr,
+      extraFee: microAlgos(1001n),
+    })
 
-  //   console.log('All proposals:', allProposals)
-  // })
+    console.log('asset balance:', await algorand.asset.getAccountInformation(voterAccount.addr, daoAssetId))
+
+    console.log('Prize pool share claimed successfully')
+  }, 20000) // optional: set Jest timeout to 15 seconds
+
+  test('get all proposals', async () => {
+    // Get the proposal count from global state
+    const proposalsCount = await daoAppClient.state.global.proposalCount()
+    console.log(`Total proposals: ${proposalsCount}`)
+
+    const proposal = await daoAppClient.send.getProposal({
+      args: { proposalId: 1 },
+      sender: managerAccount.addr,
+    })
+
+    console.log('Proposal 1:', {
+      title: proposal.return?.proposalTitle,
+      prize_vote_price: proposal.return?.votePrice,
+    })
+    // Make sure we have at least one proposal
+    expect(proposalsCount).toBeGreaterThan(0)
+
+    const allProposals = []
+    // Loop through all proposals by ID
+    for (let i = 1; i <= proposalsCount!; i++) {
+      try {
+        const proposal = await daoAppClient.send.getProposal({
+          args: { proposalId: i },
+          sender: managerAccount.addr,
+        })
+        // allProposals.push(proposal)
+
+        // Log individual proposal details
+        console.log(`Proposal ${i}:`, {
+          title: proposal.return?.proposalTitle,
+          prize_pool_after_votes: proposal.return?.proposalPrizePool,
+          prize_total_votes: proposal.return?.proposalTotalVotes,
+          // expiresAt: proposal.return?.expiresAt,
+        })
+      } catch (error) {
+        console.error(`Error fetching proposal ${i}:`, error)
+      }
+    }
+
+    // Assert we retrieved all proposals
+    expect(allProposals.length).toBe(Number(proposalsCount))
+
+    // Additional assertions on proposal properties
+    // allProposals.forEach((proposal, index) => {
+    //   expect(proposal.return).toBeDefined()
+    //   // Add more specific assertions based on your proposal structure
+    // })
+  }, 90000)
 })
