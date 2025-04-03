@@ -8,7 +8,7 @@ import { Footer } from "../components/footer";
 export const meta: MetaFunction = () => {
   return [
     { title: "weDAO" },
-    { name: "description", content: "weDAO" },
+    { name: "Community DAO tools for everyone!", content: "weDAO" },
   ];
 };
 
