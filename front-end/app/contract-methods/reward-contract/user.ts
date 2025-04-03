@@ -8,6 +8,8 @@ export async function voteOnProposal({
   voterAddress,
   vote,
   transactionSigner,
+  assetId,
+  amount,
 }: VoteOnProposalParams) {
   try {
     const appClient = await getApplicationClient();
@@ -18,10 +20,20 @@ export async function voteOnProposal({
       amount: microAlgos(144900),
       receiver: appClient.appAddress,
       extraFee: microAlgos(1000n),
+      signer: transactionSigner,
+    });
+
+    const fundVoteTxn = algorand.createTransaction.assetTransfer({
+      sender: voterAddress,
+      receiver: appClient.appAddress,
+      assetId: BigInt(assetId || 0),
+      amount: BigInt(amount || 0),
+      extraFee: microAlgos(1000n),
+      signer: transactionSigner,
     });
 
     await appClient.send.voteProposal({
-      args: { proposalId, vote, mbrTxn },
+      args: { proposalId, vote, mbrTxn,fundVoteTxn },
       sender: voterAddress,
       signer: transactionSigner,
     });
