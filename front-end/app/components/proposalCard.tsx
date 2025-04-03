@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useEffect, useState } from "react";
 import { Proposal } from "../interfaces/proposals";
 import AnimButton from "./animButton";
 import { VoteContext } from "../context/vote";
 import { ellipseAddress } from "../utils";
 import { useWallet } from "@txnlab/use-wallet-react";
-import { useAsaMetadata } from "~/context/asametadata";
+import { useAsaMetadata } from "../context/asametadata";
+import { ProposalBadge } from "./proposalBadge";
 
 interface ProposalCardProps {
   proposal: Proposal;
@@ -32,6 +34,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
     }
   };
 
+
   useEffect(() => {
     getProposalAssetData();
   }, []);
@@ -49,6 +52,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
           </p>
         </div>
         <div className="flex justify-end items-center">
+          <ProposalBadge type={proposal.type} />
           <span
             className={`${
               proposal.status === "active" ? "text-background" : "text-text"
@@ -147,7 +151,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
           {proposalAsset ? (
             <div className="flex gap-1 h-5 items-center text-yellow-500">
               <span> You need to hold at least {proposal.minimumHolding}</span>
-              <img className="h-full" src={proposalAsset.logo.png} />
+              <img className="h-full" src={proposalAsset.logo.png} alt="logo" />
               <span>To vote</span>
             </div>
           ) : null}

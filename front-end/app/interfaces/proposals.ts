@@ -8,5 +8,8 @@ export interface Proposal {
   votesFor: number;
   votesAgainst: number;
   proposalAsset: number;
-  minimumHolding: number;
+  minimumHolding?: number;
+  prizePool?: number;
+  votePrice?: number;
+  type: "reward" | "simple";
 }

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { microAlgo, microAlgos } from "@algorandfoundation/algokit-utils";
-import { getApplicationClient } from "./get-client";
+import { getRewardApplicationClient } from "./get-client";
 import { CreateProposalParams } from "./interfaces";
 import algosdk from "algosdk";
 import * as algokit from "@algorandfoundation/algokit-utils";
@@ -17,7 +17,7 @@ export async function createProposal({
   votePrice,
 }: CreateProposalParams) {
   try {
-    const appClient = await getApplicationClient();
+    const appClient = await getRewardApplicationClient();
     const createProposalMbrValue = 168900;
     const algorand = algokit.AlgorandClient.mainNet();
 
@@ -74,7 +74,7 @@ export async function createProposal({
 
 export async function getProposals() {
   try {
-    const appClient = await getApplicationClient();
+    const appClient = await getRewardApplicationClient();
     
     const proposals: Proposal[] = [];
     let boxCount = await appClient.appClient.getBoxNames();
@@ -113,7 +113,17 @@ export function byteArrayToUint128(byteArray: Uint8Array): bigint {
 async function decodeBoxValues(boxValues: Uint8Array, proposalId: number){
   const BYTE_LENGTH = 8;
 
-    const appClient = await getApplicationClient();
+    const appClient = await getRewardApplicationClient();
+
+    /* proposal_expiry_timestamp: arc4.UintN64
+  proposal_start_timestamp: arc4.UintN64
+  proposal_total_votes: arc4.UintN64
+  proposal_yes_votes: arc4.UintN64
+  proposal_prize_pool: arc4.UintN64
+  proposal_asset: arc4.UintN64
+  vote_price: arc4.UintN64
+  proposal_creator: arc4.Address
+  proposal_title_and_description: arc4.Str */
 
     let index = 0;
     const proposal_expiry_timestamp = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
@@ -124,7 +134,13 @@ async function decodeBoxValues(boxValues: Uint8Array, proposalId: number){
     index += BYTE_LENGTH;
     const proposal_yes_votes = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
     index += BYTE_LENGTH;
-    const account = algosdk.encodeAddress(boxValues.slice(index, index + 32));
+    const proposal_prize_pool = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
+    index += BYTE_LENGTH;
+    const proposal_asset = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
+    index += BYTE_LENGTH;
+    const vote_price = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
+    index += BYTE_LENGTH;
+    const proposal_creator = algosdk.encodeAddress(boxValues.slice(index, index + 32));
     index += 32 + 4;
     const proposal_title_and_description = new TextDecoder().decode(boxValues.slice(index));
     const proposal_title = proposal_title_and_description.split(':')[0];
@@ -133,11 +149,16 @@ async function decodeBoxValues(boxValues: Uint8Array, proposalId: number){
     description: proposal_description,
     expiresIn: Number(proposal_expiry_timestamp),
     id: proposalId,
-    proposer: account,
+    proposer: proposal_creator,
     status: 'active',
     title: proposal_title,
     votesFor: Number(proposal_yes_votes),
     votesAgainst: Number(proposal_total_votes) - Number(proposal_yes_votes),
+    proposalAsset: Number(proposal_asset),
+    minimumHolding: Number(vote_price),
+    prizePool: Number(proposal_prize_pool),
+    votePrice: Number(vote_price),
+    type: "reward",
   }
   return newProposal;
 }
