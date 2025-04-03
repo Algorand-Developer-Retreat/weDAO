@@ -243,6 +243,8 @@ describe('WeDao contract', () => {
           prize_total_votes: proposal.return?.proposalTotalVotes,
           // expiresAt: proposal.return?.expiresAt,
         })
+
+        allProposals.push(proposal)
       } catch (error) {
         console.error(`Error fetching proposal ${i}:`, error)
       }

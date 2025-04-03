@@ -702,6 +702,19 @@ claimParticipationReward:
     dup
     box_get
     assert // Box must have value
+    // smart_contracts/we_dao/yes_no_rewards_dao/YesNoReward.algo.ts:212
+    // currentProposal.proposal_expiry_timestamp.native <= op.Global.latestTimestamp,
+    dup
+    intc_0 // 0
+    extract_uint64
+    global LatestTimestamp
+    <=
+    // smart_contracts/we_dao/yes_no_rewards_dao/YesNoReward.algo.ts:211-214
+    // assert(
+    //   currentProposal.proposal_expiry_timestamp.native <= op.Global.latestTimestamp,
+    //   'The proposal has not expired yet',
+    // )
+    assert // The proposal has not expired yet
     // smart_contracts/we_dao/yes_no_rewards_dao/YesNoReward.algo.ts:218
     // this.hasVoted(proposal_id, Txn.sender),
     txn Sender

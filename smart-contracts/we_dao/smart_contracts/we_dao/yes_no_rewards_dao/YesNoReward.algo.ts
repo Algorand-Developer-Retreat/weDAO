@@ -208,10 +208,10 @@ export class YesNoReward extends Contract {
 
     // !!! I like the op.Global object better than tealscript Globals
     // Check if the proposal is expired
-    // assert(
-    //   currentProposal.proposal_expiry_timestamp.native <= op.Global.latestTimestamp,
-    //   'The proposal has not expired yet',
-    // )
+    assert(
+      currentProposal.proposal_expiry_timestamp.native <= op.Global.latestTimestamp,
+      'The proposal has not expired yet',
+    )
 
     //Check if the user actually voted on the proposal
     assert(
