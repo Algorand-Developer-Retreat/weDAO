@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/explicit-member-accessibility */
 import {
   Account,
   arc4,
   assert,
-  Asset,
   BoxMap,
   Contract,
   GlobalState,
@@ -33,7 +33,7 @@ export class YesNoReward extends Contract {
   vote = BoxMap<VoteIdType, VoteDataType>({ keyPrefix: '_v' })
 
   @abimethod({ allowActions: 'NoOp', onCreate: 'require' })
-  public createApplication(anyone_can_create: boolean, minimum_holding: uint64, asset_id: uint64): void {
+  public createApplication(anyone_can_create: boolean): void {
     // When creating the application we set the manager address
     this.manager_address.value = Txn.sender
 
@@ -45,11 +45,12 @@ export class YesNoReward extends Contract {
   }
 
   @abimethod({ allowActions: 'NoOp' })
-  public configureContract(anyone_can_create: boolean, minimum_holding: uint64, assetId: uint64): void {
+  public configureContract(anyone_can_create: boolean): void {
     // Only the manager can configure the contract
     assert(this.manager_address.value === Txn.sender, 'Only the manager can configure the contract')
     // Set the anyone_can_create value
     this.anyone_can_create.value = anyone_can_create
+    
   }
 
   @abimethod({ allowActions: 'NoOp' })
@@ -77,6 +78,7 @@ export class YesNoReward extends Contract {
     if (this.anyone_can_create.value === false) {
       assert(this.manager_address.value === Txn.sender, 'Only the manager can create proposals')
     }
+    assert(mbr_txn.receiver === op.Global.currentApplicationAddress, 'Payment must be to the contract')
 
     // assert(fundPoolTxn.assetAmount > 0, 'The fund pool transaction must have a positive asset amount')
 
@@ -99,7 +101,8 @@ export class YesNoReward extends Contract {
       proposal_asset: new arc4.UintN64(assetId),
       proposal_prize_pool: new arc4.UintN64(initialPrizePool),
       vote_price: new arc4.UintN64(vote_price),
-      proposal_title: new arc4.Str(proposal_title),
+      proposal_creator: new arc4.Address(Txn.sender),
+      proposal_title_and_description: new arc4.Str(proposal_title + ':' + proposal_description),
     })
 
     //Define the nonce for the proposal by adding one to the total proposals global state
