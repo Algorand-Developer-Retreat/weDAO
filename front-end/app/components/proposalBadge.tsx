@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaQuestionCircle, FaTrophy } from 'react-icons/fa';
+import { FaTrophy } from 'react-icons/fa';
+import { MdQuestionAnswer } from 'react-icons/md';
 
 type ProposalType = 'simple' | 'reward';
 
@@ -12,7 +13,7 @@ export const ProposalBadge: React.FC<ProposalBadgeProps> = ({ type }) => {
     const renderIcon = () => {
         switch (type) {
             case 'simple':
-                return <FaQuestionCircle className="text-primary h-6 w-6" />;
+                return <MdQuestionAnswer className="text-primary h-6 w-6" />;
             case 'reward':
                 return <FaTrophy className="text-primary h-6 w-6" />;
             default:

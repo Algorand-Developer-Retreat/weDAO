@@ -29,12 +29,14 @@ export function MainContainer() {
 
   const [proposalList, setProposalList] = useState<Proposal[]>([]);
   const {activeAccount} = useWallet();
+  
 
   async function loadProposals(): Promise<Proposal[]> {
     const proposals = await getProposals();
     return proposals;
   }
   const navigate = useNavigate();
+
 
   useEffect(() => {
     loadProposals().then((retreivedProposals: Proposal[]) => {
@@ -45,7 +47,6 @@ export function MainContainer() {
           return proposal.status === currentTab.label.toLowerCase();
         }
       });
-      console.log("active proposals", activeProposals);
       setProposalList(activeProposals);
     });
   }, [currentTab]);
