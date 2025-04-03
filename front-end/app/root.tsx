@@ -11,6 +11,7 @@ import { Providers } from "./services/providers";
 import { WalletContextProvider } from "./context/wallet";
 import { VoteProvider } from "./context/vote";
 import { ToastProvider } from "./components/toast";
+import { AsaMetadataProvider } from "./context/asametadata";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -39,14 +40,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <WalletContextProvider>
             <VoteProvider>
               <ToastProvider>
-                {children}
+                <AsaMetadataProvider>{children}</AsaMetadataProvider>
               </ToastProvider>
             </VoteProvider>
           </WalletContextProvider>
         </Providers>
         <ScrollRestoration />
         <Scripts />
-       {/*  <LiveReload /> */}
+        {/*  <LiveReload /> */}
       </body>
     </html>
   );

@@ -1,18 +1,60 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useEffect, useState } from "react";
 import { VoteContext } from "../context/vote";
 import { motion } from "framer-motion";
 import { useWallet } from "@txnlab/use-wallet-react";
+import { getApplicationClient } from "../contract-methods/get-client";
+import * as algokit from "@algorandfoundation/algokit-utils";
+import { useAsaMetadata } from "../context/asametadata";
+
 export function VoteModal() {
   const { displayVoteModal, setDisplayVoteModal, selectedProposal, vote } =
     useContext(VoteContext);
+  const { getAssetById } = useAsaMetadata();
   const { activeAccount } = useWallet();
   const [yesPercentage, setYesPercentage] = useState(0);
   const [noPercentage, setNoPercentage] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
   const [transactionLoading, setTransactionLoading] = useState(false);
+  const [minimumhHolding, setMinimumHolding] = useState(0);
+  const [assetId, setAssetId] = useState(0);
+  const [userAbleToVote, setUserAbleToVote] = useState(false);
+  const [assetInfo, setAssetInfo] = useState<any>(null);
 
   useEffect(() => {
     console.log("selectedProposal", selectedProposal);
+    async function getGlobals() {
+      const appClient = await getApplicationClient();
+      const globals = await appClient.appClient.state.global.getAll();
+      const minAmount = globals["minimum_holding"];
+      const tokenId = globals["asset_id"];
+      console.log(globals);
+      setMinimumHolding(globals["minimum_holding"]);
+      setAssetId(globals["asset_id"]);
+      const info = getAssetById(tokenId);
+      setAssetInfo(info);
+      console.log("info:", info);
+      const algorand = algokit.AlgorandClient.mainNet();
+      const accountInfo = await algorand.account.getInformation(
+        activeAccount?.address || ""
+      );
+      if (accountInfo.assets) {
+        try {
+          const asset = accountInfo.assets.find(
+            (asset) => asset.assetId === BigInt(tokenId)
+          );
+          console.log("asset:", asset);
+          if (asset && asset.amount >= BigInt(minAmount)) {
+            setUserAbleToVote(true);
+          } else {
+            setUserAbleToVote(false);
+          }
+        } catch (error) {
+          console.error("Error fetching asset information:", error);
+          setUserAbleToVote(false);
+        }
+      }
+    }
     if (selectedProposal) {
       const total = selectedProposal?.votesFor + selectedProposal?.votesAgainst;
       const yes = total > 0 ? (selectedProposal?.votesFor / total) * 100 : 0;
@@ -20,6 +62,7 @@ export function VoteModal() {
       setYesPercentage(yes);
       setNoPercentage(no);
       setTotalVotes(total);
+      getGlobals();
     }
   }, [displayVoteModal, selectedProposal]);
 
@@ -79,7 +122,8 @@ export function VoteModal() {
             <div className="flex justify-center items-center h-full">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yes"></div>
             </div>
-          ) : selectedProposal?.proposer !== activeAccount?.address ? (
+          ) : selectedProposal?.proposer !== activeAccount?.address &&
+            userAbleToVote ? (
             <div className="flex gap-4">
               <motion.button
                 onClick={() => onClickVote(true)}
@@ -100,7 +144,22 @@ export function VoteModal() {
             </div>
           ) : (
             <div className="flex justify-center items-center h-full">
-              <p className="text-text">You cannot vote on your own proposal.</p>
+              {!userAbleToVote && assetInfo ? (
+                <p className="text-text">
+                  You need to hold at least{" "}
+                  {Number(minimumhHolding) / 10 ** Number(assetInfo?.decimals || 6)}
+                  <img
+                    src={assetInfo.logo.png}
+                    alt="Asset Logo"
+                    className="inline-block w-4 h-4 mx-1"
+                  />
+                  {assetInfo?.name} to vote.
+                </p>
+              ) : (
+                <p className="text-text">
+                  You cannot vote on your own proposal.
+                </p>
+              )}
             </div>
           )}
 
