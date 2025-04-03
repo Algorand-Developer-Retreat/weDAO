@@ -47,7 +47,6 @@ export function MainContainer() {
           return proposal.status === currentTab.label.toLowerCase();
         }
       });
-      console.log("active proposals", activeProposals);
       setProposalList(activeProposals);
       setLoadingProposals(false);
     });
