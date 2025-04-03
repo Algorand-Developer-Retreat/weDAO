@@ -70,7 +70,8 @@ export class YesNoReward extends Contract {
     proposal_title: string,
     proposal_description: string,
     expires_in: uint64,
-    fundPoolTxn: gtxn.AssetTransferTxn,
+    fund_pool_txn: gtxn.AssetTransferTxn,
+    vote_price: uint64,
     mbr_txn: gtxn.PaymentTxn,
   ): void {
     if (this.anyone_can_create.value === false) {
@@ -79,8 +80,8 @@ export class YesNoReward extends Contract {
 
     // assert(fundPoolTxn.assetAmount > 0, 'The fund pool transaction must have a positive asset amount')
 
-    const assetId: uint64 = fundPoolTxn.xferAsset.id
-    const initialPrizePool: uint64 = fundPoolTxn.assetAmount
+    const assetId: uint64 = fund_pool_txn.xferAsset.id
+    const initialPrizePool: uint64 = fund_pool_txn.assetAmount
 
     // Gets the timestamp of the current transaction to be used as the proposal start timestamp
     const currentTimestamp: uint64 = op.Global.latestTimestamp
@@ -97,7 +98,7 @@ export class YesNoReward extends Contract {
       proposal_yes_votes: new arc4.UintN64(0),
       proposal_asset: new arc4.UintN64(assetId),
       proposal_prize_pool: new arc4.UintN64(initialPrizePool),
-      vote_price: new arc4.UintN64(0),
+      vote_price: new arc4.UintN64(vote_price),
       proposal_title: new arc4.Str(proposal_title),
     })
 
@@ -171,15 +172,17 @@ export class YesNoReward extends Contract {
       claimed: new arc4.Bool(false),
     })
 
+    // !!! Kinda liked it now because it enforces best practices
     // Update the proposal's vote count
     const updatedVotes = Uint64(currentProposal.proposal_total_votes.native + 1)
     const updatedYesVotes = Uint64(currentProposal.proposal_yes_votes.native + (vote ? 1 : 0))
+    const updatedPrizePool = Uint64(currentProposal.proposal_prize_pool.native + fundVoteTxn.assetAmount)
 
-    // Create an updated proposal with the new vote count
+    // Create an updated proposal with the new vote count, yes votes, and prize pool
     const updatedProposal = currentProposal.copy()
     updatedProposal.proposal_total_votes = new arc4.UintN64(updatedVotes)
     updatedProposal.proposal_yes_votes = new arc4.UintN64(updatedYesVotes)
-
+    updatedProposal.proposal_prize_pool = new arc4.UintN64(updatedPrizePool)
     // Store the vote in box storage
     this.vote(voteId).value = voteData.copy()
     // Store the updated proposal back in the box
@@ -187,7 +190,6 @@ export class YesNoReward extends Contract {
   }
 
   // Add a helper method to check if a user has voted
-  @abimethod({ allowActions: 'NoOp', readonly: true })
   private hasVoted(proposal_id: uint64, voter: Account): boolean {
     const voteId = new VoteIdType({
       proposal_id: new arc4.UintN64(proposal_id),
@@ -199,10 +201,17 @@ export class YesNoReward extends Contract {
 
   // Method for voters to claim participation rewards
   public claimParticipationReward(proposal_id: uint64): void {
-    const proposal = this.proposal(new arc4.UintN64(proposal_id)).value
+    // !!! I think having to use copy made it more confusing than tealscript
+    // !!! I think having to instantiate arc4.Class makes it more complex than tealscript
 
+    const currentProposal = this.proposal(new arc4.UintN64(proposal_id)).value.copy()
+
+    // !!! I like the op.Global object better than tealscript Globals
     // Check if the proposal is expired
-    assert(proposal.proposal_expiry_timestamp.native < op.Global.latestTimestamp, 'The proposal does not exist')
+    // assert(
+    //   currentProposal.proposal_expiry_timestamp.native <= op.Global.latestTimestamp,
+    //   'The proposal has not expired yet',
+    // )
 
     //Check if the user actually voted on the proposal
     assert(
@@ -211,16 +220,27 @@ export class YesNoReward extends Contract {
     )
 
     //Define the reward amount based on the proposal's prize pool and total votes
-    const rewardAmount = Uint64(proposal.proposal_prize_pool.native / proposal.proposal_total_votes.native)
+    const rewardAmount = Uint64(
+      currentProposal.proposal_prize_pool.native / currentProposal.proposal_total_votes.native,
+    )
 
+    // !!! I don't like the .submit() too much
     //Transfer the reward to the voter address
-    itxn.assetTransfer({
-      assetReceiver: Txn.sender,
-      sender: op.Global.currentApplicationAddress,
-      xferAsset: proposal.proposal_asset.native,
-      assetAmount: rewardAmount,
-      fee: 0,
-    })
+    itxn
+      .assetTransfer({
+        assetReceiver: Txn.sender,
+        sender: op.Global.currentApplicationAddress,
+        xferAsset: currentProposal.proposal_asset.native,
+        assetAmount: rewardAmount,
+        fee: 0,
+      })
+      .submit()
+
+    // Create an updated proposal with the new vote count, yes votes, and prize pool
+    const updatedProposal = currentProposal.copy()
+    updatedProposal.proposal_prize_pool = new arc4.UintN64(updatedProposal.proposal_prize_pool.native - rewardAmount)
+
+    this.proposal(new arc4.UintN64(proposal_id)).value = updatedProposal.copy()
   }
 
   @abimethod({ allowActions: 'NoOp', readonly: true })
