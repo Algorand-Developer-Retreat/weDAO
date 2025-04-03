@@ -91,7 +91,7 @@ export function VoteModal() {
         <div className="relative z-50 w-full max-w-lg p-4 bg-surface rounded-3xl">
           {/* Header */}
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-heading mb-2">
+            <h2 className="text-2xl text-white font-bold text-heading mb-2">
               Cast Your Vote
             </h2>
             <p className="text-text">{selectedProposal?.title}</p>
@@ -147,7 +147,8 @@ export function VoteModal() {
               {!userAbleToVote && assetInfo ? (
                 <p className="text-text">
                   You need to hold at least{" "}
-                  {Number(minimumhHolding) / 10 ** Number(assetInfo?.decimals || 6)}
+                  {Number(minimumhHolding) /
+                    10 ** Number(assetInfo?.decimals || 6)}
                   <img
                     src={assetInfo.logo.png}
                     alt="Asset Logo"

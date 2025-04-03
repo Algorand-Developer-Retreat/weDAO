@@ -3,9 +3,10 @@ export interface Proposal {
   title: string;
   description: string;
   proposer: string;
-  status: 'active' | 'closed';
+  status: "active" | "closed";
   expiresIn: number;
   votesFor: number;
   votesAgainst: number;
-
+  proposalAsset: number;
+  minimumHolding: number;
 }
