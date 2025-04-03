@@ -4,6 +4,7 @@ import { ProposalForm } from "../components/proposalForm";
 import { Header } from "../components/header";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { createProposal } from "../contract-methods/proposals";
+import {createProposal as createRewardProposal} from "../contract-methods/reward-contract/proposals";
 import * as algokit from "@algorandfoundation/algokit-utils";
 import { Footer } from "../components/footer";
 import { ProposalFormRewards } from "../components/proposalFormRewards";
@@ -14,7 +15,7 @@ export default function CreateProposal() {
   const {activeAccount, transactionSigner} = useWallet();
   const [activeTab, setActiveTab] = useState("proposal");
 
-  const handleCreateProposal = async (title: string, description: string, expiryTimestamp: number) => {
+  const handleCreateProposal = async (title: string, description: string, expiryTimestamp: number, assetId?: number, amount?: number, votePrice?: number) => {
     setIsSubmitting(true);
     try {
       // TODO: Implement the actual proposal creation logic here
@@ -22,7 +23,11 @@ export default function CreateProposal() {
       
       const algorand = algokit.AlgorandClient.mainNet();
       algorand.setDefaultSigner(transactionSigner);
-      await createProposal({ title, description, proposerAddress: activeAccount?.address || "", expiresIn: expiryTimestamp, transactionSigner: transactionSigner });
+      if(assetId == undefined) {
+        await createProposal({ title, description, proposerAddress: activeAccount?.address || "", expiresIn: expiryTimestamp, transactionSigner: transactionSigner });
+      } else {
+        await createRewardProposal({ title, description, proposerAddress: activeAccount?.address || "", expiresIn: expiryTimestamp, transactionSigner: transactionSigner, assetId: assetId || 0, amount: amount || 0, votePrice: votePrice || 0 });
+      }
       
       // TODO: Handle success (e.g., redirect to proposal list)
       

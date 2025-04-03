@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { microAlgos } from "@algorandfoundation/algokit-utils";
+import { microAlgo, microAlgos } from "@algorandfoundation/algokit-utils";
 import { getApplicationClient } from "./get-client";
 import { CreateProposalParams } from "./interfaces";
 import algosdk from "algosdk";
 import * as algokit from "@algorandfoundation/algokit-utils";
-import { Proposal } from "../interfaces/proposals";
+import { Proposal } from "../../interfaces/proposals";
 
 export async function createProposal({
   title,
@@ -12,29 +12,59 @@ export async function createProposal({
   proposerAddress,
   expiresIn,
   transactionSigner,
+  assetId,
+  amount,
+  votePrice,
 }: CreateProposalParams) {
   try {
     const appClient = await getApplicationClient();
     const createProposalMbrValue = 168900;
     const algorand = algokit.AlgorandClient.mainNet();
 
+    await algorand.send.payment({
+      sender: proposerAddress,
+      receiver: appClient.appAddress,
+      amount: microAlgo(200000),
+      extraFee: microAlgos(1001n),
+      signer: transactionSigner,
+    })
+
+    await appClient.send.optInToAsset({
+      args: { assetId: assetId || 0 },
+      sender: proposerAddress,
+      extraFee: microAlgos(1001n),
+      signer: transactionSigner,
+    })
+
+    const fundPoolTxn = algorand.createTransaction.assetTransfer({
+      sender: proposerAddress,
+      receiver: appClient.appAddress,
+      assetId: BigInt(assetId || 0),
+      amount: BigInt(amount || 0),
+      extraFee: microAlgos(1001n),
+      signer: transactionSigner,
+    })
+
     const mbrTxn = algorand.createTransaction.payment({
       sender: proposerAddress,
       amount: microAlgos(createProposalMbrValue),
       receiver: appClient.appAddress,
-      extraFee: microAlgos(1000n),
-    });
-    console.log("transaction signer", transactionSigner);
+      extraFee: microAlgos(1001n),
+      signer: transactionSigner,
+    })
+
     const result = await appClient.send.createProposal({
       args: {
         proposalTitle: title,
         proposalDescription: description,
         expiresIn: expiresIn,
         mbrTxn: mbrTxn,
+        fundPoolTxn: fundPoolTxn,
+        votePrice: BigInt(votePrice || 0),
       },
       sender: proposerAddress,
       signer: transactionSigner,
-    });
+    })
     return result;
   } catch (error) {
     console.error(error);

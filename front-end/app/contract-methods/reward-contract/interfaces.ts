@@ -6,6 +6,9 @@ export interface CreateProposalParams {
     proposerAddress: string;
     expiresIn: number;
     transactionSigner: TransactionSigner;
+    assetId: number;
+    amount: number;
+    votePrice: number;
 }
 
 export interface VoteOnProposalParams {
