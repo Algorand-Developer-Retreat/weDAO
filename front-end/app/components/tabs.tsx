@@ -24,7 +24,9 @@ export const Tabs: React.FC<TabsPropsInterface> = ({
   });
 
   return (
-    <div className={`flex z-10 w-full justify-center md:justify-start mb-2  gap-5`}>
+    <div
+      className={`flex z-10 w-full justify-center md:justify-start mb-2  gap-5`}
+    >
       {options.map((option, index) => (
         <motion.button
           key={index}
@@ -32,7 +34,7 @@ export const Tabs: React.FC<TabsPropsInterface> = ({
             ${
               activeTab.label === option.label
                 ? "bg-secondary font-display rounded-full font-bold"
-                : `bg-primary rounded-full text-black hover:text-background ${
+                : `bg-primary/50 rounded-full text-black hover:text-background ${
                     option.enabled ? "cursor-pointer" : "cursor-not-allowed"
                   }`
             }`}

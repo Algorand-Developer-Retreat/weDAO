@@ -7,7 +7,6 @@ import AnimButton from "./animButton";
 import { useNavigate } from "@remix-run/react";
 import { useWallet } from "@txnlab/use-wallet-react";
 
-
 export function MainContainer() {
   const tabOptions: TabOptionInterface[] = [
     {
@@ -28,7 +27,9 @@ export function MainContainer() {
   );
 
   const [proposalList, setProposalList] = useState<Proposal[]>([]);
-  const {activeAccount} = useWallet();
+
+  const [loadingProposals, setLoadingProposals] = useState(false);
+  const { activeAccount } = useWallet();
 
   async function loadProposals(): Promise<Proposal[]> {
     const proposals = await getProposals();
@@ -37,6 +38,7 @@ export function MainContainer() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoadingProposals(true);
     loadProposals().then((retreivedProposals: Proposal[]) => {
       const activeProposals = retreivedProposals.filter((proposal) => {
         if (currentTab.label === "All") {
@@ -47,6 +49,7 @@ export function MainContainer() {
       });
       console.log("active proposals", activeProposals);
       setProposalList(activeProposals);
+      setLoadingProposals(false);
     });
   }, [currentTab]);
 
@@ -61,10 +64,21 @@ export function MainContainer() {
     <div className=" h-screen w-full space-y-5 pb-24 mx-auto">
       <div className="flex flex-col md:flex-row md:justify-between gap-2">
         <Tabs options={tabOptions} onClickHandler={onSwitchTab} />
-        {activeAccount ? <AnimButton onClick={() => {navigate('/create')}} >Create</AnimButton> : null}
+        {activeAccount ? (
+          <AnimButton
+            onClick={() => {
+              navigate("/create");
+            }}
+          >
+            Create
+          </AnimButton>
+        ) : null}
       </div>
       <div className="flex flex-col  w-full">
-        <ProposalList proposals={proposalList} />
+        <ProposalList
+          proposals={proposalList}
+          loadingProposals={loadingProposals}
+        />
       </div>
     </div>
   );

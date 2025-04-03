@@ -5,6 +5,7 @@ import { CreateProposalParams } from "./interfaces";
 import algosdk from "algosdk";
 import * as algokit from "@algorandfoundation/algokit-utils";
 import { Proposal } from "../interfaces/proposals";
+import { getGlobalState } from "./globalState";
 
 export async function createProposal({
   title,
@@ -45,7 +46,7 @@ export async function createProposal({
 export async function getProposals() {
   try {
     const appClient = await getApplicationClient();
-    
+
     const proposals: Proposal[] = [];
     let boxCount = await appClient.appClient.getBoxNames();
     boxCount = boxCount.filter((name) => {
@@ -61,7 +62,6 @@ export async function getProposals() {
     }
     console.log("proposals", proposals);
 
-
     return proposals;
   } catch (error) {
     console.error(error);
@@ -74,40 +74,54 @@ export function byteArrayToUint128(byteArray: Uint8Array): bigint {
 
   // Iterate over the byte array, treating it as big-endian
   for (let i = 0; i < byteArray.length; i++) {
-      result = (result << BigInt(8)) + BigInt(byteArray[i]);
+    result = (result << BigInt(8)) + BigInt(byteArray[i]);
   }
 
   return result;
 }
 
-async function decodeBoxValues(boxValues: Uint8Array, proposalId: number){
+async function decodeBoxValues(boxValues: Uint8Array, proposalId: number) {
   const BYTE_LENGTH = 8;
 
-    const appClient = await getApplicationClient();
+  const { assetId, minimumHolding } = await getGlobalState();
 
-    let index = 0;
-    const proposal_expiry_timestamp = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH;
-    const proposal_start_timestamp = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH;
-    const proposal_total_votes = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH;
-    const proposal_yes_votes = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH;
-    const account = algosdk.encodeAddress(boxValues.slice(index, index + 32));
-    index += 32 + 4;
-    const proposal_title_and_description = new TextDecoder().decode(boxValues.slice(index));
-    const proposal_title = proposal_title_and_description.split(':')[0];
-    const proposal_description = proposal_title_and_description.split(':')[1];
-  const newProposal: Proposal =  {
+  const appClient = await getApplicationClient();
+
+  let index = 0;
+  const proposal_expiry_timestamp = byteArrayToUint128(
+    boxValues.slice(index, index + BYTE_LENGTH)
+  );
+  index += BYTE_LENGTH;
+  const proposal_start_timestamp = byteArrayToUint128(
+    boxValues.slice(index, index + BYTE_LENGTH)
+  );
+  index += BYTE_LENGTH;
+  const proposal_total_votes = byteArrayToUint128(
+    boxValues.slice(index, index + BYTE_LENGTH)
+  );
+  index += BYTE_LENGTH;
+  const proposal_yes_votes = byteArrayToUint128(
+    boxValues.slice(index, index + BYTE_LENGTH)
+  );
+  index += BYTE_LENGTH;
+  const account = algosdk.encodeAddress(boxValues.slice(index, index + 32));
+  index += 32 + 4;
+  const proposal_title_and_description = new TextDecoder().decode(
+    boxValues.slice(index)
+  );
+  const proposal_title = proposal_title_and_description.split(":")[0];
+  const proposal_description = proposal_title_and_description.split(":")[1];
+  const newProposal: Proposal = {
     description: proposal_description,
     expiresIn: Number(proposal_expiry_timestamp),
     id: proposalId,
     proposer: account,
-    status: 'active',
+    status: "active",
     title: proposal_title,
     votesFor: Number(proposal_yes_votes),
     votesAgainst: Number(proposal_total_votes) - Number(proposal_yes_votes),
-  }
+    proposalAsset: Number(assetId),
+    minimumHolding: Number(minimumHolding),
+  };
   return newProposal;
 }
