@@ -23,7 +23,7 @@ export const DisconnectButton = () => {
   return (
     <motion.button
       onClick={() => handleDisconnect()}
-      className="text-gray-600 cursor-pointer"
+      className="text-red-300 cursor-pointer"
       aria-label="Disconnect wallet"
       whileHover={{ 
         color: "#EF4444",

@@ -13,7 +13,7 @@ import { useToast } from "./toast";
 export const WalletConnectionModal: React.FC = () => {
   const { wallets } = useWallet();
   const [loading, setLoading] = useState(false);
-  const { displayWalletConnectModal, setDisplayWalletConnectModal } =
+  const { displayWalletConnectModal, setDisplayWalletConnectModal, addNFDIfAvailable } =
     useContext(WalletContext);
   const { showToast } = useToast();
   async function handleOnConnect(wallet: any) {

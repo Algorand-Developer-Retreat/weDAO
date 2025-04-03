@@ -1,7 +1,6 @@
 import type { LinksFunction } from "@remix-run/node";
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -35,7 +34,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-background">
+      <body className="bg-background w-full">
         <Providers>
           <WalletContextProvider>
             <VoteProvider>
@@ -47,7 +46,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </Providers>
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
+       {/*  <LiveReload /> */}
       </body>
     </html>
   );

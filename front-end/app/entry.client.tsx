@@ -7,7 +7,14 @@
 import { RemixBrowser } from "@remix-run/react";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
+import { Buffer } from "buffer";
+
 import 'global'; // Shims global in browser
+
+// Ensure Buffer is defined globally
+if (typeof globalThis.Buffer === "undefined") {
+  globalThis.Buffer = Buffer;
+}
 
 startTransition(() => {
   hydrateRoot(

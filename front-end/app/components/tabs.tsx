@@ -24,7 +24,7 @@ export const Tabs: React.FC<TabsPropsInterface> = ({
   });
 
   return (
-    <div className={`flex z-10 w-full justify-start mb-2 ml-10 gap-5`}>
+    <div className={`flex z-10 w-full justify-center md:justify-start mb-2  gap-5`}>
       {options.map((option, index) => (
         <motion.button
           key={index}

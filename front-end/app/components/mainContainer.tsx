@@ -1,9 +1,12 @@
-
 import { useEffect, useState } from "react";
 import { Proposal } from "../interfaces/proposals";
 import { ProposalList } from "./proposalList";
 import { TabOptionInterface, Tabs } from "./tabs";
 import { getProposals } from "../contract-methods/proposals";
+import AnimButton from "./animButton";
+import { useNavigate } from "@remix-run/react";
+import { useWallet } from "@txnlab/use-wallet-react";
+
 
 export function MainContainer() {
   const tabOptions: TabOptionInterface[] = [
@@ -25,11 +28,13 @@ export function MainContainer() {
   );
 
   const [proposalList, setProposalList] = useState<Proposal[]>([]);
+  const {activeAccount} = useWallet();
 
   async function loadProposals(): Promise<Proposal[]> {
     const proposals = await getProposals();
     return proposals;
   }
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadProposals().then((retreivedProposals: Proposal[]) => {
@@ -53,11 +58,12 @@ export function MainContainer() {
   }
 
   return (
-    <div className=" h-screen justify-center space-y-5 pb-24 ">
-      <div className="flex justify-between">
+    <div className=" h-screen w-full space-y-5 pb-24 mx-auto">
+      <div className="flex flex-col md:flex-row md:justify-between gap-2">
         <Tabs options={tabOptions} onClickHandler={onSwitchTab} />
+        {activeAccount ? <AnimButton onClick={() => {navigate('/create')}} >Create</AnimButton> : null}
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col  w-full">
         <ProposalList proposals={proposalList} />
       </div>
     </div>

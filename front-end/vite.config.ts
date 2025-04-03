@@ -24,9 +24,14 @@ export default defineConfig({
   resolve: {
     alias: {
       global: "global", // explicitly alias `global` to shim it
+      buffer: "buffer", // alias for the Buffer polyfill
+      process: "process/browser", // alias for the process polyfill
     },
   },
   define: {
     global: "globalThis", // map Node's global to the browser-safe globalThis
+  },
+  optimizeDeps: {
+    include: ["buffer", "process"],
   },
 });
