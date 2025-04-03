@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useWallet } from "@txnlab/use-wallet-react";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { WalletContext } from "../context/wallet";
 import * as algokit from "@algorandfoundation/algokit-utils";
@@ -13,8 +13,11 @@ import { useToast } from "./toast";
 export const WalletConnectionModal: React.FC = () => {
   const { wallets } = useWallet();
   const [loading, setLoading] = useState(false);
-  const { displayWalletConnectModal, setDisplayWalletConnectModal, addNFDIfAvailable } =
-    useContext(WalletContext);
+  const {
+    displayWalletConnectModal,
+    setDisplayWalletConnectModal,
+    addNFDIfAvailable,
+  } = useContext(WalletContext);
   const { showToast } = useToast();
   async function handleOnConnect(wallet: any) {
     setLoading(true);
@@ -42,7 +45,7 @@ export const WalletConnectionModal: React.FC = () => {
       >
         <div className="fixed inset-0 bg-transparent "></div>
         <div className="relative z-50 w-full max-w-lg p-4">
-          <div className="flex justify-center items-center transform overflow-hidden rounded-3xl text-left shadow-2xl transition-all bg-secondary dark:text-white">
+          <div className="flex justify-center items-center transform overflow-hidden rounded-3xl text-left shadow-2xl transition-all bg-background dark:text-white">
             <div className="w-full p-4">
               <div className="flex justify-end">
                 <RxCross1
@@ -54,7 +57,9 @@ export const WalletConnectionModal: React.FC = () => {
                 />
               </div>
               <div className="flex items-center justify-center gap-2">
-                <h3 className="text-4xl text-white">Connect Wallet</h3>
+                <h3 className="text-4xl text-white font-bold">
+                  Connect Wallet
+                </h3>
               </div>
 
               <br />
@@ -75,8 +80,9 @@ export const WalletConnectionModal: React.FC = () => {
                           height={16}
                         />
                       </div>
-                      <div className="text-2xl font-bold ">
-                        <div>{wallet.metadata.name}</div>
+
+                      <div className="w-full flex justify-center">
+                        <p className="font-bold">{wallet.metadata.name}</p>
                       </div>
                     </div>
                   </div>

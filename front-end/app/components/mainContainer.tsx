@@ -28,7 +28,7 @@ export function MainContainer() {
 
   const [proposalList, setProposalList] = useState<Proposal[]>([]);
 
-  const [loadingProposals, setLoadingProposals] = useState(false);
+  const [loadingProposals, setLoadingProposals] = useState(true);
   const { activeAccount } = useWallet();
 
   async function loadProposals(): Promise<Proposal[]> {
@@ -75,7 +75,7 @@ export function MainContainer() {
       </div>
       <div className="flex flex-col  w-full">
         <ProposalList
-          proposals={proposalList}
+          proposals={proposalList.sort((a, b) => b.expiresIn - a.expiresIn)}
           loadingProposals={loadingProposals}
         />
       </div>

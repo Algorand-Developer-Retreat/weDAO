@@ -157,7 +157,7 @@ export function VoteModal() {
                   {assetInfo?.name} to vote.
                 </p>
               ) : (
-                <p className="text-text">
+                <p className="text-yellow-300">
                   You cannot vote on your own proposal.
                 </p>
               )}
