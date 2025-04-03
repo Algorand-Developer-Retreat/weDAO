@@ -48,6 +48,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             {proposal.description}
           </p>
         </div>
+
         <div className="flex justify-end items-center">
           <span
             className={`${
