@@ -59,9 +59,9 @@ export function MainContainer() {
 
   return (
     <div className=" h-screen w-full space-y-5 pb-24 mx-auto">
-      <div className=" justify-center flex flex-col gap-2">
+      <div className="flex flex-col md:flex-row md:justify-between gap-2">
         <Tabs options={tabOptions} onClickHandler={onSwitchTab} />
-        {activeAccount ? <AnimButton onClick={() => {navigate('/create')}} >Create Proposal</AnimButton> : null}
+        {activeAccount ? <AnimButton onClick={() => {navigate('/create')}} >Create</AnimButton> : null}
       </div>
       <div className="flex flex-col  w-full">
         <ProposalList proposals={proposalList} />
