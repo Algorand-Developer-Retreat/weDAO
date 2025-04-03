@@ -6,7 +6,6 @@ type ProposalType = 'simple' | 'reward';
 
 interface ProposalBadgeProps {
     type: ProposalType;
-    assetId: number;
 }
 
 export const ProposalBadge: React.FC<ProposalBadgeProps> = ({ type }) => {

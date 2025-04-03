@@ -122,6 +122,7 @@ async function decodeBoxValues(boxValues: Uint8Array, proposalId: number) {
     votesAgainst: Number(proposal_total_votes) - Number(proposal_yes_votes),
     proposalAsset: Number(assetId),
     minimumHolding: Number(minimumHolding),
+    type: "simple",
   };
   return newProposal;
 }
