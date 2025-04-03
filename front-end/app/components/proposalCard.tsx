@@ -4,6 +4,7 @@ import AnimButton from "./animButton";
 import { VoteContext } from "../context/vote";
 import { ellipseAddress } from "../utils";
 import { useWallet } from "@txnlab/use-wallet-react";
+import { ProposalBadge } from "./proposalBadge";
 
 interface ProposalCardProps {
   proposal: Proposal;
@@ -30,15 +31,18 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             {proposal.description}
           </p>
         </div>
-        <span
-          className={`${
-            proposal.status === "active" ? "text-background" : "text-text"
-          } text-xs font-bold px-2 py-1 rounded-full ${
-            proposal.status === "active" ? "bg-primary" : "bg-secondary"
-          }`}
-        >
-          {proposal.status}
-        </span>
+        <div className="flex justify-end items-center">
+          <span
+            className={`${
+              proposal.status === "active" ? "text-background" : "text-text"
+            } text-xs font-bold px-2 py-1 rounded-full ${
+              proposal.status === "active" ? "bg-primary" : "bg-secondary"
+            }`}
+          >
+            {proposal.status}
+          </span>
+          <ProposalBadge type="simple" />
+        </div>
       </div>
 
       {/* Vote Bars */}
@@ -101,13 +105,15 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
       {/* Footer */}
       {proposal.status === "active" ? (
         <div className="mt-4 flex justify-between items-center">
-          <p className="text-xs text-text/60">
-            Ends in{" "}
-            {new Date(proposal.expiresIn + Date.now()).toLocaleDateString()}
-          </p>
-          <p className="text-xs text-text/60">
-            Created by {ellipseAddress(proposal.proposer)}
-          </p>
+          <div className="flex flex-col gap-2">
+            <p className="text-xs text-text/60">
+              Ends in{" "}
+              {new Date(proposal.expiresIn + Date.now()).toLocaleDateString()}
+            </p>
+            <p className="text-xs text-text/60">
+              Created by {ellipseAddress(proposal.proposer)}
+            </p>
+          </div>
 
           {activeAccount ? (
             <AnimButton onClick={() => onClickVote()}>Vote</AnimButton>

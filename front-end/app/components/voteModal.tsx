@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { VoteContext } from "../context/vote";
 import { motion } from "framer-motion";
+import { useWallet } from "@txnlab/use-wallet-react";
 export function VoteModal() {
   const { displayVoteModal, setDisplayVoteModal, selectedProposal, vote } =
     useContext(VoteContext);
+  const { activeAccount } = useWallet();
   const [yesPercentage, setYesPercentage] = useState(0);
   const [noPercentage, setNoPercentage] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
@@ -77,7 +79,7 @@ export function VoteModal() {
             <div className="flex justify-center items-center h-full">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yes"></div>
             </div>
-          ) : (
+          ) : selectedProposal?.proposer !== activeAccount?.address ? (
             <div className="flex gap-4">
               <motion.button
                 onClick={() => onClickVote(true)}
@@ -95,6 +97,10 @@ export function VoteModal() {
               >
                 No
               </motion.button>
+            </div>
+          ) : (
+            <div className="flex justify-center items-center h-full">
+              <p className="text-text">You cannot vote on your own proposal.</p>
             </div>
           )}
 
