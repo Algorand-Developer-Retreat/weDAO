@@ -1,7 +1,7 @@
 import { AlgorandClient, algos, Config, microAlgo, microAlgos } from '@algorandfoundation/algokit-utils'
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
-import { beforeAll, beforeEach, describe, test } from 'vitest'
+import { beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import { YesNoDaoClient, YesNoDaoFactory } from '../../artifacts/we_dao/yes_no_dao/YesNoDaoClient'
 
 const fixture = algorandFixture()
@@ -60,19 +60,19 @@ describe('WeDao contract', () => {
     const factory = algorand.client.getTypedAppFactory(YesNoDaoFactory, { defaultSender: managerAccount.addr })
 
     const { appClient } = await factory.send.create.createApplication({
-      args: [false, 1, daoAssetId],
+      args: [false, 10, daoAssetId],
       sender: managerAccount.addr,
     })
 
     daoAppClient = appClient
   }, 300000)
 
-  test.skip('Test if apllication got created with anyone can create proposal === false', async () => {
+  test('Test if apllication got created with anyone can create proposal === false', async () => {
     const result = await daoAppClient.appClient.getGlobalState()
     console.log('Global State:', result)
   })
 
-  test.skip('Test if manager can create a proposal', async () => {
+  test('Test if manager can create a proposal', async () => {
     const mbrTxn = algorand.createTransaction.payment({
       sender: managerAccount.addr,
       amount: microAlgos(createProposalMbrValue),
@@ -91,7 +91,7 @@ describe('WeDao contract', () => {
     })
   })
 
-  test.skip('Test if voter cant vote on the created proposal due to low asset balance', async () => {
+  test('Test if voter can’t vote on the created proposal due to low asset balance', async () => {
     const mbrTxn = algorand.createTransaction.payment({
       sender: voterAccount.addr,
       amount: microAlgos(144900),
@@ -99,15 +99,17 @@ describe('WeDao contract', () => {
       extraFee: microAlgos(1000n),
     })
 
-    await daoAppClient.send.voteProposal({
-      args: { proposalId: 1, vote: false, mbrTxn: mbrTxn },
-      sender: voterAccount.addr,
-    })
+    await expect(
+      daoAppClient.send.voteProposal({
+        args: { proposalId: 1, vote: false, mbrTxn },
+        sender: voterAccount.addr,
+      }),
+    ).rejects.toThrow() // or use a more specific error message if you know it
   })
 
-  test.skip('Test if voter can vote on the created proposal due to enough asset balance', async () => {
+  test('Test if voter can vote on the created proposal due to enough asset balance', async () => {
     try {
-      algorand.send.assetTransfer({
+      await algorand.send.assetTransfer({
         sender: voterAccount.addr,
         receiver: voterAccount.addr,
         assetId: daoAssetId,
@@ -115,11 +117,11 @@ describe('WeDao contract', () => {
         extraFee: microAlgos(1000n),
       })
 
-      algorand.send.assetTransfer({
+      await algorand.send.assetTransfer({
         sender: managerAccount.addr,
         receiver: voterAccount.addr,
         assetId: daoAssetId,
-        amount: BigInt(420),
+        amount: BigInt(15),
         extraFee: microAlgos(1000n),
       })
 
@@ -141,7 +143,7 @@ describe('WeDao contract', () => {
     }
   })
 
-  // test.skip('get all proposals', async () => {
+  // test('get all proposals', async () => {
   //   const proposalsCount = await daoAppClient.state.global.proposalCount()
 
   //   const allProposals = []

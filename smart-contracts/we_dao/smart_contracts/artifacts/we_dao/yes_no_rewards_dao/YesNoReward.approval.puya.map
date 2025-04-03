@@ -3,7 +3,7 @@
   "sources": [
     "/Users/kierannelson/Development/weDAO/smart-contracts/we_dao/smart_contracts/we_dao/yes_no_rewards_dao/YesNoReward.algo.ts"
   ],
-  "mappings": "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",
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAkBA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;;;;;;;AAAA;;AAmOG;;AAAA;AAAA;AAAA;;AAAA;AAnOH;;;AAAA;AAmOG;;;AAAA;;;;;;AAAA;AAAA;AAAA;AAAA;;AA3CD;;AAAA;AAAA;AAAA;;AAAA;AAxLF;;;AAAA;AAwLE;;;AAAA;;AArFC;;AAAA;AAAA;AAAA;;AAAA;AAnGH;;;AAAA;AAAA;;;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAmGG;;;AAAA;;AAlDA;;AAAA;AAAA;AAAA;;AAAA;AAjDH;;;AAAA;;;AAAA;;;AAAA;;;AAAA;;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAiDG;;;AAAA;;AAbA;;AAAA;AAAA;AAAA;;AAAA;AApCH;;;AAAA;AAoCG;;;AAAA;;AARA;;AAAA;AAAA;AAAA;;AAAA;AA5BH;;;;AAAA;AAAA;;;AAAA;AAAA;;;AAAA;AA4BG;;;AAAA;;AAZA;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAhBH;;;;AAAA;AAAA;;;AAAA;AAAA;;;AAAA;AAgBG;;;AAAA;;AAAD;;;AAdA;AAiBmC;;AAAjC;AAdF;AAiB8B;AAA5B;AAdF;AAiBE;;AAAA;;AAGF;;;AA1BA;AAAA;AAAA;AAAA;AA6B4C;;AAAnC;AAAP;AAvBF;AAyBE;;AAAA;;AAGF;;;AAEE;AAE6B;;AACP;AAEL;;;;;;;;;;;AALjB;;;AAMS;;;AANT;;AAWF;;;AAzCA;AAAA;AAAA;AAAA;AAkDE;;;AAxDF;AAAA;AAAA;AAAA;AAyD8C;;AAAnC;AAAP;AAKI;;AAAgC;;AAChC;;AAAyC;;AAGJ;;AAKrC;AAAA;;AAAoC;AAGb;AACD;AAAA;AAGV;;AAAA;AACK;;AAAA;AACT;;AAAA;AACI;;AAAA;AAAA;AAAA;;;AAAA;;AAAA;AARiB;;AAAA;;AAAA;AAGX;;AAHW;AAIb;;AAJa;AAAA;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;;;;AAAA;AAAA;AAAA;AAtErC;AAAA;AAAA;AAAA;AAkF8D;AAA5B;AAGV;AAAA;AA/EyC;AAAA;AAAA;AA+EL;AAAA;AAAA;;AAAnD;AAAP;AArFF;AAwFE;;AAAA;AAGA;AAAA;;AAAA;AAAA;;AAGF;;;AASkB;;AAAA;AAjG+C;AAAA;;AAAA;AAiGhB;AAAA;AAAA;;AAD/C;AAQsC;;AAFvB;;AAAA;AAAA;AAnGoC;;AAAA;AAAA;AAyGzB;AAAA;AAAA;;AAAnB;AAAP;AAGuF;;AAAA;AAAA;AAIzE;;AAAA;;AAA2C;;AAAX;;AAAW;AAAvD;;AAAA;AADF;AAOc;;AAAA;;AAA4B;;AAAxC;AADF;AAM8B;;AACxB;;AAA6B;AAA0B;AACtD;;AAAA;AAAP;AAGW;;AA5Ib;AAAA;AAAA;AAAA;AA4IS;AAAP;AAGe;;AAAA;;AAAU;;;AAAlB;AAAP;AAGe;;AAAA;;AAAuB;;AAA/B;AAAP;AAIkB;AACP;;;AAFM;AAOgD;;AAArB;;AAAqB;AAAS;AAA9C;AACsC;;AAAnB;;AAAmB;AAA5D;;AAAyB;AACqC;;AAApB;;AAAoB;AAA9D;;AAA0B;AAIO;;AAAA;AAAvC;;AAAA;AAAA;;AACqC;;AAAA;AAArC;;AACsC;AAAA;AAAtC;;AAEA;;AAAA;AAEA;;AAAA;;AAAA;;AAcF;;;AAIwC;;AAAA;AAjLyB;AAAA;;AAAA;AAiLM;AAAA;AAAA;AAKzB;AAA1B;AAA0B;AAAoB;;AAA9D;AADF;AAOiC;;AAxBlB;;AAAA;AAAA;AAjKoC;;AAAA;AAAA;AAsK1B;AAAA;;AAkBzB;AAOsC;AAApB;;AAAoB;AAA8C;;AAArB;;AAAqB;AAD9E;;AAAA;AACJ;AAKF;AAEuB;;AACD;;AACwB;;AAAf;;AAAe;;;;;;;;;;;AAJ9C;;;AAMS;;;AANT;AAYuD;AAAjB;AAAtC;;AAEA;;AAAA;;AAAA;;AAGF;;;AAEmD;;AAAA;AA1Nc;AAAA;AAAA;AA0NiB;AAAA;AAChF",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -4161,6 +4161,94 @@
       ]
     },
     "660": {
+      "op": "dup",
+      "defined_out": [
+        "currentProposal#0",
+        "currentProposal#0 (copy)",
+        "tmp%0#0",
+        "val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "val_as_bytes%0#0",
+        "tmp%0#0",
+        "currentProposal#0",
+        "currentProposal#0 (copy)"
+      ]
+    },
+    "661": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "currentProposal#0",
+        "currentProposal#0 (copy)",
+        "tmp%0#0",
+        "val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "val_as_bytes%0#0",
+        "tmp%0#0",
+        "currentProposal#0",
+        "currentProposal#0 (copy)",
+        "0"
+      ]
+    },
+    "662": {
+      "op": "extract_uint64",
+      "defined_out": [
+        "currentProposal#0",
+        "tmp%0#0",
+        "tmp%2#0",
+        "val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "val_as_bytes%0#0",
+        "tmp%0#0",
+        "currentProposal#0",
+        "tmp%2#0"
+      ]
+    },
+    "663": {
+      "op": "global LatestTimestamp",
+      "defined_out": [
+        "currentProposal#0",
+        "tmp%0#0",
+        "tmp%2#0",
+        "tmp%3#0",
+        "val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "val_as_bytes%0#0",
+        "tmp%0#0",
+        "currentProposal#0",
+        "tmp%2#0",
+        "tmp%3#0"
+      ]
+    },
+    "665": {
+      "op": "<=",
+      "defined_out": [
+        "currentProposal#0",
+        "tmp%0#0",
+        "tmp%4#0",
+        "val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "val_as_bytes%0#0",
+        "tmp%0#0",
+        "currentProposal#0",
+        "tmp%4#0"
+      ]
+    },
+    "666": {
+      "error": "The proposal has not expired yet",
+      "op": "assert // The proposal has not expired yet",
+      "stack_out": [
+        "val_as_bytes%0#0",
+        "tmp%0#0",
+        "currentProposal#0"
+      ]
+    },
+    "667": {
       "op": "txn Sender",
       "defined_out": [
         "currentProposal#0",
@@ -4175,7 +4263,7 @@
         "voter#0"
       ]
     },
-    "662": {
+    "669": {
       "op": "uncover 3",
       "stack_out": [
         "tmp%0#0",
@@ -4184,7 +4272,7 @@
         "val_as_bytes%0#0"
       ]
     },
-    "664": {
+    "671": {
       "op": "swap",
       "stack_out": [
         "tmp%0#0",
@@ -4193,7 +4281,7 @@
         "voter#0"
       ]
     },
-    "665": {
+    "672": {
       "op": "concat",
       "defined_out": [
         "currentProposal#0",
@@ -4206,7 +4294,7 @@
         "voteId#0"
       ]
     },
-    "666": {
+    "673": {
       "op": "bytec 5 // \"_v\"",
       "defined_out": [
         "\"_v\"",
@@ -4221,7 +4309,7 @@
         "\"_v\""
       ]
     },
-    "668": {
+    "675": {
       "op": "swap",
       "stack_out": [
         "tmp%0#0",
@@ -4230,7 +4318,7 @@
         "voteId#0"
       ]
     },
-    "669": {
+    "676": {
       "op": "concat",
       "defined_out": [
         "currentProposal#0",
@@ -4243,7 +4331,7 @@
         "tmp%0#1"
       ]
     },
-    "670": {
+    "677": {
       "op": "box_len",
       "defined_out": [
         "currentProposal#0",
@@ -4258,7 +4346,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "671": {
+    "678": {
       "op": "bury 1",
       "stack_out": [
         "tmp%0#0",
@@ -4266,7 +4354,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "673": {
+    "680": {
       "error": "The user has not voted on this proposal, therefore cannot claim rewards",
       "op": "assert // The user has not voted on this proposal, therefore cannot claim rewards",
       "stack_out": [
@@ -4274,20 +4362,15 @@
         "currentProposal#0"
       ]
     },
-    "674": {
+    "681": {
       "op": "dup",
-      "defined_out": [
-        "currentProposal#0",
-        "currentProposal#0 (copy)",
-        "tmp%0#0"
-      ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
         "currentProposal#0 (copy)"
       ]
     },
-    "675": {
+    "682": {
       "op": "pushint 32 // 32",
       "defined_out": [
         "32",
@@ -4302,123 +4385,123 @@
         "32"
       ]
     },
-    "677": {
+    "684": {
       "op": "extract_uint64",
       "defined_out": [
         "currentProposal#0",
         "tmp%0#0",
-        "tmp%4#0"
+        "tmp%8#0"
       ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0"
+        "tmp%8#0"
       ]
     },
-    "678": {
+    "685": {
       "op": "dig 1",
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "currentProposal#0 (copy)"
       ]
     },
-    "680": {
+    "687": {
       "op": "pushint 16 // 16",
       "defined_out": [
         "16",
         "currentProposal#0",
         "currentProposal#0 (copy)",
         "tmp%0#0",
-        "tmp%4#0"
+        "tmp%8#0"
       ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "currentProposal#0 (copy)",
         "16"
       ]
     },
-    "682": {
+    "689": {
       "op": "extract_uint64",
       "defined_out": [
         "currentProposal#0",
         "tmp%0#0",
-        "tmp%4#0",
-        "tmp%6#0"
+        "tmp%10#0",
+        "tmp%8#0"
       ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
-        "tmp%6#0"
+        "tmp%8#0",
+        "tmp%10#0"
       ]
     },
-    "683": {
+    "690": {
       "op": "dig 1",
       "defined_out": [
         "currentProposal#0",
         "tmp%0#0",
-        "tmp%4#0",
-        "tmp%4#0 (copy)",
-        "tmp%6#0"
+        "tmp%10#0",
+        "tmp%8#0",
+        "tmp%8#0 (copy)"
       ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
-        "tmp%6#0",
-        "tmp%4#0 (copy)"
+        "tmp%8#0",
+        "tmp%10#0",
+        "tmp%8#0 (copy)"
       ]
     },
-    "685": {
+    "692": {
       "op": "swap",
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
-        "tmp%4#0 (copy)",
-        "tmp%6#0"
+        "tmp%8#0",
+        "tmp%8#0 (copy)",
+        "tmp%10#0"
       ]
     },
-    "686": {
+    "693": {
       "op": "/",
       "defined_out": [
         "currentProposal#0",
         "rewardAmount#0",
         "tmp%0#0",
-        "tmp%4#0"
+        "tmp%8#0"
       ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0"
       ]
     },
-    "687": {
+    "694": {
       "op": "itxn_begin"
     },
-    "688": {
+    "695": {
       "op": "txn Sender",
       "defined_out": [
         "currentProposal#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
         "rewardAmount#0",
         "tmp%0#0",
-        "tmp%4#0"
+        "tmp%8#0"
       ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
       ]
     },
-    "690": {
+    "697": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "currentProposal#0",
@@ -4426,30 +4509,30 @@
         "inner_txn_params%0%%param_Sender_idx_0#0",
         "rewardAmount#0",
         "tmp%0#0",
-        "tmp%4#0"
+        "tmp%8#0"
       ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
         "inner_txn_params%0%%param_Sender_idx_0#0"
       ]
     },
-    "692": {
+    "699": {
       "op": "dig 4",
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
         "inner_txn_params%0%%param_Sender_idx_0#0",
         "currentProposal#0 (copy)"
       ]
     },
-    "694": {
+    "701": {
       "op": "pushint 40 // 40",
       "defined_out": [
         "40",
@@ -4459,12 +4542,12 @@
         "inner_txn_params%0%%param_Sender_idx_0#0",
         "rewardAmount#0",
         "tmp%0#0",
-        "tmp%4#0"
+        "tmp%8#0"
       ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
         "inner_txn_params%0%%param_Sender_idx_0#0",
@@ -4472,7 +4555,7 @@
         "40"
       ]
     },
-    "696": {
+    "703": {
       "op": "extract_uint64",
       "defined_out": [
         "currentProposal#0",
@@ -4481,19 +4564,19 @@
         "inner_txn_params%0%%param_XferAsset_idx_0#0",
         "rewardAmount#0",
         "tmp%0#0",
-        "tmp%4#0"
+        "tmp%8#0"
       ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
         "inner_txn_params%0%%param_Sender_idx_0#0",
         "inner_txn_params%0%%param_XferAsset_idx_0#0"
       ]
     },
-    "697": {
+    "704": {
       "op": "dig 3",
       "defined_out": [
         "currentProposal#0",
@@ -4503,12 +4586,12 @@
         "rewardAmount#0",
         "rewardAmount#0 (copy)",
         "tmp%0#0",
-        "tmp%4#0"
+        "tmp%8#0"
       ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
         "inner_txn_params%0%%param_Sender_idx_0#0",
@@ -4516,104 +4599,97 @@
         "rewardAmount#0 (copy)"
       ]
     },
-    "699": {
+    "706": {
       "op": "itxn_field AssetAmount",
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
         "inner_txn_params%0%%param_Sender_idx_0#0",
         "inner_txn_params%0%%param_XferAsset_idx_0#0"
       ]
     },
-    "701": {
+    "708": {
       "op": "itxn_field XferAsset",
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
         "inner_txn_params%0%%param_Sender_idx_0#0"
       ]
     },
-    "703": {
+    "710": {
       "op": "itxn_field Sender",
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
       ]
     },
-    "705": {
+    "712": {
       "op": "itxn_field AssetReceiver",
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0"
       ]
     },
-    "707": {
+    "714": {
       "op": "intc_2 // 4",
       "defined_out": [
         "4",
         "currentProposal#0",
         "rewardAmount#0",
         "tmp%0#0",
-        "tmp%4#0"
+        "tmp%8#0"
       ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0",
         "4"
       ]
     },
-    "708": {
+    "715": {
       "op": "itxn_field TypeEnum",
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0"
       ]
     },
-    "710": {
+    "717": {
       "op": "intc_0 // 0",
-      "defined_out": [
-        "0",
-        "currentProposal#0",
-        "rewardAmount#0",
-        "tmp%0#0",
-        "tmp%4#0"
-      ],
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0",
         "0"
       ]
     },
-    "711": {
+    "718": {
       "op": "itxn_field Fee",
       "stack_out": [
         "tmp%0#0",
         "currentProposal#0",
-        "tmp%4#0",
+        "tmp%8#0",
         "rewardAmount#0"
       ]
     },
-    "713": {
+    "720": {
       "op": "itxn_submit"
     },
-    "714": {
+    "721": {
       "op": "-",
       "defined_out": [
         "currentProposal#0",
@@ -4626,7 +4702,7 @@
         "to_encode%0#0"
       ]
     },
-    "715": {
+    "722": {
       "op": "itob",
       "defined_out": [
         "currentProposal#0",
@@ -4639,7 +4715,7 @@
         "val_as_bytes%1#0"
       ]
     },
-    "716": {
+    "723": {
       "op": "replace2 32",
       "defined_out": [
         "tmp%0#0",
@@ -4650,7 +4726,7 @@
         "updatedProposal#1"
       ]
     },
-    "718": {
+    "725": {
       "op": "dig 1",
       "stack_out": [
         "tmp%0#0",
@@ -4658,7 +4734,7 @@
         "tmp%0#0 (copy)"
       ]
     },
-    "720": {
+    "727": {
       "op": "box_del",
       "defined_out": [
         "tmp%0#0",
@@ -4671,22 +4747,22 @@
         "{box_del}"
       ]
     },
-    "721": {
+    "728": {
       "op": "pop",
       "stack_out": [
         "tmp%0#0",
         "updatedProposal#1"
       ]
     },
-    "722": {
+    "729": {
       "op": "box_put",
       "stack_out": []
     },
-    "723": {
+    "730": {
       "retsub": true,
       "op": "retsub"
     },
-    "724": {
+    "731": {
       "subroutine": "smart_contracts/we_dao/yes_no_rewards_dao/YesNoReward.algo.ts::YesNoReward.getProposal",
       "params": {
         "proposal_id#0": "uint64"
@@ -4695,7 +4771,7 @@
       "stack_in": [],
       "op": "proto 1 1"
     },
-    "727": {
+    "734": {
       "op": "frame_dig -1",
       "defined_out": [
         "proposal_id#0 (copy)"
@@ -4704,7 +4780,7 @@
         "proposal_id#0 (copy)"
       ]
     },
-    "729": {
+    "736": {
       "op": "itob",
       "defined_out": [
         "val_as_bytes%0#0"
@@ -4713,7 +4789,7 @@
         "val_as_bytes%0#0"
       ]
     },
-    "730": {
+    "737": {
       "op": "bytec_1 // \"_p\"",
       "defined_out": [
         "\"_p\"",
@@ -4724,14 +4800,14 @@
         "\"_p\""
       ]
     },
-    "731": {
+    "738": {
       "op": "swap",
       "stack_out": [
         "\"_p\"",
         "val_as_bytes%0#0"
       ]
     },
-    "732": {
+    "739": {
       "op": "concat",
       "defined_out": [
         "tmp%0#0"
@@ -4740,7 +4816,7 @@
         "tmp%0#0"
       ]
     },
-    "733": {
+    "740": {
       "op": "box_get",
       "defined_out": [
         "maybe_exists%0#0",
@@ -4751,14 +4827,14 @@
         "maybe_exists%0#0"
       ]
     },
-    "734": {
+    "741": {
       "error": "Box must have value",
       "op": "assert // Box must have value",
       "stack_out": [
         "proposal#0"
       ]
     },
-    "735": {
+    "742": {
       "retsub": true,
       "op": "retsub"
     }
