@@ -4,7 +4,6 @@ import AnimButton from "./animButton";
 import { VoteContext } from "../context/vote";
 import { ellipseAddress } from "../utils";
 import { useWallet } from "@txnlab/use-wallet-react";
-import { ProposalBadge } from "./proposalBadge";
 
 interface ProposalCardProps {
   proposal: Proposal;
@@ -14,11 +13,13 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const { setSelectedProposal, setDisplayVoteModal } = useContext(VoteContext);
   const { activeAccount } = useWallet();
 
+
   function onClickVote() {
     setSelectedProposal(proposal);
     setDisplayVoteModal(true);
     console.log("clicked vote");
   }
+
   return (
     <div className="bg-surface rounded-2xl p-5 shadow-md text-text max-w-xl w-full">
       {/* Title + Status */}
@@ -41,7 +42,6 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
           >
             {proposal.status}
           </span>
-          <ProposalBadge type="simple" />
         </div>
       </div>
 
