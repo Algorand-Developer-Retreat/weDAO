@@ -34,10 +34,4 @@ export default defineConfig({
   optimizeDeps: {
     include: ["buffer", "process"],
   },
-  build: {
-    rollupOptions: {
-      external: ['@algorandfoundation/algokit-utils/types/app-arc56', "@algorandfoundation/algokit-utils/types/app-client", "@algorandfoundation/algokit-utils/types/app-factory", "algosdk"],
-    
-    },
-  },
 });

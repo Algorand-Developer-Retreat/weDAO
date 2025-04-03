@@ -47,7 +47,10 @@ export async function getProposals() {
     const appClient = await getApplicationClient();
     
     const proposals: Proposal[] = [];
-    const boxCount = await appClient.appClient.getBoxNames();
+    let boxCount = await appClient.appClient.getBoxNames();
+    boxCount = boxCount.filter((name) => {
+      return name.name.startsWith("_p");
+    });
     console.log("boxCount", boxCount);
     let index = 1;
     for (const name of boxCount) {
