@@ -13,7 +13,6 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const { setSelectedProposal, setDisplayVoteModal } = useContext(VoteContext);
   const { activeAccount } = useWallet();
 
-
   function onClickVote() {
     setSelectedProposal(proposal);
     setDisplayVoteModal(true);
@@ -32,6 +31,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             {proposal.description}
           </p>
         </div>
+
         <div className="flex justify-end items-center">
           <span
             className={`${

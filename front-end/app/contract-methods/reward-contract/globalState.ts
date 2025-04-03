@@ -1,8 +1,9 @@
-import { getApplicationClient } from "./get-client";
+import { getRewardApplicationClient } from "./get-client"
 
 
-export async function getGlobalState() {
-    const appClient = await getApplicationClient();
+export async function getRewardProposalGlobalState() {
+    const appClient = await getRewardApplicationClient();
     const globalState = await appClient.state.global.getAll();
     return globalState;
 }
+
