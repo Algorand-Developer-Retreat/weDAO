@@ -62,8 +62,6 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
     }
   };
 
-  const proposalActive = proposal.status === "active" ? true : false;
-
   useEffect(() => {
     getProposalAssetData();
     getUserVoteData();
