@@ -145,12 +145,14 @@ async function decodeBoxValues(boxValues: Uint8Array, proposalId: number){
     const proposal_title_and_description = new TextDecoder().decode(boxValues.slice(index));
     const proposal_title = proposal_title_and_description.split(':')[0];
     const proposal_description = proposal_title_and_description.split(':')[1];
+    console.log('proposal_expiry_timestamp', proposal_expiry_timestamp);
+    console.log('Date.now()', Date.now());
   const newProposal: Proposal =  {
     description: proposal_description,
     expiresIn: Number(proposal_expiry_timestamp),
     id: proposalId,
     proposer: proposal_creator,
-    status: 'active',
+    status: Number(proposal_expiry_timestamp) < Date.now()/1000 ? 'closed' : 'active',
     title: proposal_title,
     votesFor: Number(proposal_yes_votes),
     votesAgainst: Number(proposal_total_votes) - Number(proposal_yes_votes),
