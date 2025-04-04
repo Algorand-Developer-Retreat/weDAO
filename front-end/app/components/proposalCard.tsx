@@ -62,13 +62,15 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
     }
   };
 
+  const proposalActive = proposal.status === "active" ? true : false;
+
   useEffect(() => {
     getProposalAssetData();
     getUserVoteData();
   }, []);
 
   return (
-    <div className="bg-surface rounded-2xl p-5 shadow-md text-text max-w-xl w-full">
+    <div className="bg-surface flex flex-col justify-between rounded-2xl p-5 shadow-md text-text max-w-xl w-full">
       {/* Title + Status */}
       <div className="flex justify-between items-start mb-4">
         <div>
@@ -154,6 +156,14 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             }}
           ></div>
         </div>
+        {proposal.type === "reward" && (
+          <div>
+            <h2>
+              Prize pool: {Number(proposal.prizePool) / 10 ** 6} /
+              {proposal.votesAgainst + proposal.votesFor} participants
+            </h2>
+          </div>
+        )}
       </div>
 
       {/* Footer */}
@@ -173,6 +183,9 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             <div>
               {activeAccount && !userHasVoted ? (
                 <AnimButton onClick={() => onClickVote()}>Vote</AnimButton>
+              ) : null}
+              {activeAccount && userHasVoted ? (
+                <AnimButton disabled={true}>Voted</AnimButton>
               ) : null}
             </div>
           </div>
