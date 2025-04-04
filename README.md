@@ -1,5 +1,5 @@
 
-```markdown
+
 # weDAO 🗳️
 
 A lightweight, fully open-source DAO frontend built on **Algorand**, enabling communities to create and vote on proposals with ease. Designed to be fun, bright, and modular, **weDAO** can be used by *any* token project or DAO.
@@ -142,6 +142,4 @@ npm run dev
 ---
 
 Happy building your own DAO!
-```
 
----
