@@ -116,7 +116,7 @@ async function decodeBoxValues(boxValues: Uint8Array, proposalId: number) {
     expiresIn: Number(proposal_expiry_timestamp),
     id: proposalId,
     proposer: account,
-    status: Number(proposal_expiry_timestamp) < Date.now()/1000 ? 'closed' : 'active',
+    status: "active",
     title: proposal_title,
     votesFor: Number(proposal_yes_votes),
     votesAgainst: Number(proposal_total_votes) - Number(proposal_yes_votes),
