@@ -218,7 +218,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                   )}
                   <p className="text-xs text-text/60">
                     Created by{" "}
-                    <a href={``}>{ellipseAddress(proposal.proposer)}</a>
+                    <a href={`https://allo.info/account/${proposal.proposer}`}>{ellipseAddress(proposal.proposer)}</a>
                   </p>
                   {proposalAsset &&
                     proposal.type === "simple" &&
