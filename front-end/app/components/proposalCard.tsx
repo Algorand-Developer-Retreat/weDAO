@@ -9,7 +9,11 @@ import { useWallet } from "@txnlab/use-wallet-react";
 import { useAsaMetadata } from "../context/asametadata";
 import { ProposalBadge } from "./proposalBadge";
 import { getUserVotes as getUserVotesSimple } from "../contract-methods/user";
-import { getUserVotes as getUserVotesReward } from "../contract-methods/reward-contract/user";
+import {
+  claimRewards,
+  getUserVotes as getUserVotesReward,
+} from "../contract-methods/reward-contract/user";
+import { useToast } from "./toast";
 
 interface ProposalCardProps {
   proposal: Proposal;
@@ -19,7 +23,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const { setSelectedProposal, setDisplayVoteModal, displayVoteModal } =
     useContext(VoteContext);
   const [proposalAsset, setProposalAsset] = useState<any>();
-  const { activeAccount } = useWallet();
+  const { activeAccount, transactionSigner } = useWallet();
   const { getAssetById } = useAsaMetadata();
   const [userHasVoted, setUserHasVoted] = useState<boolean>(false);
   const [userClaimedRewards, setUserClaimedRewards] = useState<boolean>(false);
@@ -27,6 +31,8 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const [loadingProposal, setLoadingProposal] = useState<boolean>(true);
   const [votesFor, setVotesFor] = useState<number>(0);
   const [votesAgainst, setVotesAgainst] = useState<number>(0);
+
+  const { showToast } = useToast();
 
   function onClickVote() {
     setSelectedProposal(proposal);
@@ -113,6 +119,22 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
 
     return () => clearInterval(interval); // clean up on unmount
   }, [proposal, displayVoteModal, activeAccount]);
+
+  async function onClickClaim(): Promise<void> {
+    await claimRewards({
+      proposalId: proposal.id,
+      voterAddress: activeAccount?.address ?? "",
+      transactionSigner,
+    })
+      .then(() => {
+        setUserClaimedRewards(true);
+        showToast("Rewards claimed", "success");
+      })
+      .catch((error) => {
+        console.error(error);
+        showToast("Error claiming rewards", "error");
+      });
+  }
 
   return (
     <div className="bg-surface rounded-2xl p-5 shadow-md text-text max-w-xl w-full">
@@ -252,7 +274,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                     <div className="flex gap-1 h-5 items-center text-yellow-500">
                       <span className="flex gap-1 items-center">
                         {" "}
-                        You need to pay{" "}
+                        Pay{" "}
                         {(proposal.votePrice ?? 0) /
                           10 ** (proposalAsset?.decimals || 6)}{" "}
                         <img
@@ -270,13 +292,30 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                   {activeAccount && !userHasVoted ? (
                     <AnimButton onClick={() => onClickVote()}>Vote</AnimButton>
                   ) : null}
-                  {activeAccount && userHasVoted ? (
-                    <AnimButton
-                      onClick={() => console.log("Its expired lil bro")}
-                      disabled={true}
-                    >
-                      Voted
+                  {activeAccount &&
+                  proposal.status !== "active" &&
+                  proposal.type === "reward" &&
+                  !userClaimedRewards ? (
+                    <AnimButton onClick={() => onClickClaim()}>
+                      Claim Rewards
                     </AnimButton>
+                  ) : null}
+                  {activeAccount && userHasVoted ? (
+                    userClaimedRewards ? (
+                      <AnimButton
+                        onClick={() => console.log("Its expired lil bro")}
+                        disabled={true}
+                      >
+                        Claimed
+                      </AnimButton>
+                    ) : (
+                      <AnimButton
+                        onClick={() => console.log("Its expired lil bro")}
+                        disabled={true}
+                      >
+                        Voted
+                      </AnimButton>
+                    )
                   ) : null}
                 </div>
               </div>
