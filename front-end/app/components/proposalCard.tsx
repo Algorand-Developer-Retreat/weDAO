@@ -22,6 +22,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const { getAssetById } = useAsaMetadata();
   const [userHasVoted, setUserHasVoted] = useState<boolean>(false);
   const [userClaimedRewards, setUserClaimedRewards] = useState<boolean>(false);
+  const [loadingProposal, setLoadingProposal] = useState<boolean>(true);
   function onClickVote() {
     setSelectedProposal(proposal);
     setDisplayVoteModal(true);
@@ -29,7 +30,6 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   }
 
   const getProposalAssetData = async () => {
-    console.log("proposal", proposal);
     const asset = getAssetById(proposal.proposalAsset);
     if (asset) {
       setProposalAsset(asset);
@@ -64,12 +64,21 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   };
 
   useEffect(() => {
-    getProposalAssetData();
-    getUserVoteData();
-  }, []);
+    getProposalAssetData().then(() => {
+      getUserVoteData().then(() => {
+        setLoadingProposal(false);
+      });
+    });
+  }, [proposal]);
 
   return (
     <div className="bg-surface rounded-2xl p-5 shadow-md text-text max-w-xl w-full">
+      {loadingProposal ? (
+        <div className="flex justify-center items-center h-full">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        </div>
+      ) : (
+        <>
       {/* Title + Status */}
       <div className="flex justify-between items-start mb-4">
         <div>
@@ -241,6 +250,8 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             {proposalAsset?.name}
           </p>
         </div>
+      )}
+        </>
       )}
     </div>
   );
