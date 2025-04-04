@@ -16,7 +16,7 @@ interface ProposalCardProps {
 }
 
 export const ProposalCard = ({ proposal }: ProposalCardProps) => {
-  const { setSelectedProposal, setDisplayVoteModal } = useContext(VoteContext);
+  const { setSelectedProposal, setDisplayVoteModal, displayVoteModal } = useContext(VoteContext);
   const [proposalAsset, setProposalAsset] = useState<any>();
   const { activeAccount } = useWallet();
   const { getAssetById } = useAsaMetadata();
@@ -69,7 +69,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
         setLoadingProposal(false);
       });
     });
-  }, [proposal]);
+  }, [proposal, displayVoteModal]); 
 
   return (
     <div className="bg-surface rounded-2xl p-5 shadow-md text-text max-w-xl w-full">
