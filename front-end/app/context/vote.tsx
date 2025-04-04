@@ -4,7 +4,10 @@ import { Proposal } from "../interfaces/proposals";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { voteOnProposal } from "../contract-methods/user";
 import { voteOnProposal as voteOnRewardProposal } from "../contract-methods/reward-contract/user";
-import { createProposal as createProposalContract, getProposals } from "../contract-methods/proposals";
+import {
+  createProposal as createProposalContract,
+  getProposals,
+} from "../contract-methods/proposals";
 
 interface VoteContextType {
   allProposals: Proposal[];
@@ -12,7 +15,11 @@ interface VoteContextType {
   setActiveProposals: (proposals: Proposal[]) => void;
   setAllProposals: (proposals: Proposal[]) => void;
   createProposal: (proposal: Proposal) => void;
-  vote: (proposalId: number, vote: boolean, rewardParams?: { assetId: number; amount: number }) => Promise<void>;
+  vote: (
+    proposalId: number,
+    vote: boolean,
+    rewardParams?: { assetId: number; amount: number }
+  ) => Promise<void>;
   displayVoteModal: boolean;
   setDisplayVoteModal: (value: boolean) => void;
   selectedProposal: Proposal | null;
@@ -27,13 +34,13 @@ const VoteProvider: React.FC<{ children: React.ReactNode }> = ({
   const [allProposals, setAllProposals] = useState<Proposal[]>([]);
   const [activeProposals, setActiveProposals] = useState<Proposal[]>([]);
   const [displayVoteModal, setDisplayVoteModal] = useState<boolean>(false);
-  const {activeAccount, transactionSigner} = useWallet();
+  const { activeAccount, transactionSigner } = useWallet();
   const [selectedProposal, setSelectedProposal] = useState<Proposal | null>(
     null
   );
 
   const createProposal = async (proposal: Proposal) => {
-    try{
+    try {
       await createProposalContract({
         title: proposal.title,
         description: proposal.description,
@@ -50,7 +57,11 @@ const VoteProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const vote = async (proposalId: number, vote: boolean, rewardParams?: { assetId: number; amount: number }): Promise<void> => {
+  const vote = async (
+    proposalId: number,
+    vote: boolean,
+    rewardParams?: { assetId: number; amount: number }
+  ): Promise<void> => {
     try {
       if (rewardParams) {
         // Use reward contract vote method

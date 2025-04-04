@@ -22,6 +22,9 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const { getAssetById } = useAsaMetadata();
   const [userHasVoted, setUserHasVoted] = useState<boolean>(false);
   const [userClaimedRewards, setUserClaimedRewards] = useState<boolean>(false);
+
+  const [countdown, setCountdown] = useState("");
+
   function onClickVote() {
     setSelectedProposal(proposal);
     setDisplayVoteModal(true);
@@ -66,6 +69,39 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   useEffect(() => {
     getProposalAssetData();
     getUserVoteData();
+    const updateCountdown = () => {
+      const now = Math.floor(Date.now() / 1000);
+      const remaining = proposal.expiresIn - now;
+
+      if (remaining <= 0) {
+        setCountdown("Expired");
+        return;
+      }
+
+      const months = Math.floor(remaining / (30 * 24 * 3600));
+      const weeks = Math.floor(
+        (remaining % (30 * 24 * 3600)) / (7 * 24 * 3600)
+      );
+      const days = Math.floor((remaining % (7 * 24 * 3600)) / (24 * 3600));
+      const hours = Math.floor((remaining % (24 * 3600)) / 3600);
+      const minutes = Math.floor((remaining % 3600) / 60);
+      const seconds = remaining % 60;
+
+      const parts = [];
+      if (months > 0) parts.push(`${months}mo`);
+      if (weeks > 0) parts.push(`${weeks}w`);
+      if (days > 0) parts.push(`${days}d`);
+      if (hours > 0) parts.push(`${hours}h`);
+      if (minutes > 0) parts.push(`${minutes}m`);
+      if (seconds > 0 || parts.length === 0) parts.push(`${seconds}s`);
+
+      setCountdown(parts.join(" "));
+
+      return () => clearInterval(interval);
+    };
+
+    updateCountdown(); // initial call
+    const interval = setInterval(updateCountdown, 1000);
   }, []);
 
   return (
@@ -155,14 +191,6 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             }}
           ></div>
         </div>
-        {proposal.type === "reward" && (
-          <div>
-            <h2>
-              Prize pool: {Number(proposal.prizePool) / 10 ** 6} /
-              {proposal.votesAgainst + proposal.votesFor} participants
-            </h2>
-          </div>
-        )}
       </div>
 
       {/* Footer */}
@@ -170,34 +198,55 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
         <div className="flex flex-col border-t border-gray-300/30">
           <div className="mt-4 flex justify-between items-center">
             <div className="flex flex-col gap-2">
+              {proposal.type === "reward" && (
+                <div className="mt-4 flex justify-between items-center">
+                  <p className="text-xs text-text/60">
+                    Total prize pool:{" "}
+                    {proposal.prizePool
+                      ? proposal.prizePool /
+                        10 ** (proposalAsset?.decimals || 6)
+                      : 0}{" "}
+                    {proposalAsset?.name}
+                  </p>
+                </div>
+              )}
               <p className="text-xs text-text/60">
-                Ends in{" "}
-                {(() => {
-                  const now = Math.floor(Date.now() / 1000);
-                  const remaining = proposal.expiresIn - now;
-                  if (remaining <= 0) return "Ended";
-                  
-                  const months = Math.floor(remaining / (30 * 24 * 3600));
-                  const weeks = Math.floor((remaining % (30 * 24 * 3600)) / (7 * 24 * 3600));
-                  const days = Math.floor((remaining % (7 * 24 * 3600)) / (24 * 3600));
-                  const hours = Math.floor((remaining % (24 * 3600)) / 3600);
-                  const minutes = Math.floor((remaining % 3600) / 60);
-                  const seconds = remaining % 60;
-                  
-                  const parts = [];
-                  if (months > 0) parts.push(`${months}mo`);
-                  if (weeks > 0) parts.push(`${weeks}w`);
-                  if (days > 0) parts.push(`${days}d`);
-                  if (hours > 0) parts.push(`${hours}h`);
-                  if (minutes > 0) parts.push(`${minutes}m`);
-                  if (seconds > 0 || parts.length === 0) parts.push(`${seconds}s`);
-                  
-                  return parts.join(' ');
-                })()}
+                Created by <a href={``}>{ellipseAddress(proposal.proposer)}</a>
               </p>
-              <p className="text-xs text-text/60">
-                Created by {ellipseAddress(proposal.proposer)}
-              </p>
+              {proposalAsset &&
+                proposal.type === "simple" &&
+                proposal.minimumHolding && (
+                  <div className="flex gap-1 h-5 items-center text-yellow-500">
+                    <span>
+                      {" "}
+                      You need to hold at least{" "}
+                      {proposal.minimumHolding /
+                        10 ** (proposalAsset?.decimals || 6)}
+                    </span>
+                    <img
+                      className="h-full"
+                      src={proposalAsset.logo.png}
+                      alt="logo"
+                    />
+                    <span>To vote</span>
+                  </div>
+                )}
+              {proposal.type === "reward" && (
+                <div className="flex gap-1 h-5 items-center text-yellow-500">
+                  <span className="flex gap-1 items-center">
+                    {" "}
+                    You need to pay{" "}
+                    {(proposal.votePrice ?? 0) /
+                      10 ** (proposalAsset?.decimals || 6)}{" "}
+                    <img
+                      className="h-5"
+                      src={proposalAsset?.logo.png}
+                      alt="logo"
+                    />
+                    to vote
+                  </span>
+                </div>
+              )}
             </div>
 
             <div>
@@ -209,50 +258,13 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
               ) : null}
             </div>
           </div>
-          {proposalAsset &&
-            proposal.type === "simple" &&
-            proposal.minimumHolding && (
-              <div className="flex gap-1 h-5 items-center text-yellow-500">
-                <span>
-                  {" "}
-                  You need to hold at least{" "}
-                  {proposal.minimumHolding /
-                    10 ** (proposalAsset?.decimals || 6)}
-                </span>
-                <img
-                  className="h-full"
-                  src={proposalAsset.logo.png}
-                  alt="logo"
-                />
-                <span>To vote</span>
-              </div>
-            )}
-          {proposal.type === "reward" && (
-            <div className="flex gap-1 h-5 items-center text-yellow-500">
-              <span className="flex gap-1 items-center">
-                {" "}
-                You need to pay{" "}
-                {(proposal.votePrice ?? 0) /
-                  10 ** (proposalAsset?.decimals || 6)}{" "}
-                <img className="h-5" src={proposalAsset?.logo.png} alt="logo" />
-                to vote
-              </span>
-            </div>
-          )}
         </div>
       ) : (
         <div className="mt-4 flex justify-between items-center">
-          <p className="text-xs text-text/60">Ended.</p>
+          <p className="text-lg text-yellow-500">Expired</p>
         </div>
       )}
-      {proposal.type === "reward" && (
-        <div className="mt-4 flex justify-between items-center">
-          <p className="text-xs text-text/60">
-            Total prize pool: {proposal.prizePool ? proposal.prizePool / 10 ** (proposalAsset?.decimals || 6) : 0}{" "}
-            {proposalAsset?.name}
-          </p>
-        </div>
-      )}
+      <p className="text-lg text-text/60">Expires in {countdown}</p>
     </div>
   );
 };
