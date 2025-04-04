@@ -25,6 +25,8 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const [userClaimedRewards, setUserClaimedRewards] = useState<boolean>(false);
   const [countdown, setCountdown] = useState("");
   const [loadingProposal, setLoadingProposal] = useState<boolean>(true);
+  const [votesFor, setVotesFor] = useState<number>(0);
+  const [votesAgainst, setVotesAgainst] = useState<number>(0);
 
   function onClickVote() {
     setSelectedProposal(proposal);
@@ -37,7 +39,6 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
     if (asset) {
       setProposalAsset(asset);
       console.log("asset", asset);
-      setLoadingProposal(false);
     } else {
       console.error("Asset not found");
     }
@@ -51,6 +52,8 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
       );
       if (voteInfo.voteTimestamp && voteInfo.voteTimestamp > 0n) {
         setUserHasVoted(true);
+      } else {
+        setUserHasVoted(false);
       }
     } else if (proposal.type === "reward") {
       const voteInfo = await getUserVotesReward(
@@ -67,8 +70,10 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   };
 
   useEffect(() => {
+    setLoadingProposal(true);
     getProposalAssetData();
     getUserVoteData();
+    setLoadingProposal(false);
 
     const updateCountdown = () => {
       const now = Math.floor(Date.now() / 1000); // current time in seconds
@@ -103,7 +108,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
     const interval = setInterval(updateCountdown, 1000); // every 1s
 
     return () => clearInterval(interval); // clean up on unmount
-  }, [proposal, displayVoteModal]);
+  }, [proposal, displayVoteModal, activeAccount]);
 
   return (
     <div className="bg-surface rounded-2xl p-5 shadow-md text-text max-w-xl w-full">
@@ -218,7 +223,9 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                   )}
                   <p className="text-xs text-text/60">
                     Created by{" "}
-                    <a href={`https://allo.info/account/${proposal.proposer}`}>{ellipseAddress(proposal.proposer)}</a>
+                    <a href={`https://allo.info/account/${proposal.proposer}`}>
+                      {ellipseAddress(proposal.proposer)}
+                    </a>
                   </p>
                   {proposalAsset &&
                     proposal.type === "simple" &&
@@ -226,7 +233,6 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                       <div className="flex gap-1 h-5 items-center text-yellow-500">
                         <span>
                           {" "}
-                           {" "}
                           {proposal.minimumHolding /
                             10 ** (proposalAsset?.decimals || 6)}
                         </span>
