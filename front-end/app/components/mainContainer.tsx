@@ -75,7 +75,7 @@ export function MainContainer() {
           </AnimButton>
         ) : null}
       </div>
-      <div className="flex flex-col  w-full">
+      <div className="flex flex-col  w-full pb-14">
         <ProposalList
           proposals={proposalList.sort((a, b) => b.expiresIn - a.expiresIn)}
           loadingProposals={loadingProposals}
