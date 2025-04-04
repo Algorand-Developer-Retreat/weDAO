@@ -51,6 +51,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   };
 
   const getUserVoteData = async () => {
+    console.log("proposal", proposal);
     if (proposal.type === "simple") {
       const voteInfo = await getUserVotesSimple(
         activeAccount?.address ?? "",
@@ -71,6 +72,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
       } else {
         setUserHasVoted(false);
       }
+
       if (voteInfo.claimedRewards && voteInfo.claimedRewards > 0n) {
         setUserClaimedRewards(true);
       } else {
@@ -292,14 +294,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                   {activeAccount && !userHasVoted ? (
                     <AnimButton onClick={() => onClickVote()}>Vote</AnimButton>
                   ) : null}
-                  {activeAccount &&
-                  proposal.status !== "active" &&
-                  proposal.type === "reward" &&
-                  !userClaimedRewards ? (
-                    <AnimButton onClick={() => onClickClaim()}>
-                      Claim Rewards
-                    </AnimButton>
-                  ) : null}
+
                   {activeAccount && userHasVoted ? (
                     userClaimedRewards ? (
                       <AnimButton
@@ -323,6 +318,13 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
           ) : (
             <div className="mt-4 flex justify-between items-center">
               <p className="text-lg text-yellow-500">Expired</p>
+              {activeAccount &&
+              proposal.type === "reward" &&
+              !userClaimedRewards ? (
+                <AnimButton onClick={() => onClickClaim()}>
+                  Claim Rewards
+                </AnimButton>
+              ) : null}
             </div>
           )}
 

@@ -63,6 +63,7 @@ export async function claimRewards({
       args: { proposalId },
       sender: voterAddress,
       signer: transactionSigner,
+      extraFee: microAlgos(1000n),
     });
   } catch (error) {
     console.error(error);
