@@ -3,6 +3,7 @@ import { Proposal } from "../interfaces/proposals";
 import { ProposalList } from "./proposalList";
 import { TabOptionInterface, Tabs } from "./tabs";
 import { getProposals } from "../contract-methods/proposals";
+import { getProposals as getRewardProposals } from "../contract-methods/reward-contract/proposals";
 import AnimButton from "./animButton";
 import { useNavigate } from "@remix-run/react";
 import { useWallet } from "@txnlab/use-wallet-react";
@@ -33,7 +34,8 @@ export function MainContainer() {
 
   async function loadProposals(): Promise<Proposal[]> {
     const proposals = await getProposals();
-    return proposals;
+    const rewardProposals = await getRewardProposals();
+    return [...proposals, ...rewardProposals];
   }
   const navigate = useNavigate();
 

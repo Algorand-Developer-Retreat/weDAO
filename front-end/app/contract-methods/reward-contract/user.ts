@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { microAlgos } from "@algorandfoundation/algokit-utils";
 import { ClaimRewardsParams, VoteOnProposalParams } from "./interfaces";
 import * as algokit from "@algorandfoundation/algokit-utils";
-import { getApplicationClient } from "./get-client";
+import { getRewardApplicationClient } from "./get-client";
+import algosdk from "algosdk";
 
 export async function voteOnProposal({
   proposalId,
@@ -12,7 +14,7 @@ export async function voteOnProposal({
   amount,
 }: VoteOnProposalParams) {
   try {
-    const appClient = await getApplicationClient();
+    const appClient = await getRewardApplicationClient();
 
     const algorand = algokit.AlgorandClient.mainNet();
     const mbrTxn = algorand.createTransaction.payment({
@@ -49,7 +51,7 @@ export async function claimRewards({
   transactionSigner,
 }: ClaimRewardsParams) {
   try {
-    const appClient = await getApplicationClient();
+    const appClient = await getRewardApplicationClient();
     await appClient.send.claimParticipationReward({
       args: { proposalId },
       sender: voterAddress,
@@ -59,4 +61,44 @@ export async function claimRewards({
     console.error(error);
     throw error;
   }
+}
+
+export async function getUserVotes(userAddress: string, proposalId: number) {
+  const appClient = await getRewardApplicationClient();
+  const publickey = algosdk.decodeAddress(userAddress).publicKey;
+  const proposalIdBytes = new Uint8Array(8);
+  const view = new DataView(proposalIdBytes.buffer);
+  view.setBigUint64(0, BigInt(proposalId), false);
+  const expectedName = new Uint8Array([
+    ...Buffer.from("_v"),
+    ...proposalIdBytes,
+    ...publickey,
+  ]);
+
+  const boxCount = await appClient.appClient.getBoxNames();
+  const box = boxCount.find((name: any) => {
+    return (
+      name.nameRaw.length === expectedName.length &&
+      name.nameRaw.every(
+        (value: any, index: number) => value === expectedName[index]
+      )
+    );
+  });
+  if (!box) {
+    return {
+      voteTimestamp: 0n,
+      claimedRewards: 0n,
+    };
+  }
+  console.log("box", box);
+  const boxValues = await appClient.appClient.getBoxValue(box.nameRaw);
+  const view2 = new DataView(boxValues.buffer);
+  const voteTimestamp = view2.getBigUint64(0, false);
+  const claimedRewards = view2.getBigInt64(8, false);
+  const voteInfo = {
+    voteTimestamp,
+    claimedRewards,
+  };
+  console.log("voteInfo", voteInfo);
+  return voteInfo;
 }

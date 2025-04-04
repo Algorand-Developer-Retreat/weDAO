@@ -3,6 +3,7 @@ import { createContext, useState } from "react";
 import { Proposal } from "../interfaces/proposals";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { voteOnProposal } from "../contract-methods/user";
+import { voteOnProposal as voteOnRewardProposal } from "../contract-methods/reward-contract/user";
 import { createProposal as createProposalContract, getProposals } from "../contract-methods/proposals";
 
 interface VoteContextType {
@@ -11,7 +12,7 @@ interface VoteContextType {
   setActiveProposals: (proposals: Proposal[]) => void;
   setAllProposals: (proposals: Proposal[]) => void;
   createProposal: (proposal: Proposal) => void;
-  vote: (proposalId: number, vote: boolean) => Promise<void>;
+  vote: (proposalId: number, vote: boolean, rewardParams?: { assetId: number; amount: number }) => Promise<void>;
   displayVoteModal: boolean;
   setDisplayVoteModal: (value: boolean) => void;
   selectedProposal: Proposal | null;
@@ -49,20 +50,33 @@ const VoteProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const vote = async (proposalId: number, vote: boolean): Promise<void> => {
-    try{
-      await voteOnProposal({
-        proposalId,
-        vote,
-        voterAddress: activeAccount?.address || "",
-        transactionSigner: transactionSigner,
-      }).then(() => {
-        getProposals().then((proposals: Proposal[]) => {
-          setAllProposals(proposals);
+  const vote = async (proposalId: number, vote: boolean, rewardParams?: { assetId: number; amount: number }): Promise<void> => {
+    try {
+      if (rewardParams) {
+        // Use reward contract vote method
+        await voteOnRewardProposal({
+          proposalId,
+          vote,
+          voterAddress: activeAccount?.address || "",
+          transactionSigner: transactionSigner,
+          assetId: rewardParams.assetId,
+          amount: rewardParams.amount,
         });
-      });
+      } else {
+        // Use simple contract vote method
+        await voteOnProposal({
+          proposalId,
+          vote,
+          voterAddress: activeAccount?.address || "",
+          transactionSigner: transactionSigner,
+        });
+      }
+      // Refresh proposals after voting
+      const proposals = await getProposals();
+      setAllProposals(proposals);
     } catch (error) {
       console.error(error);
+      throw error;
     }
   };
 

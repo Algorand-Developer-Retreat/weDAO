@@ -7,6 +7,7 @@ import { ellipseAddress } from "../utils";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { useAsaMetadata } from "../context/asametadata";
 import { ProposalBadge } from "./proposalBadge";
+import { getUserVotes } from "../contract-methods/user";
 
 interface ProposalCardProps {
   proposal: Proposal;
@@ -17,7 +18,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const [proposalAsset, setProposalAsset] = useState<any>();
   const { activeAccount } = useWallet();
   const { getAssetById } = useAsaMetadata();
-
+  const [userHasVoted, setUserHasVoted] = useState<boolean>(false);
   function onClickVote() {
     setSelectedProposal(proposal);
     setDisplayVoteModal(true);
@@ -33,10 +34,20 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
       console.error("Asset not found");
     }
   };
-
+  const getUserVoteData = async () => {
+    const voteInfo = await getUserVotes(
+      activeAccount?.address ?? "",
+      proposal.id
+    );
+    console.log("getUserVoteData", voteInfo);
+    if (voteInfo.voteTimestamp && voteInfo.voteTimestamp > 0n) {
+      setUserHasVoted(true);
+    }
+  };
 
   useEffect(() => {
     getProposalAssetData();
+    getUserVoteData();
   }, []);
 
   return (
@@ -143,18 +154,41 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             </div>
 
             <div>
-              {activeAccount ? (
+              {activeAccount && !userHasVoted ? (
                 <AnimButton onClick={() => onClickVote()}>Vote</AnimButton>
               ) : null}
             </div>
           </div>
-          {proposalAsset ? (
+          {proposalAsset &&
+            proposal.type === "simple" &&
+            proposal.minimumHolding && (
+              <div className="flex gap-1 h-5 items-center text-yellow-500">
+                <span>
+                  {" "}
+                  You need to hold at least{" "}
+                  {proposal.minimumHolding /
+                    10 ** (proposalAsset?.decimals || 6)}
+                </span>
+                <img
+                  className="h-full"
+                  src={proposalAsset.logo.png}
+                  alt="logo"
+                />
+                <span>To vote</span>
+              </div>
+            )}
+          {proposal.type === "reward" && (
             <div className="flex gap-1 h-5 items-center text-yellow-500">
-              <span> You need to hold at least {proposal.minimumHolding}</span>
-              <img className="h-full" src={proposalAsset.logo.png} alt="logo" />
-              <span>To vote</span>
+              <span className="flex gap-1 items-center">
+                {" "}
+                You need to pay{" "}
+                {(proposal.votePrice ?? 0) /
+                  10 ** (proposalAsset?.decimals || 6)}{" "}
+                <img className="h-5" src={proposalAsset?.logo.png} alt="logo" />
+                to vote
+              </span>
             </div>
-          ) : null}
+          )}
         </div>
       ) : (
         <div className="mt-4 flex justify-between items-center">
