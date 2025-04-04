@@ -23,10 +23,9 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const { getAssetById } = useAsaMetadata();
   const [userHasVoted, setUserHasVoted] = useState<boolean>(false);
   const [userClaimedRewards, setUserClaimedRewards] = useState<boolean>(false);
-
   const [countdown, setCountdown] = useState("");
-
   const [loadingProposal, setLoadingProposal] = useState<boolean>(true);
+
   function onClickVote() {
     setSelectedProposal(proposal);
     setDisplayVoteModal(true);
@@ -38,17 +37,18 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
     if (asset) {
       setProposalAsset(asset);
       console.log("asset", asset);
+      setLoadingProposal(false);
     } else {
       console.error("Asset not found");
     }
   };
+
   const getUserVoteData = async () => {
     if (proposal.type === "simple") {
       const voteInfo = await getUserVotesSimple(
         activeAccount?.address ?? "",
         proposal.id
       );
-      console.log("getUserVoteData", voteInfo);
       if (voteInfo.voteTimestamp && voteInfo.voteTimestamp > 0n) {
         setUserHasVoted(true);
       }
@@ -57,7 +57,6 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
         activeAccount?.address ?? "",
         proposal.id
       );
-      console.log("getUserVoteData", voteInfo);
       if (voteInfo.voteTimestamp && voteInfo.voteTimestamp > 0n) {
         setUserHasVoted(true);
       }
@@ -70,8 +69,9 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   useEffect(() => {
     getProposalAssetData();
     getUserVoteData();
+
     const updateCountdown = () => {
-      const now = Math.floor(Date.now() / 1000);
+      const now = Math.floor(Date.now() / 1000); // current time in seconds
       const remaining = proposal.expiresIn - now;
 
       if (remaining <= 0) {
@@ -97,18 +97,12 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
       if (seconds > 0 || parts.length === 0) parts.push(`${seconds}s`);
 
       setCountdown(parts.join(" "));
-
-      return () => clearInterval(interval);
     };
 
-    updateCountdown(); // initial call
-    const interval = setInterval(updateCountdown, 1000);
+    updateCountdown(); // initial render
+    const interval = setInterval(updateCountdown, 1000); // every 1s
 
-    getProposalAssetData().then(() => {
-      getUserVoteData().then(() => {
-        setLoadingProposal(false);
-      });
-    });
+    return () => clearInterval(interval); // clean up on unmount
   }, [proposal, displayVoteModal]);
 
   return (
@@ -119,7 +113,6 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
         </div>
       ) : (
         <>
-          {/* Title + Status */}
           <div className="flex justify-between items-start mb-4">
             <div>
               <h3 className="text-heading text-xl font-bold text-white font-display">
@@ -162,7 +155,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             </div>
             <div className="h-2 bg-background rounded-full overflow-hidden">
               <div
-                className="bg-yes h-full"
+                className="bg-yes h-full transition-all duration-700 ease-out"
                 style={{
                   width: `${
                     Math.round(
@@ -192,7 +185,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             </div>
             <div className="h-2 bg-background rounded-full overflow-hidden">
               <div
-                className="bg-no h-full bg-red-300"
+                className="bg-no h-full bg-red-300 transition-all duration-700 ease-out"
                 style={{
                   width: `${
                     Math.round(
@@ -268,7 +261,12 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                     <AnimButton onClick={() => onClickVote()}>Vote</AnimButton>
                   ) : null}
                   {activeAccount && userHasVoted ? (
-                    <AnimButton disabled={true}>Voted</AnimButton>
+                    <AnimButton
+                      onClick={() => console.log("Its expired lil bro")}
+                      disabled={true}
+                    >
+                      Voted
+                    </AnimButton>
                   ) : null}
                 </div>
               </div>
@@ -278,6 +276,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
               <p className="text-lg text-yellow-500">Expired</p>
             </div>
           )}
+
           <p className="text-lg text-text/60">Expires in {countdown}</p>
         </>
       )}
