@@ -226,7 +226,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                       <div className="flex gap-1 h-5 items-center text-yellow-500">
                         <span>
                           {" "}
-                          You need to hold at least{" "}
+                           {" "}
                           {proposal.minimumHolding /
                             10 ** (proposalAsset?.decimals || 6)}
                         </span>
@@ -235,7 +235,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                           src={proposalAsset.logo.png}
                           alt="logo"
                         />
-                        <span>To vote</span>
+                        <span>required to vote</span>
                       </div>
                     )}
                   {proposal.type === "reward" && (
