@@ -7,7 +7,6 @@ import { getProposals as getRewardProposals } from "../contract-methods/reward-c
 import AnimButton from "./animButton";
 import { useNavigate } from "@remix-run/react";
 import { useWallet } from "@txnlab/use-wallet-react";
-import { FaUncharted } from "react-icons/fa";
 
 export function MainContainer() {
   const tabOptions: TabOptionInterface[] = [

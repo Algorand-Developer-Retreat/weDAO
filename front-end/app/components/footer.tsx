@@ -1,24 +1,8 @@
-import { FaUncharted } from "react-icons/fa";
-import AnimButton from "./animButton";
+
 export function Footer() {
   return (
     <div className="flex flex-col gap-2 pb-20">
-      {" "}
-      {import.meta.env.VITE_PROJECT_NAME === "weDAO" && (
-        <AnimButton
-          onClick={() => {
-            window.open(
-              "https://github.com/Algorand-Developer-Retreat/weDAO",
-              "_blank"
-            );
-          }}
-        >
-          <div className="flex gap-2 items-center justify-center">
-            Create your own DAO
-            <FaUncharted className="text-background h-10 w-10" />
-          </div>
-        </AnimButton>
-      )}
+     
       <footer className="fixed bottom-0 left-0 w-full bg-heading/50 text-text py-3">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="text-sm">
