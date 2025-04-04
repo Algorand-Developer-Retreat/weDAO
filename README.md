@@ -26,7 +26,7 @@ A lightweight, fully open-source DAO frontend built on **Algorand**, enabling co
 
 - **Frontend:** React + Tailwind CSS (v3)
 - **Blockchain:** Algorand Smart Contracts
-- **Wallet Support:** Pera Wallet, Defly, etc.
+- **Wallet Support:** Pera Wallet, Defly and Lute.
 
 ---
 
