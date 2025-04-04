@@ -601,9 +601,9 @@ voteProposal:
     intc_0 // 0
     extract_uint64
     // smart_contracts/we_dao/yes_no_rewards_dao/YesNoReward.algo.ts:161
-    // assert(currentTime < expiryTime, 'The proposal has expired')
+    // assert(expiryTime < currentTime, 'The proposal has expired')
     dig 1
-    >
+    <
     assert // The proposal has expired
     // smart_contracts/we_dao/yes_no_rewards_dao/YesNoReward.algo.ts:164
     // assert(Txn.sender !== this.manager_address.value, 'The manager cannot vote on proposals')

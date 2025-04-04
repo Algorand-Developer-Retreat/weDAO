@@ -3328,7 +3328,7 @@
       ]
     },
     "570": {
-      "op": ">",
+      "op": "<",
       "defined_out": [
         "currentProposal#0",
         "currentTime#0",
