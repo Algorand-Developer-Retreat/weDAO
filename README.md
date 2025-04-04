@@ -1,6 +1,3 @@
-Below is your project README reformatted as Markdown. You can copy this text directly:
-
----
 
 ```markdown
 # weDAO 🗳️
