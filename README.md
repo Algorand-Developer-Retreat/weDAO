@@ -30,6 +30,13 @@ A lightweight, fully open-source DAO frontend built on **Algorand**, enabling co
 
 ---
 
+## In Depth
+For in depth information on each part of the project please refer to the individual README.md files within each directory
+- **Front-End:** [front-end/README.md](./front-end/README.md)
+- **Smart Contracts:** [smart-contracts/we_dao/README.md](./smart-contracts/we_dao/README.md)
+
+---
+
 ## 🚀 Getting Started - Front End
 
 Clone the repository and navigate to the front-end directory:
@@ -78,8 +85,6 @@ cd weDAO/front-end
 ## Smart Contract Deployment
 
 weDAO uses two smart contracts - a simple poll contract and a reward-backed poll contract. You're free to use one or the other, or both!
-
-For in-depth details on the smart contracts, check out the README files in the `smart_contract/we_dao` directory.
 
 ### Steps to Deploy:
 
