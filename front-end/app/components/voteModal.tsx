@@ -255,7 +255,7 @@ export function VoteModal() {
       showToast("Error voting", "error");
     });
   }
-
+  console.log("selectedProposal", selectedProposal);
   return displayVoteModal && selectedProposal ? (
     <div
       className="relative z-50"

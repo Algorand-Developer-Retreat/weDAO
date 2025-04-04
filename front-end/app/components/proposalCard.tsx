@@ -29,6 +29,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   }
 
   const getProposalAssetData = async () => {
+    console.log("proposal", proposal);
     const asset = getAssetById(proposal.proposalAsset);
     if (asset) {
       setProposalAsset(asset);
@@ -171,7 +172,28 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             <div className="flex flex-col gap-2">
               <p className="text-xs text-text/60">
                 Ends in{" "}
-                {new Date(proposal.expiresIn + Date.now()).toLocaleDateString()}
+                {(() => {
+                  const now = Math.floor(Date.now() / 1000);
+                  const remaining = proposal.expiresIn - now;
+                  if (remaining <= 0) return "Ended";
+                  
+                  const months = Math.floor(remaining / (30 * 24 * 3600));
+                  const weeks = Math.floor((remaining % (30 * 24 * 3600)) / (7 * 24 * 3600));
+                  const days = Math.floor((remaining % (7 * 24 * 3600)) / (24 * 3600));
+                  const hours = Math.floor((remaining % (24 * 3600)) / 3600);
+                  const minutes = Math.floor((remaining % 3600) / 60);
+                  const seconds = remaining % 60;
+                  
+                  const parts = [];
+                  if (months > 0) parts.push(`${months}mo`);
+                  if (weeks > 0) parts.push(`${weeks}w`);
+                  if (days > 0) parts.push(`${days}d`);
+                  if (hours > 0) parts.push(`${hours}h`);
+                  if (minutes > 0) parts.push(`${minutes}m`);
+                  if (seconds > 0 || parts.length === 0) parts.push(`${seconds}s`);
+                  
+                  return parts.join(' ');
+                })()}
               </p>
               <p className="text-xs text-text/60">
                 Created by {ellipseAddress(proposal.proposer)}
@@ -221,6 +243,14 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
       ) : (
         <div className="mt-4 flex justify-between items-center">
           <p className="text-xs text-text/60">Ended.</p>
+        </div>
+      )}
+      {proposal.type === "reward" && (
+        <div className="mt-4 flex justify-between items-center">
+          <p className="text-xs text-text/60">
+            Total prize pool: {proposal.prizePool ? proposal.prizePool / 10 ** (proposalAsset?.decimals || 6) : 0}{" "}
+            {proposalAsset?.name}
+          </p>
         </div>
       )}
     </div>

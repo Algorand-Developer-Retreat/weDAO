@@ -1,10 +1,10 @@
-'use client'
+"use client";
 import { useState } from "react";
 import { ProposalForm } from "../components/proposalForm";
 import { Header } from "../components/header";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { createProposal } from "../contract-methods/proposals";
-import {createProposal as createRewardProposal} from "../contract-methods/reward-contract/proposals";
+import { createProposal as createRewardProposal } from "../contract-methods/reward-contract/proposals";
 import * as algokit from "@algorandfoundation/algokit-utils";
 import { Footer } from "../components/footer";
 import { ProposalFormRewards } from "../components/proposalFormRewards";
@@ -12,25 +12,52 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function CreateProposal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {activeAccount, transactionSigner} = useWallet();
+  const { activeAccount, transactionSigner } = useWallet();
   const [activeTab, setActiveTab] = useState("proposal");
 
-  const handleCreateProposal = async (title: string, description: string, expiryTimestamp: number, assetId?: number, amount?: number, votePrice?: number) => {
+  const handleCreateProposal = async (
+    title: string,
+    description: string,
+    expiryTimestamp: number,
+    assetId?: number,
+    amount?: number,
+    votePrice?: number
+  ) => {
     setIsSubmitting(true);
     try {
       // TODO: Implement the actual proposal creation logic here
-      console.log("Creating proposal:", { title, description, expiryTimestamp });
-      
+      console.log("Creating proposal:", {
+        title,
+        description,
+        expiryTimestamp,
+      });
+
       const algorand = algokit.AlgorandClient.mainNet();
       algorand.setDefaultSigner(transactionSigner);
-      if(assetId == undefined) {
-        await createProposal({ title, description, proposerAddress: activeAccount?.address || "", expiresIn: expiryTimestamp, transactionSigner: transactionSigner });
+      const expireTime = expiryTimestamp - Math.floor(Date.now() / 1000);
+      if (assetId == undefined) {
+        await createProposal({
+          title,
+          description,
+          proposerAddress: activeAccount?.address || "",
+          expiresIn: expireTime,
+          transactionSigner: transactionSigner,
+        });
       } else {
-        await createRewardProposal({ title, description, proposerAddress: activeAccount?.address || "", expiresIn: expiryTimestamp, transactionSigner: transactionSigner, assetId: assetId || 0, amount: amount || 0, votePrice: votePrice || 0 });
+        console.log("Original expiryTimestamp", expiryTimestamp);
+        console.log("Expire time", expireTime);
+
+        await createRewardProposal({
+          title,
+          description,
+          proposerAddress: activeAccount?.address || "",
+          expiresIn: expireTime,
+          transactionSigner: transactionSigner,
+          assetId: assetId || 0,
+          amount: amount || 0,
+          votePrice: votePrice || 0,
+        });
       }
-      
-      // TODO: Handle success (e.g., redirect to proposal list)
-      
     } catch (error) {
       console.error("Failed to create proposal:", error);
       throw error;
@@ -69,7 +96,7 @@ export default function CreateProposal() {
             Proposal with Rewards
           </motion.button>
         </div>
-        
+
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -79,7 +106,7 @@ export default function CreateProposal() {
             transition={{ duration: 0.2 }}
           >
             {activeTab === "proposal" && (
-              <ProposalForm 
+              <ProposalForm
                 onSubmit={handleCreateProposal}
                 isLoading={isSubmitting}
               />
@@ -96,4 +123,4 @@ export default function CreateProposal() {
       <Footer />
     </div>
   );
-} 
+}
