@@ -320,6 +320,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
               <p className="text-lg text-yellow-500">Expired</p>
               {activeAccount &&
               proposal.type === "reward" &&
+              userHasVoted &&
               !userClaimedRewards ? (
                 <AnimButton onClick={() => onClickClaim()}>
                   Claim Rewards
