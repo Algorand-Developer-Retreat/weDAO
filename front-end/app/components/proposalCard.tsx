@@ -62,9 +62,13 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
       );
       if (voteInfo.voteTimestamp && voteInfo.voteTimestamp > 0n) {
         setUserHasVoted(true);
+      } else {
+        setUserHasVoted(false);
       }
       if (voteInfo.claimedRewards && voteInfo.claimedRewards > 0n) {
         setUserClaimedRewards(true);
+      } else {
+        setUserClaimedRewards(false);
       }
     }
   };
