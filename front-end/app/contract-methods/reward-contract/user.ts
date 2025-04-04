@@ -25,6 +25,8 @@ export async function voteOnProposal({
       signer: transactionSigner,
     });
 
+    console.log('amount', amount);
+
     const fundVoteTxn = algorand.createTransaction.assetTransfer({
       sender: voterAddress,
       receiver: appClient.appAddress,

@@ -29,6 +29,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   }
 
   const getProposalAssetData = async () => {
+    console.log("proposal", proposal);
     const asset = getAssetById(proposal.proposalAsset);
     if (asset) {
       setProposalAsset(asset);
@@ -163,7 +164,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
             <div className="flex flex-col gap-2">
               <p className="text-xs text-text/60">
                 Ends in{" "}
-                {new Date(proposal.expiresIn + Date.now()).toLocaleDateString()}
+                {new Date(proposal.expiresIn * 1000).toLocaleDateString()}
               </p>
               <p className="text-xs text-text/60">
                 Created by {ellipseAddress(proposal.proposer)}
