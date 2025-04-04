@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useEffect, useState } from "react";
 import { Proposal } from "../interfaces/proposals";
@@ -7,7 +8,8 @@ import { ellipseAddress } from "../utils";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { useAsaMetadata } from "../context/asametadata";
 import { ProposalBadge } from "./proposalBadge";
-import { getUserVotes } from "../contract-methods/user";
+import { getUserVotes as getUserVotesSimple } from "../contract-methods/user";
+import { getUserVotes as getUserVotesReward } from "../contract-methods/reward-contract/user";
 
 interface ProposalCardProps {
   proposal: Proposal;
@@ -19,6 +21,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const { activeAccount } = useWallet();
   const { getAssetById } = useAsaMetadata();
   const [userHasVoted, setUserHasVoted] = useState<boolean>(false);
+  const [userClaimedRewards, setUserClaimedRewards] = useState<boolean>(false);
   function onClickVote() {
     setSelectedProposal(proposal);
     setDisplayVoteModal(true);
@@ -35,13 +38,27 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
     }
   };
   const getUserVoteData = async () => {
-    const voteInfo = await getUserVotes(
-      activeAccount?.address ?? "",
-      proposal.id
-    );
-    console.log("getUserVoteData", voteInfo);
-    if (voteInfo.voteTimestamp && voteInfo.voteTimestamp > 0n) {
-      setUserHasVoted(true);
+    if (proposal.type === "simple") {
+      const voteInfo = await getUserVotesSimple(
+        activeAccount?.address ?? "",
+        proposal.id
+      );
+      console.log("getUserVoteData", voteInfo);
+      if (voteInfo.voteTimestamp && voteInfo.voteTimestamp > 0n) {
+        setUserHasVoted(true);
+      }
+    } else if (proposal.type === "reward") {
+      const voteInfo = await getUserVotesReward(
+        activeAccount?.address ?? "",
+        proposal.id
+      );
+      console.log("getUserVoteData", voteInfo);
+      if (voteInfo.voteTimestamp && voteInfo.voteTimestamp > 0n) {
+        setUserHasVoted(true);
+      }
+      if (voteInfo.claimedRewards && voteInfo.claimedRewards > 0n) {
+        setUserClaimedRewards(true);
+      }
     }
   };
 

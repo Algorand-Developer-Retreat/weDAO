@@ -90,11 +90,13 @@ export async function getUserVotes(userAddress: string, proposalId: number) {
       claimedRewards: 0n,
     };
   }
-  console.log("box", box);
+  
   const boxValues = await appClient.appClient.getBoxValue(box.nameRaw);
+  console.log('boxValues', boxValues);
   const view2 = new DataView(boxValues.buffer);
   const voteTimestamp = view2.getBigUint64(0, false);
-  const claimedRewards = view2.getBigInt64(8, false);
+  const claimedRewards = view2.getInt8(8);
+  
   const voteInfo = {
     voteTimestamp,
     claimedRewards,
