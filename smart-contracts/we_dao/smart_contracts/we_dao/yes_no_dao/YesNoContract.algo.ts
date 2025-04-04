@@ -137,7 +137,7 @@ export class YesNoDao extends Contract {
     // Convert timestamp to uint64 for checking the proposal expiry
     const currentTime = op.Global.latestTimestamp
     const expiryTime = currentProposal.proposal_expiry_timestamp.native
-    assert(expiryTime < currentTime, 'The proposal has expired')
+    assert(currentTime < expiryTime, 'The proposal has expired')
 
     // Check if voter is not the manager address - manager cannot vote
     assert(Txn.sender !== this.manager_address.value, 'The manager cannot vote on proposals')
