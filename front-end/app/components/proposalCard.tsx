@@ -9,7 +9,11 @@ import { useWallet } from "@txnlab/use-wallet-react";
 import { useAsaMetadata } from "../context/asametadata";
 import { ProposalBadge } from "./proposalBadge";
 import { getUserVotes as getUserVotesSimple } from "../contract-methods/user";
-import { getUserVotes as getUserVotesReward } from "../contract-methods/reward-contract/user";
+import {
+  claimRewards,
+  getUserVotes as getUserVotesReward,
+} from "../contract-methods/reward-contract/user";
+import { useToast } from "./toast";
 
 interface ProposalCardProps {
   proposal: Proposal;
@@ -19,12 +23,16 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const { setSelectedProposal, setDisplayVoteModal, displayVoteModal } =
     useContext(VoteContext);
   const [proposalAsset, setProposalAsset] = useState<any>();
-  const { activeAccount } = useWallet();
+  const { activeAccount, transactionSigner } = useWallet();
   const { getAssetById } = useAsaMetadata();
   const [userHasVoted, setUserHasVoted] = useState<boolean>(false);
   const [userClaimedRewards, setUserClaimedRewards] = useState<boolean>(false);
   const [countdown, setCountdown] = useState("");
   const [loadingProposal, setLoadingProposal] = useState<boolean>(true);
+  const [votesFor, setVotesFor] = useState<number>(0);
+  const [votesAgainst, setVotesAgainst] = useState<number>(0);
+
+  const { showToast } = useToast();
 
   function onClickVote() {
     setSelectedProposal(proposal);
@@ -37,13 +45,13 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
     if (asset) {
       setProposalAsset(asset);
       console.log("asset", asset);
-      setLoadingProposal(false);
     } else {
       console.error("Asset not found");
     }
   };
 
   const getUserVoteData = async () => {
+    console.log("proposal", proposal);
     if (proposal.type === "simple") {
       const voteInfo = await getUserVotesSimple(
         activeAccount?.address ?? "",
@@ -51,6 +59,8 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
       );
       if (voteInfo.voteTimestamp && voteInfo.voteTimestamp > 0n) {
         setUserHasVoted(true);
+      } else {
+        setUserHasVoted(false);
       }
     } else if (proposal.type === "reward") {
       const voteInfo = await getUserVotesReward(
@@ -59,16 +69,23 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
       );
       if (voteInfo.voteTimestamp && voteInfo.voteTimestamp > 0n) {
         setUserHasVoted(true);
+      } else {
+        setUserHasVoted(false);
       }
+
       if (voteInfo.claimedRewards && voteInfo.claimedRewards > 0n) {
         setUserClaimedRewards(true);
+      } else {
+        setUserClaimedRewards(false);
       }
     }
   };
 
   useEffect(() => {
+    setLoadingProposal(true);
     getProposalAssetData();
     getUserVoteData();
+    setLoadingProposal(false);
 
     const updateCountdown = () => {
       const now = Math.floor(Date.now() / 1000); // current time in seconds
@@ -103,7 +120,23 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
     const interval = setInterval(updateCountdown, 1000); // every 1s
 
     return () => clearInterval(interval); // clean up on unmount
-  }, [proposal, displayVoteModal]);
+  }, [proposal, displayVoteModal, activeAccount]);
+
+  async function onClickClaim(): Promise<void> {
+    await claimRewards({
+      proposalId: proposal.id,
+      voterAddress: activeAccount?.address ?? "",
+      transactionSigner,
+    })
+      .then(() => {
+        setUserClaimedRewards(true);
+        showToast("Rewards claimed", "success");
+      })
+      .catch((error) => {
+        console.error(error);
+        showToast("Error claiming rewards", "error");
+      });
+  }
 
   return (
     <div className="bg-surface rounded-2xl p-5 shadow-md text-text max-w-xl w-full">
@@ -218,7 +251,9 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                   )}
                   <p className="text-xs text-text/60">
                     Created by{" "}
-                    <a href={`https://allo.info/account/${proposal.proposer}`}>{ellipseAddress(proposal.proposer)}</a>
+                    <a href={`https://allo.info/account/${proposal.proposer}`}>
+                      {ellipseAddress(proposal.proposer)}
+                    </a>
                   </p>
                   {proposalAsset &&
                     proposal.type === "simple" &&
@@ -226,7 +261,6 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                       <div className="flex gap-1 h-5 items-center text-yellow-500">
                         <span>
                           {" "}
-                          You need to hold at least{" "}
                           {proposal.minimumHolding /
                             10 ** (proposalAsset?.decimals || 6)}
                         </span>
@@ -235,14 +269,14 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                           src={proposalAsset.logo.png}
                           alt="logo"
                         />
-                        <span>To vote</span>
+                        <span>required to vote</span>
                       </div>
                     )}
                   {proposal.type === "reward" && (
                     <div className="flex gap-1 h-5 items-center text-yellow-500">
                       <span className="flex gap-1 items-center">
                         {" "}
-                        You need to pay{" "}
+                        Pay{" "}
                         {(proposal.votePrice ?? 0) /
                           10 ** (proposalAsset?.decimals || 6)}{" "}
                         <img
@@ -260,13 +294,23 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
                   {activeAccount && !userHasVoted ? (
                     <AnimButton onClick={() => onClickVote()}>Vote</AnimButton>
                   ) : null}
+
                   {activeAccount && userHasVoted ? (
-                    <AnimButton
-                      onClick={() => console.log("Its expired lil bro")}
-                      disabled={true}
-                    >
-                      Voted
-                    </AnimButton>
+                    userClaimedRewards ? (
+                      <AnimButton
+                        onClick={() => console.log("Its expired lil bro")}
+                        disabled={true}
+                      >
+                        Claimed
+                      </AnimButton>
+                    ) : (
+                      <AnimButton
+                        onClick={() => console.log("Its expired lil bro")}
+                        disabled={true}
+                      >
+                        Voted
+                      </AnimButton>
+                    )
                   ) : null}
                 </div>
               </div>
@@ -274,6 +318,14 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
           ) : (
             <div className="mt-4 flex justify-between items-center">
               <p className="text-lg text-yellow-500">Expired</p>
+              {activeAccount &&
+              proposal.type === "reward" &&
+              userHasVoted &&
+              !userClaimedRewards ? (
+                <AnimButton onClick={() => onClickClaim()}>
+                  Claim Rewards
+                </AnimButton>
+              ) : null}
             </div>
           )}
 

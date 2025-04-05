@@ -26,6 +26,7 @@ export function Hero() {
         <p className="text-xl md:text-2xl text-primary mb-8 max-w-2xl mx-auto">
           {import.meta.env.VITE_PROJECT_DESCRIPTION}
         </p>
+       
         <ClientOnly>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             {!activeAccount && (

@@ -235,6 +235,7 @@ export function VoteModal() {
 
   const { showToast } = useToast();
   function onClickVote(answer: boolean) {
+    console.log('selectedProposal', selectedProposal);
     setTransactionLoading(true);
     vote(
       selectedProposal?.id || 0,

@@ -127,6 +127,8 @@ weDAO uses two smart contracts - a simple poll contract and a reward-backed poll
      ```env
      VITE_REWARD_CONTRACT_APP_ID=
      ```
+  7. **Fund contract**
+  We advise funding the contracts with 1 Algo to cover internal balances
 
 ---
 

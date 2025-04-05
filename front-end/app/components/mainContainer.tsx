@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Proposal } from "../interfaces/proposals";
 import { ProposalList } from "./proposalList";
 import { TabOptionInterface, Tabs } from "./tabs";
@@ -7,7 +7,7 @@ import { getProposals as getRewardProposals } from "../contract-methods/reward-c
 import AnimButton from "./animButton";
 import { useNavigate } from "@remix-run/react";
 import { useWallet } from "@txnlab/use-wallet-react";
-
+import { VoteContext } from "../context/vote";
 export function MainContainer() {
   const tabOptions: TabOptionInterface[] = [
     {
@@ -30,6 +30,7 @@ export function MainContainer() {
   const [proposalList, setProposalList] = useState<Proposal[]>([]);
 
   const [loadingProposals, setLoadingProposals] = useState(true);
+  const { displayVoteModal } = useContext(VoteContext);
   const { activeAccount } = useWallet();
 
   async function loadProposals(): Promise<Proposal[]> {
@@ -52,7 +53,7 @@ export function MainContainer() {
       setProposalList(activeProposals);
       setLoadingProposals(false);
     });
-  }, [currentTab]);
+  }, [currentTab, displayVoteModal]);
 
   function onSwitchTab(tab: string) {
     const newTab = tabOptions.find((option) => option.label === tab);
@@ -81,6 +82,7 @@ export function MainContainer() {
           loadingProposals={loadingProposals}
         />
       </div>
+      
     </div>
   );
 }

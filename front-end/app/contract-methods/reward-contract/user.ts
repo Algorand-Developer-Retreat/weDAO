@@ -25,7 +25,12 @@ export async function voteOnProposal({
       signer: transactionSigner,
     });
 
-    console.log('amount', amount);
+    console.log(' vote on proposal amount', amount);
+    console.log(' vote on proposal assetId', assetId);
+    console.log(' vote on proposal proposalId', proposalId);
+    console.log(' vote on proposal vote', vote);
+    console.log(' vote on proposal voterAddress', voterAddress);
+    console.log(' vote on proposal transactionSigner', transactionSigner);
 
     const fundVoteTxn = algorand.createTransaction.assetTransfer({
       sender: voterAddress,
@@ -58,6 +63,7 @@ export async function claimRewards({
       args: { proposalId },
       sender: voterAddress,
       signer: transactionSigner,
+      extraFee: microAlgos(1000n),
     });
   } catch (error) {
     console.error(error);
