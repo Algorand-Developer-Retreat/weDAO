@@ -3,7 +3,7 @@ import { microAlgos } from "@algorandfoundation/algokit-utils";
 import { CreateProposalParams } from "./interfaces";
 import algosdk from "algosdk";
 import * as algokit from "@algorandfoundation/algokit-utils";
-import { Proposal } from "../interfaces/proposals";
+import { Proposal } from "../../interfaces/proposals";
 import { getGlobalState } from "./globalState";
 import { getApplicationClient } from "./get-client";
 

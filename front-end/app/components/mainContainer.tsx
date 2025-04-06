@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { Proposal } from "../interfaces/proposals";
 import { ProposalList } from "./proposalList";
 import { TabOptionInterface, Tabs } from "./tabs";
-import { getProposals } from "../contract-methods/proposals";
+import { getProposals } from "../contract-methods/holders-contract/proposals";
 import { getProposals as getRewardProposals } from "../contract-methods/reward-contract/proposals";
 import AnimButton from "./animButton";
 import { useNavigate } from "@remix-run/react";
@@ -82,7 +82,6 @@ export function MainContainer() {
           loadingProposals={loadingProposals}
         />
       </div>
-      
     </div>
   );
 }

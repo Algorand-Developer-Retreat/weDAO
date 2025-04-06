@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ProposalForm } from "../components/proposalForm";
 import { Header } from "../components/header";
 import { useWallet } from "@txnlab/use-wallet-react";
-import { createProposal } from "../contract-methods/proposals";
+import { createProposal } from "../contract-methods/holders-contract/proposals";
 import { createProposal as createRewardProposal } from "../contract-methods/reward-contract/proposals";
 import * as algokit from "@algorandfoundation/algokit-utils";
 import { Footer } from "../components/footer";

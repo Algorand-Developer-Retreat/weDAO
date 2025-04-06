@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "@remix-run/react";
 import { useToast } from "../components/toast";
 import { MdQuestionAnswer } from "react-icons/md";
-import { getGlobalState } from "../contract-methods/globalState";
+import { getGlobalState } from "../contract-methods/holders-contract/globalState";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { FaLock } from "react-icons/fa";
 

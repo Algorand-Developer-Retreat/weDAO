@@ -8,7 +8,7 @@ import { ellipseAddress } from "../utils";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { useAsaMetadata } from "../context/asametadata";
 import { ProposalBadge } from "./proposalBadge";
-import { getUserVotes as getUserVotesSimple } from "../contract-methods/user";
+import { getUserVotes as getUserVotesSimple } from "../contract-methods/holders-contract/user";
 import {
   claimRewards,
   getUserVotes as getUserVotesReward,

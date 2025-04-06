@@ -1,9 +1,8 @@
 import { microAlgos } from "@algorandfoundation/algokit-utils";
 import { VoteOnProposalParams } from "./interfaces";
 import * as algokit from "@algorandfoundation/algokit-utils";
-
-import algosdk from "algosdk";
 import { getApplicationClient } from "./get-client";
+import algosdk from "algosdk";
 
 export async function voteOnProposal({
   proposalId,

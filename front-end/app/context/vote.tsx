@@ -2,12 +2,12 @@
 import { createContext, useState } from "react";
 import { Proposal } from "../interfaces/proposals";
 import { useWallet } from "@txnlab/use-wallet-react";
-import { voteOnProposal } from "../contract-methods/user";
+import { voteOnProposal } from "../contract-methods/holders-contract/user";
 import { voteOnProposal as voteOnRewardProposal } from "../contract-methods/reward-contract/user";
 import {
   createProposal as createProposalContract,
   getProposals,
-} from "../contract-methods/proposals";
+} from "../contract-methods/holders-contract/proposals";
 
 interface VoteContextType {
   allProposals: Proposal[];

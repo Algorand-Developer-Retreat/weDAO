@@ -6,14 +6,15 @@ import { useWallet } from "@txnlab/use-wallet-react";
 import { FaLock } from "react-icons/fa";
 import { useToast } from "../toast";
 import { Web3ToolsList } from "~/Web3Tools/Web3ToolsList";
-import { Web3Tool } from "~/Web3Tools/Web3ToolTypes";
+import {
+  HoldersDaoDeploymentParams,
+  RewardsDaoDeploymentParams,
+  Web3Tool,
+} from "~/Web3Tools/Web3ToolTypes";
+import { useLaunchpad } from "~/context/launchpad";
 
 interface SetupFormProps {
-  onSubmit: (
-    title: string,
-    description: string,
-    expiryTimestamp: number
-  ) => Promise<void>;
+  onSubmit: (projectName: string, web3Tools: Web3Tool[]) => Promise<void>;
   isLoading?: boolean;
 }
 
@@ -21,6 +22,7 @@ export function SetupForm({ onSubmit, isLoading = false }: SetupFormProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
+
   const navigate = useNavigate();
   const { showToast } = useToast();
   const [canCreate, setCanCreate] = useState(false);
@@ -29,6 +31,18 @@ export function SetupForm({ onSubmit, isLoading = false }: SetupFormProps) {
   const [viewableToolForm, setViewableToolForm] = useState<Web3Tool | null>(
     null
   );
+  type FormDataType = Partial<
+    HoldersDaoDeploymentParams & RewardsDaoDeploymentParams
+  >;
+
+  const [formData, setFormData] = useState<FormDataType>({
+    assetId: 0,
+    anyone_can_create: false,
+  });
+  const [newAppId, setNewAppId] = useState<number | null>(null);
+
+  const { launchNewProject } = useLaunchpad();
+  const { transactionSigner } = useWallet();
 
   useEffect(() => {
     if (activeAccount) {
@@ -40,13 +54,18 @@ export function SetupForm({ onSubmit, isLoading = false }: SetupFormProps) {
     e.preventDefault();
 
     try {
-      // Convert the expiry date to a timestamp (seconds since epoch)
-      const expiryTimestamp = Math.floor(new Date(expiryDate).getTime() / 1000);
+      if (!activeAccount || !formData) return;
+      const appId = await launchNewProject(
+        formData.anyone_can_create!,
+        formData.min_holding!,
+        formData.assetId!,
+        activeAccount.address,
+        transactionSigner
+      );
 
-      await onSubmit(title, description, expiryTimestamp).then(() => {
-        showToast("Proposal created successfully!", "success");
-        navigate("/");
-      });
+      setNewAppId(appId);
+      showToast("Proposal created successfully!", "success");
+      // navigate("/");
     } catch (error) {
       showToast(
         error instanceof Error ? error.message : "Failed to create proposal",
@@ -185,25 +204,65 @@ export function SetupForm({ onSubmit, isLoading = false }: SetupFormProps) {
                       {tool.name}
                     </h5>
                     <div>
-                      {tool.callParams.map((param) => (
-                        <div key={param.paramName} className="mb-2">
-                          <label
-                            htmlFor={param.paramName}
-                            className="block text-text font-medium mb-1"
-                          >
-                            {param.paramName}
-                          </label>
-                          <input
-                            id={param.paramName}
-                            type={param.type}
-                            placeholder={`Enter ${param.paramName}`}
-                            className="w-full px-4 py-3 rounded-lg bg-background text-text placeholder-text/50 border border-text/10 focus:outline-none focus:border-primary transition-colors"
-                            required
-                            minLength={5}
-                            maxLength={100}
-                          />
-                        </div>
-                      ))}
+                      <div>
+                        {Object.keys(tool.appDeploymentParams).map(
+                          (param, i) => (
+                            <div className="flex flex-col gap-2" key={i}>
+                              <label
+                                htmlFor={param}
+                                className="text-text font-medium"
+                              >
+                                {param}
+                              </label>
+
+                              {typeof formData[
+                                param as keyof HoldersDaoDeploymentParams
+                              ] === "boolean" ? (
+                                <select
+                                  id={param}
+                                  name={param}
+                                  className="px-4 py-2 rounded-md border border-text/10 bg-background text-text placeholder-text/50 focus:outline-none focus:border-primary transition-colors"
+                                  value={
+                                    formData[
+                                      param as keyof HoldersDaoDeploymentParams
+                                    ]
+                                      ? "true"
+                                      : "false"
+                                  }
+                                  onChange={(e) =>
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      [param]: e.target.value === "true",
+                                    }))
+                                  }
+                                >
+                                  <option value="true">True</option>
+                                  <option value="false">False</option>
+                                </select>
+                              ) : (
+                                <input
+                                  id={param}
+                                  name={param}
+                                  type="number"
+                                  placeholder={`Enter ${param}`}
+                                  className="px-4 py-2 rounded-md border border-text/10 bg-background text-text placeholder-text/50 focus:outline-none focus:border-primary transition-colors"
+                                  value={
+                                    formData[
+                                      param as keyof HoldersDaoDeploymentParams
+                                    ] as number
+                                  }
+                                  onChange={(e) =>
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      [param]: Number(e.target.value),
+                                    }))
+                                  }
+                                />
+                              )}
+                            </div>
+                          )
+                        )}
+                      </div>{" "}
                     </div>
                     {/* Add custom form fields for each tool if needed */}
                   </div>
@@ -262,6 +321,31 @@ export function SetupForm({ onSubmit, isLoading = false }: SetupFormProps) {
             </button>
           </div>
         </form>
+        {newAppId && (
+          <div className="flex items-center justify-center mt-8">
+            <h3 className="text-text/70 text-sm">
+              Successfully created project with ID:{" "}
+              <span className="text-primary font-semibold">{newAppId}</span>
+            </h3>
+          </div>
+        )}
+        {!newAppId && (
+          <div className="flex items-center justify-center mt-8">
+            <MdQuestionAnswer className="w-8 h-8 text-text/50" />
+            <p className="text-text/70 text-sm ml-2">
+              Need help? Check out the{" "}
+              <a
+                href="https://docs.wedev.xyz"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary underline"
+              >
+                documentation
+              </a>{" "}
+              for more information on how to use the WeDev Launchpad.
+            </p>
+          </div>
+        )}
       </motion.div>
     </div>
   );

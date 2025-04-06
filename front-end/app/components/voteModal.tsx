@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { VoteContext } from "../context/vote";
 import { motion } from "framer-motion";
 import { useWallet } from "@txnlab/use-wallet-react";
-import { getApplicationClient } from "../contract-methods/get-client";
+import { getApplicationClient } from "../contract-methods/holders-contract/get-client";
 import * as algokit from "@algorandfoundation/algokit-utils";
 import { useAsaMetadata } from "../context/asametadata";
 import { Proposal } from "../interfaces/proposals";
