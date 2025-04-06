@@ -29,7 +29,6 @@ const VoteControlsSimple = ({
   onVote,
   transactionLoading,
 }: VoteControlsSimpleProps) => {
-
   if (transactionLoading) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -153,11 +152,12 @@ const VoteControlsReward = ({
         </motion.button>
       </div>
       <div className="text-text justify-center items-center text-center text-sm">
-        At the end of the proposal, the prize pool will be split between the yes and no votes.
-        
+        At the end of the proposal, the prize pool will be split between the yes
+        and no votes.
         {assetInfo && assetInfo?.decimals && assetInfo?.logo && (
           <>
-            Current prize pool: {(proposal.prizePool ?? 0) / 10 ** Number(assetInfo.decimals)} 
+            Current prize pool:{" "}
+            {(proposal.prizePool ?? 0) / 10 ** Number(assetInfo.decimals)}
             <img
               src={assetInfo.logo.png}
               alt="Asset Logo"
@@ -192,8 +192,16 @@ export function VoteModal() {
       const minAmount = globals["minimum_holding"];
       const tokenId = globals["asset_id"];
       setMinimumHolding(globals["minimum_holding"]);
-      setAssetId(selectedProposal?.type === "simple" ? globals["asset_id"] : selectedProposal?.proposalAsset);
-      const info = getAssetById(selectedProposal?.type === "simple" ? tokenId : selectedProposal?.proposalAsset);
+      setAssetId(
+        selectedProposal?.type === "simple"
+          ? globals["asset_id"]
+          : selectedProposal?.proposalAsset
+      );
+      const info = getAssetById(
+        selectedProposal?.type === "simple"
+          ? tokenId
+          : selectedProposal?.proposalAsset
+      );
       setAssetInfo(info);
       const algorand = algokit.AlgorandClient.mainNet();
       const accountInfo = await algorand.account.getInformation(
@@ -215,7 +223,9 @@ export function VoteModal() {
             // For reward proposals, user can always vote by paying
             setUserAbleToVote(true);
           }
-          setUserIsProposer(selectedProposal?.proposer === activeAccount?.address);
+          setUserIsProposer(
+            selectedProposal?.proposer === activeAccount?.address
+          );
         } catch (error) {
           console.error("Error fetching asset information:", error);
           setUserAbleToVote(false);
@@ -231,11 +241,16 @@ export function VoteModal() {
       setTotalVotes(total);
       getGlobals();
     }
-  }, [displayVoteModal, selectedProposal, activeAccount?.address, getAssetById]);
+  }, [
+    displayVoteModal,
+    selectedProposal,
+    activeAccount?.address,
+    getAssetById,
+  ]);
 
   const { showToast } = useToast();
   function onClickVote(answer: boolean) {
-    console.log('selectedProposal', selectedProposal);
+    console.log("selectedProposal", selectedProposal);
     setTransactionLoading(true);
     vote(
       selectedProposal?.id || 0,
@@ -246,15 +261,17 @@ export function VoteModal() {
             amount: selectedProposal.votePrice || 0,
           }
         : undefined
-    ).then(() => {
-      showToast("Vote cast successfully", "success");
-      setTransactionLoading(false);
-      setDisplayVoteModal(false);
-    }).catch((error) => {
-      console.error("Error voting:", error);
-      setTransactionLoading(false);
-      showToast("Error voting", "error");
-    });
+    )
+      .then(() => {
+        showToast("Vote cast successfully", "success");
+        setTransactionLoading(false);
+        setDisplayVoteModal(false);
+      })
+      .catch((error) => {
+        console.error("Error voting:", error);
+        setTransactionLoading(false);
+        showToast("Error voting", "error");
+      });
   }
   console.log("selectedProposal", selectedProposal);
   return displayVoteModal && selectedProposal ? (

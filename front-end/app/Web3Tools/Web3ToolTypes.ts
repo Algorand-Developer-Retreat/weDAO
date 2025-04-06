@@ -3,5 +3,5 @@ export interface Web3Tool {
   name: string;
   description: string;
   icon: string;
-  callParams: { paramName: string; type: "string" | "number" }[];
+  callParams: { paramName: string; value: string | number }[];
 }

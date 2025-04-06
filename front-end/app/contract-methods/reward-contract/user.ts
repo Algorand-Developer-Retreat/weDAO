@@ -25,12 +25,12 @@ export async function voteOnProposal({
       signer: transactionSigner,
     });
 
-    console.log(' vote on proposal amount', amount);
-    console.log(' vote on proposal assetId', assetId);
-    console.log(' vote on proposal proposalId', proposalId);
-    console.log(' vote on proposal vote', vote);
-    console.log(' vote on proposal voterAddress', voterAddress);
-    console.log(' vote on proposal transactionSigner', transactionSigner);
+    console.log(" vote on proposal amount", amount);
+    console.log(" vote on proposal assetId", assetId);
+    console.log(" vote on proposal proposalId", proposalId);
+    console.log(" vote on proposal vote", vote);
+    console.log(" vote on proposal voterAddress", voterAddress);
+    console.log(" vote on proposal transactionSigner", transactionSigner);
 
     const fundVoteTxn = algorand.createTransaction.assetTransfer({
       sender: voterAddress,
@@ -98,13 +98,13 @@ export async function getUserVotes(userAddress: string, proposalId: number) {
       claimedRewards: 0n,
     };
   }
-  
+
   const boxValues = await appClient.appClient.getBoxValue(box.nameRaw);
-  console.log('boxValues', boxValues);
+  console.log("boxValues", boxValues);
   const view2 = new DataView(boxValues.buffer);
   const voteTimestamp = view2.getBigUint64(0, false);
   const claimedRewards = view2.getInt8(8);
-  
+
   const voteInfo = {
     voteTimestamp,
     claimedRewards,

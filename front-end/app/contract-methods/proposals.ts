@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { microAlgos } from "@algorandfoundation/algokit-utils";
-import { getApplicationClient } from "./get-client";
 import { CreateProposalParams } from "./interfaces";
 import algosdk from "algosdk";
 import * as algokit from "@algorandfoundation/algokit-utils";
 import { Proposal } from "../interfaces/proposals";
 import { getGlobalState } from "./globalState";
+import { getApplicationClient } from "./get-client";
 
 export async function createProposal({
   title,

@@ -1,8 +1,9 @@
 import { microAlgos } from "@algorandfoundation/algokit-utils";
 import { VoteOnProposalParams } from "./interfaces";
 import * as algokit from "@algorandfoundation/algokit-utils";
-import { getApplicationClient } from "./get-client";
+
 import algosdk from "algosdk";
+import { getApplicationClient } from "./get-client";
 
 export async function voteOnProposal({
   proposalId,
@@ -38,13 +39,18 @@ export async function getUserVotes(userAddress: string, proposalId: number) {
   const proposalIdBytes = new Uint8Array(8);
   const view = new DataView(proposalIdBytes.buffer);
   view.setBigUint64(0, BigInt(proposalId), false);
-  const expectedName = new Uint8Array([...Buffer.from("_v"), ...proposalIdBytes, ...publickey])
-
+  const expectedName = new Uint8Array([
+    ...Buffer.from("_v"),
+    ...proposalIdBytes,
+    ...publickey,
+  ]);
 
   const boxCount = await appClient.appClient.getBoxNames();
   const box = boxCount.find((name) => {
-    return name.nameRaw.length === expectedName.length && 
-           name.nameRaw.every((value, index) => value === expectedName[index]);
+    return (
+      name.nameRaw.length === expectedName.length &&
+      name.nameRaw.every((value, index) => value === expectedName[index])
+    );
   });
   if (!box) {
     return {
@@ -55,7 +61,7 @@ export async function getUserVotes(userAddress: string, proposalId: number) {
   const boxValues = await appClient.appClient.getBoxValue(box.nameRaw);
   const view2 = new DataView(boxValues.buffer);
   const voteTimestamp = view2.getBigUint64(0, false);
-  
+
   return {
     voteTimestamp,
     claimedRewards: 0n,

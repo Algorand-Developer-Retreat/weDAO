@@ -27,14 +27,14 @@ export async function createProposal({
       amount: microAlgo(200000),
       extraFee: microAlgos(1001n),
       signer: transactionSigner,
-    })
+    });
 
     await appClient.send.optInToAsset({
       args: { assetId: assetId || 0 },
       sender: proposerAddress,
       extraFee: microAlgos(1001n),
       signer: transactionSigner,
-    })
+    });
 
     const fundPoolTxn = algorand.createTransaction.assetTransfer({
       sender: proposerAddress,
@@ -43,7 +43,7 @@ export async function createProposal({
       amount: BigInt(amount || 0),
       extraFee: microAlgos(1001n),
       signer: transactionSigner,
-    })
+    });
 
     const mbrTxn = algorand.createTransaction.payment({
       sender: proposerAddress,
@@ -51,7 +51,7 @@ export async function createProposal({
       receiver: appClient.appAddress,
       extraFee: microAlgos(1001n),
       signer: transactionSigner,
-    })
+    });
 
     const result = await appClient.send.createProposal({
       args: {
@@ -64,7 +64,7 @@ export async function createProposal({
       },
       sender: proposerAddress,
       signer: transactionSigner,
-    })
+    });
     return result;
   } catch (error) {
     console.error(error);
@@ -75,7 +75,7 @@ export async function createProposal({
 export async function getProposals() {
   try {
     const appClient = await getRewardApplicationClient();
-    
+
     const proposals: Proposal[] = [];
     let boxCount = await appClient.appClient.getBoxNames();
     boxCount = boxCount.filter((name) => {
@@ -91,7 +91,6 @@ export async function getProposals() {
     }
     console.log("proposals", proposals);
 
-
     return proposals;
   } catch (error) {
     console.error(error);
@@ -104,18 +103,18 @@ export function byteArrayToUint128(byteArray: Uint8Array): bigint {
 
   // Iterate over the byte array, treating it as big-endian
   for (let i = 0; i < byteArray.length; i++) {
-      result = (result << BigInt(8)) + BigInt(byteArray[i]);
+    result = (result << BigInt(8)) + BigInt(byteArray[i]);
   }
 
   return result;
 }
 
-async function decodeBoxValues(boxValues: Uint8Array, proposalId: number){
+async function decodeBoxValues(boxValues: Uint8Array, proposalId: number) {
   const BYTE_LENGTH = 8;
 
-    const appClient = await getRewardApplicationClient();
+  const appClient = await getRewardApplicationClient();
 
-    /* proposal_expiry_timestamp: arc4.UintN64
+  /* proposal_expiry_timestamp: arc4.UintN64
   proposal_start_timestamp: arc4.UintN64
   proposal_total_votes: arc4.UintN64
   proposal_yes_votes: arc4.UintN64
@@ -125,34 +124,55 @@ async function decodeBoxValues(boxValues: Uint8Array, proposalId: number){
   proposal_creator: arc4.Address
   proposal_title_and_description: arc4.Str */
 
-    let index = 0;
-    const proposal_expiry_timestamp = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH;
-    const proposal_start_timestamp = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH;
-    const proposal_total_votes = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH;
-    const proposal_yes_votes = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH;
-    const proposal_prize_pool = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH;
-    const proposal_asset = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH;
-    const vote_price = byteArrayToUint128(boxValues.slice(index, index + BYTE_LENGTH));
-    index += BYTE_LENGTH;
-    const proposal_creator = algosdk.encodeAddress(boxValues.slice(index, index + 32));
-    index += 32 + 4;
-    const proposal_title_and_description = new TextDecoder().decode(boxValues.slice(index));
-    const proposal_title = proposal_title_and_description.split(':')[0];
-    const proposal_description = proposal_title_and_description.split(':')[1];
-    console.log('proposal_expiry_timestamp', proposal_expiry_timestamp);
-    console.log('Date.now()', Date.now());
-  const newProposal: Proposal =  {
+  let index = 0;
+  const proposal_expiry_timestamp = byteArrayToUint128(
+    boxValues.slice(index, index + BYTE_LENGTH)
+  );
+  index += BYTE_LENGTH;
+  const proposal_start_timestamp = byteArrayToUint128(
+    boxValues.slice(index, index + BYTE_LENGTH)
+  );
+  index += BYTE_LENGTH;
+  const proposal_total_votes = byteArrayToUint128(
+    boxValues.slice(index, index + BYTE_LENGTH)
+  );
+  index += BYTE_LENGTH;
+  const proposal_yes_votes = byteArrayToUint128(
+    boxValues.slice(index, index + BYTE_LENGTH)
+  );
+  index += BYTE_LENGTH;
+  const proposal_prize_pool = byteArrayToUint128(
+    boxValues.slice(index, index + BYTE_LENGTH)
+  );
+  index += BYTE_LENGTH;
+  const proposal_asset = byteArrayToUint128(
+    boxValues.slice(index, index + BYTE_LENGTH)
+  );
+  index += BYTE_LENGTH;
+  const vote_price = byteArrayToUint128(
+    boxValues.slice(index, index + BYTE_LENGTH)
+  );
+  index += BYTE_LENGTH;
+  const proposal_creator = algosdk.encodeAddress(
+    boxValues.slice(index, index + 32)
+  );
+  index += 32 + 4;
+  const proposal_title_and_description = new TextDecoder().decode(
+    boxValues.slice(index)
+  );
+  const proposal_title = proposal_title_and_description.split(":")[0];
+  const proposal_description = proposal_title_and_description.split(":")[1];
+  console.log("proposal_expiry_timestamp", proposal_expiry_timestamp);
+  console.log("Date.now()", Date.now());
+  const newProposal: Proposal = {
     description: proposal_description,
     expiresIn: Number(proposal_expiry_timestamp),
     id: proposalId,
     proposer: proposal_creator,
-    status: Number(proposal_expiry_timestamp) < Date.now()/1000 ? 'closed' : 'active',
+    status:
+      Number(proposal_expiry_timestamp) < Date.now() / 1000
+        ? "closed"
+        : "active",
     title: proposal_title,
     votesFor: Number(proposal_yes_votes),
     votesAgainst: Number(proposal_total_votes) - Number(proposal_yes_votes),
@@ -161,6 +181,6 @@ async function decodeBoxValues(boxValues: Uint8Array, proposalId: number){
     prizePool: Number(proposal_prize_pool),
     votePrice: Number(vote_price),
     type: "reward",
-  }
+  };
   return newProposal;
 }

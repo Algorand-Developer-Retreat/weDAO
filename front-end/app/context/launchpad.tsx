@@ -18,11 +18,15 @@ const LaunchpadContext = createContext<LaunchpadContextType | undefined>(
 export const AsaMetadataProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [asaMetadata, setAsaMetadata] = useState<ProjectToLaunchMetadata[]>([]);
+  const [launchNewPojectMetadata, setLaunchNewPojectMetadata] = useState<
+    ProjectToLaunchMetadata[]
+  >([]);
 
   const launchNewProject = async (
     project: ProjectToLaunchMetadata
-  ): Promise<void> => {};
+  ): Promise<void> => {
+    console.log("launchNewProject metadata", launchNewPojectMetadata);
+  };
 
   return (
     <LaunchpadContext.Provider value={{ launchNewProject }}>

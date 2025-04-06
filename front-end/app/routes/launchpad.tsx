@@ -10,55 +10,30 @@ import { Footer } from "../components/footer";
 import { ProposalFormRewards } from "../components/proposalFormRewards";
 import { motion, AnimatePresence } from "framer-motion";
 import { SetupForm } from "~/components/setup_wedev/SetupForm";
+import { Web3Tool } from "~/Web3Tools/Web3ToolTypes";
 
 export default function SetupWeDev() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { activeAccount, transactionSigner } = useWallet();
   const [activeTab, setActiveTab] = useState("proposal");
 
-  const handleCreateProposal = async (
-    title: string,
-    description: string,
-    expiryTimestamp: number,
-    assetId?: number,
-    amount?: number,
-    votePrice?: number
+  const handleCreateProject = async (
+    projectName: string,
+    web3Tools: Web3Tool[]
   ) => {
     setIsSubmitting(true);
     try {
-      // TODO: Implement the actual proposal creation logic here
-      console.log("Creating proposal:", {
-        title,
-        description,
-        expiryTimestamp,
-      });
+      if (!activeAccount) return;
+
+      const metadata = {
+        projectName,
+        web3Tools,
+      };
+
+      console.log("Creating project with metadata:", metadata);
 
       const algorand = algokit.AlgorandClient.mainNet();
       algorand.setDefaultSigner(transactionSigner);
-      const expireTime = expiryTimestamp - Math.floor(Date.now() / 1000);
-      if (assetId == undefined) {
-        await createProposal({
-          title,
-          description,
-          proposerAddress: activeAccount?.address || "",
-          expiresIn: expireTime,
-          transactionSigner: transactionSigner,
-        });
-      } else {
-        console.log("Original expiryTimestamp", expiryTimestamp);
-        console.log("Expire time", expireTime);
-
-        await createRewardProposal({
-          title,
-          description,
-          proposerAddress: activeAccount?.address || "",
-          expiresIn: expireTime,
-          transactionSigner: transactionSigner,
-          assetId: assetId || 0,
-          amount: amount || 0,
-          votePrice: votePrice || 0,
-        });
-      }
     } catch (error) {
       console.error("Failed to create proposal:", error);
       throw error;
@@ -80,13 +55,7 @@ export default function SetupWeDev() {
             transition={{ duration: 0.2 }}
           >
             {activeTab === "proposal" && (
-              <SetupForm onSubmit={async () => console.log("create project")} />
-            )}
-            {activeTab === "rewards" && (
-              <ProposalFormRewards
-                onSubmit={handleCreateProposal}
-                isLoading={isSubmitting}
-              />
+              <SetupForm onSubmit={handleCreateProject} />
             )}
           </motion.div>
         </AnimatePresence>
