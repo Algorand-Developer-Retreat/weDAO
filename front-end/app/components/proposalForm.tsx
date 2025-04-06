@@ -26,22 +26,22 @@ export function ProposalForm({
   const navigate = useNavigate();
   const { showToast } = useToast();
   const [canCreate, setCanCreate] = useState(false);
-  const {activeAccount} = useWallet();
+  const { activeAccount } = useWallet();
 
   useEffect(() => {
     async function getGlobals() {
       const globals = await getGlobalState();
-      if(globals.anyoneCanCreate) {
+      if (globals.anyoneCanCreate) {
         setCanCreate(true);
       } else {
         const manager = globals.managerAddress;
-        if(manager === activeAccount?.address) {
+        if (manager === activeAccount?.address) {
           setCanCreate(true);
-        } 
+        }
       }
     }
     getGlobals();
-  },[activeAccount]);
+  }, [activeAccount]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,9 +80,13 @@ export function ProposalForm({
       >
         <div className="flex flex-col items-center justify-center gap-4 py-8">
           <FaLock className="w-16 h-16 text-text/50" />
-          <h2 className="text-2xl font-bold text-heading text-center">Only the DAO manager can create proposals</h2>
+          <h2 className="text-2xl font-bold text-heading text-center">
+            Only the DAO manager can create proposals
+          </h2>
           <p className="text-text/70 text-center">
-            This DAO is configured to only allow the manager to create proposals. Please contact the DAO manager if you would like to create a proposal.
+            This DAO is configured to only allow the manager to create
+            proposals. Please contact the DAO manager if you would like to
+            create a proposal.
           </p>
           <button
             onClick={() => navigate("/")}

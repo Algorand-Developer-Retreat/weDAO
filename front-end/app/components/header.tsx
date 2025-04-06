@@ -7,6 +7,7 @@ import { WalletContext } from "../context/wallet";
 import { DisconnectButton } from "./disconnectButton";
 import WalletBadge from "./walletBadge";
 import { useNavigate } from "@remix-run/react";
+import NavigateToLaunchpadButton from "./launchpad/NavigateToLaunchpadButton";
 
 export function Header() {
   const { activeAccount } = useWallet();
@@ -27,7 +28,8 @@ export function Header() {
 
       <ClientOnly>
         {activeAccount ? (
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <NavigateToLaunchpadButton />
             <WalletBadge />
             <DisconnectButton />
           </div>

@@ -61,7 +61,6 @@ export const WalletConnectionModal: React.FC = () => {
                   Connect Wallet
                 </h3>
               </div>
-
               <br />
               <div className=" grid grid-cols-2 cursor-pointer ">
                 {wallets?.map((wallet) => (
