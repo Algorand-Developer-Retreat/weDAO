@@ -10,7 +10,7 @@ export default async function deployHoldersContract(
   senderAddress: string,
   signer: TransactionSigner
 ) {
-  const algorand = algokit.AlgorandClient.mainNet();
+  const algorand = algokit.AlgorandClient.testNet();
 
   // Register the signer with the account manager
   algorand.account.setSigner(senderAddress, signer);

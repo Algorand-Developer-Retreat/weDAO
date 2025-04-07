@@ -19,7 +19,7 @@ export async function createProposal({
   try {
     const appClient = await getRewardApplicationClient();
     const createProposalMbrValue = 168900;
-    const algorand = algokit.AlgorandClient.mainNet();
+    const algorand = algokit.AlgorandClient.testNet();
 
     await algorand.send.payment({
       sender: proposerAddress,

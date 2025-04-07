@@ -13,7 +13,7 @@ export async function voteOnProposal({
   try {
     const appClient = await getApplicationClient();
 
-    const algorand = algokit.AlgorandClient.mainNet();
+    const algorand = algokit.AlgorandClient.testNet();
     const mbrTxn = algorand.createTransaction.payment({
       sender: voterAddress,
       amount: microAlgos(144900),

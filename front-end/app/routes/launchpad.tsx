@@ -32,7 +32,7 @@ export default function SetupWeDev() {
 
       console.log("Creating project with metadata:", metadata);
 
-      const algorand = algokit.AlgorandClient.mainNet();
+      const algorand = algokit.AlgorandClient.testNet();
       algorand.setDefaultSigner(transactionSigner);
     } catch (error) {
       console.error("Failed to create proposal:", error);

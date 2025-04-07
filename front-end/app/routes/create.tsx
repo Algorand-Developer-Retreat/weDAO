@@ -32,7 +32,7 @@ export default function CreateProposal() {
         expiryTimestamp,
       });
 
-      const algorand = algokit.AlgorandClient.mainNet();
+      const algorand = algokit.AlgorandClient.testNet();
       algorand.setDefaultSigner(transactionSigner);
       const expireTime = expiryTimestamp - Math.floor(Date.now() / 1000);
       if (assetId == undefined) {

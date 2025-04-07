@@ -322,10 +322,18 @@ export function SetupForm({ onSubmit, isLoading = false }: SetupFormProps) {
           </div>
         </form>
         {newAppId && (
-          <div className="flex items-center justify-center mt-8">
-            <h3 className="text-text/70 text-sm">
-              Successfully created project with ID:{" "}
-              <span className="text-primary font-semibold">{newAppId}</span>
+          <div className="flex flex-col gap-4 justify-start items-center mt-8">
+            <h3 className="text-text/70 font-bold">{`Project: ${title} with ${selectedTools.map(
+              (selectedTool) => <p>{selectedTool.name}</p>
+            )}`}</h3>
+            <h3 className="text-text/70 flex gap-1 text-sm">
+              <p>
+                Successfully created project with ID copy this variable to your
+                .env:{" "}
+              </p>
+              <span className="text-primary font-semibold">
+                VITE_DAO_CONTRACT_APP_ID:{newAppId}
+              </span>
             </h3>
           </div>
         )}

@@ -6,6 +6,7 @@ import { MdQuestionAnswer } from "react-icons/md";
 import { getGlobalState } from "../contract-methods/holders-contract/globalState";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { FaLock } from "react-icons/fa";
+import algosdk from "algosdk";
 
 interface ProposalFormProps {
   onSubmit: (
@@ -34,8 +35,10 @@ export function ProposalForm({
       if (globals.anyoneCanCreate) {
         setCanCreate(true);
       } else {
-        const manager = globals.managerAddress;
-        if (manager === activeAccount?.address) {
+        const manager = globals.managerAddress?.asByteArray();
+        const managerAddress = algosdk.encodeAddress(manager!);
+        console.log("Manager address:", managerAddress, activeAccount);
+        if (managerAddress === activeAccount?.address) {
           setCanCreate(true);
         }
       }

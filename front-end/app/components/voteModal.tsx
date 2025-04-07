@@ -203,7 +203,7 @@ export function VoteModal() {
           : selectedProposal?.proposalAsset
       );
       setAssetInfo(info);
-      const algorand = algokit.AlgorandClient.mainNet();
+      const algorand = algokit.AlgorandClient.testNet();
       const accountInfo = await algorand.account.getInformation(
         activeAccount?.address || ""
       );
