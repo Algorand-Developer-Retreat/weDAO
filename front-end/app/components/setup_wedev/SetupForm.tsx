@@ -331,7 +331,7 @@ export function SetupForm({ onSubmit, isLoading = false }: SetupFormProps) {
                 Successfully created project with ID copy this variable to your
                 .env:{" "}
               </p>
-              <span className="text-primary font-semibold">
+              <span className="text-white font-semibold">
                 VITE_DAO_CONTRACT_APP_ID:{newAppId}
               </span>
             </h3>
