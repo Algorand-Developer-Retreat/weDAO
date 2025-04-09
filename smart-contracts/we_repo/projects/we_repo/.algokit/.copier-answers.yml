@@ -1,0 +1,9 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 0.3.2
+_src_path: gh:algorandfoundation/algokit-typescript-template
+author_email: arthurrabelopro@gmail.com
+author_name: p2
+contract_name: we_repo
+preset_name: production
+project_name: we_repo
+
