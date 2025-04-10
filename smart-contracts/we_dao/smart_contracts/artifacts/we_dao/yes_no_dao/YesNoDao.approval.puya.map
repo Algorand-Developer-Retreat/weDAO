@@ -3,7 +3,7 @@
   "sources": [
     "/home/arthur/Documents/retreat/weDAO/smart-contracts/we_dao/smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts"
   ],
-  "mappings": "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",
+  "mappings": "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",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -1200,11 +1200,11 @@
     "347": {
       "subroutine": "smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts::YesNoDao.createApplication",
       "params": {
-        "anyoneCanCreate#0": "uint64",
-        "minimumHolding#0": "uint64",
-        "assetId#0": "uint64",
-        "projectName#0": "bytes",
-        "projectDesription#0": "bytes"
+        "anyone_can_create#0": "uint64",
+        "minimum_holding#0": "uint64",
+        "asset_id#0": "uint64",
+        "projectTitle#0": "bytes",
+        "projectDescription#0": "bytes"
       },
       "block": "createApplication",
       "stack_in": [],
@@ -1271,11 +1271,11 @@
       "op": "frame_dig -5",
       "defined_out": [
         "\"anyone_can_create\"",
-        "anyoneCanCreate#0 (copy)"
+        "anyone_can_create#0 (copy)"
       ],
       "stack_out": [
         "\"anyone_can_create\"",
-        "anyoneCanCreate#0 (copy)"
+        "anyone_can_create#0 (copy)"
       ]
     },
     "360": {
@@ -1295,11 +1295,11 @@
       "op": "frame_dig -4",
       "defined_out": [
         "\"minimum_holding\"",
-        "minimumHolding#0 (copy)"
+        "minimum_holding#0 (copy)"
       ],
       "stack_out": [
         "\"minimum_holding\"",
-        "minimumHolding#0 (copy)"
+        "minimum_holding#0 (copy)"
       ]
     },
     "364": {
@@ -1307,30 +1307,6 @@
       "stack_out": []
     },
     "365": {
-      "op": "pushbytes \"project_name\"",
-      "defined_out": [
-        "\"project_name\""
-      ],
-      "stack_out": [
-        "\"project_name\""
-      ]
-    },
-    "379": {
-      "op": "frame_dig -2",
-      "defined_out": [
-        "\"project_name\"",
-        "projectName#0 (copy)"
-      ],
-      "stack_out": [
-        "\"project_name\"",
-        "projectName#0 (copy)"
-      ]
-    },
-    "381": {
-      "op": "app_global_put",
-      "stack_out": []
-    },
-    "382": {
       "op": "bytec 4 // \"asset_id\"",
       "defined_out": [
         "\"asset_id\""
@@ -1339,15 +1315,39 @@
         "\"asset_id\""
       ]
     },
-    "384": {
+    "367": {
       "op": "frame_dig -3",
       "defined_out": [
         "\"asset_id\"",
-        "assetId#0 (copy)"
+        "asset_id#0 (copy)"
       ],
       "stack_out": [
         "\"asset_id\"",
-        "assetId#0 (copy)"
+        "asset_id#0 (copy)"
+      ]
+    },
+    "369": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "370": {
+      "op": "pushbytes \"project_name\"",
+      "defined_out": [
+        "\"project_name\""
+      ],
+      "stack_out": [
+        "\"project_name\""
+      ]
+    },
+    "384": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "\"project_name\"",
+        "projectTitle#0 (copy)"
+      ],
+      "stack_out": [
+        "\"project_name\"",
+        "projectTitle#0 (copy)"
       ]
     },
     "386": {
@@ -1360,7 +1360,7 @@
     "388": {
       "op": "frame_dig -2",
       "stack_out": [
-        "projectName#0 (copy)"
+        "projectTitle#0 (copy)"
       ]
     },
     "390": {
@@ -1394,7 +1394,7 @@
       "op": "frame_dig -2",
       "stack_out": [
         "length_uint16%0#0",
-        "projectName#0 (copy)"
+        "projectTitle#0 (copy)"
       ]
     },
     "397": {
@@ -1410,11 +1410,11 @@
       "op": "frame_dig -1",
       "defined_out": [
         "encoded_value%0#0",
-        "projectDesription#0 (copy)"
+        "projectDescription#0 (copy)"
       ],
       "stack_out": [
         "encoded_value%0#0",
-        "projectDesription#0 (copy)"
+        "projectDescription#0 (copy)"
       ]
     },
     "400": {
@@ -1455,7 +1455,7 @@
       "stack_out": [
         "encoded_value%0#0",
         "length_uint16%1#0",
-        "projectDesription#0 (copy)"
+        "projectDescription#0 (copy)"
       ]
     },
     "407": {

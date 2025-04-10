@@ -6,6 +6,7 @@ import {
   Contract,
   GlobalState,
   gtxn,
+  itxn,
   op,
   Txn,
   uint64,
@@ -30,6 +31,9 @@ export class YesNoDao extends Contract {
   // Keeps track of the minimum holding a usr needs in order to able to vote to all proposals in this contract
   minimum_holding = GlobalState<uint64>()
 
+  // Dao_project
+  project_name = GlobalState<string>()
+
   // Define the proposal boxes - use a string for keyPrefix
   proposal = BoxMap<ProposalIdType, ProposalDataType>({ keyPrefix: '_p' })
 
@@ -37,7 +41,13 @@ export class YesNoDao extends Contract {
   vote = BoxMap<VoteIdType, VoteDataType>({ keyPrefix: '_v' })
 
   @abimethod({ allowActions: 'NoOp', onCreate: 'require' })
-  public createApplication(anyone_can_create: boolean, minimum_holding: uint64, asset_id: uint64): void {
+  public createApplication(
+    anyone_can_create: boolean,
+    minimum_holding: uint64,
+    asset_id: uint64,
+    projectTitle: string,
+    projectDescription: string,
+  ): void {
     // When creating the application we set the manager address
     this.manager_address.value = Txn.sender
 
@@ -51,6 +61,23 @@ export class YesNoDao extends Contract {
 
     // Set the asset id value
     this.asset_id.value = asset_id
+
+    this.createProjectRecord(projectTitle, projectDescription)
+  }
+
+  private createProjectRecord(projectTitle: string, projectDescription: string) {
+    this.project_name.value = projectTitle
+
+    itxn
+      .applicationCall({
+        appId: 1025,
+        appArgs: [
+          arc4.methodSelector('createNewProject(string,string)void'),
+          new arc4.Str(projectTitle),
+          new arc4.Str(projectDescription),
+        ],
+      })
+      .submit()
   }
 
   @abimethod({ allowActions: 'NoOp' })
