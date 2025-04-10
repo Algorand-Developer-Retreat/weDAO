@@ -24,7 +24,7 @@ import { SendParams, SendSingleTransactionResult, SendAtomicTransactionComposerR
 import { Address, encodeAddress, modelsv2, OnApplicationComplete, Transaction, TransactionSigner } from 'algosdk'
 import SimulateResponse = modelsv2.SimulateResponse
 
-export const APP_SPEC: Arc56Contract = {"name":"WeRepo","structs":{"ProjectDataType":[{"name":"projectName","type":"string"},{"name":"projectDescription","type":"string"},{"name":"projectContribution","type":"uint64"}]},"methods":[{"name":"createApplication","args":[],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"events":[],"recommendations":{}},{"name":"createNewProject","args":[{"type":"(string,string,uint64)","struct":"ProjectDataType","name":"projectData"}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"events":[],"recommendations":{}}],"arcs":[22,28],"networks":{},"state":{"schema":{"global":{"ints":3,"bytes":1},"local":{"ints":0,"bytes":0}},"keys":{"global":{"manager_address":{"keyType":"AVMString","valueType":"AVMBytes","key":"bWFuYWdlcl9hZGRyZXNz"},"total_projects":{"keyType":"AVMString","valueType":"AVMUint64","key":"dG90YWxfcHJvamVjdHM="},"total_reputation":{"keyType":"AVMString","valueType":"AVMUint64","key":"dG90YWxfcmVwdXRhdGlvbg=="},"total_contribution":{"keyType":"AVMString","valueType":"AVMUint64","key":"dG90YWxfY29udHJpYnV0aW9u"}},"local":{},"box":{"project":{"keyType":"AVMString","valueType":"ProjectDataType","key":"X3A="}}},"maps":{"global":{},"local":{},"box":{}}},"bareActions":{"create":["NoOp"],"call":[]},"sourceInfo":{"approval":{"sourceInfo":[{"pc":[36,51],"errorMessage":"OnCompletion is not NoOp"},{"pc":[167],"errorMessage":"Project already exists for this address"},{"pc":[68],"errorMessage":"can only call when creating"},{"pc":[39,54],"errorMessage":"can only call when not creating"}],"pcOffsetMethod":"none"},"clear":{"sourceInfo":[],"pcOffsetMethod":"none"}},"source":{"approval":"I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBAYWxnb3JhbmRmb3VuZGF0aW9uL2FsZ29yYW5kLXR5cGVzY3JpcHQvYXJjNC9pbmRleC5kLnRzOjpDb250cmFjdC5hcHByb3ZhbFByb2dyYW0oKSAtPiB1aW50NjQ6Cm1haW46CiAgICBpbnRjYmxvY2sgMCAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjEzCiAgICAvLyBleHBvcnQgY2xhc3MgV2VSZXBvIGV4dGVuZHMgQ29udHJhY3QgewogICAgdHhuIE51bUFwcEFyZ3MKICAgIGJ6IG1haW5fYmFyZV9yb3V0aW5nQDcKICAgIHB1c2hieXRlc3MgMHhiODQ0N2IzNiAweGMzNmU1ZDcyIC8vIG1ldGhvZCAiY3JlYXRlQXBwbGljYXRpb24oKXZvaWQiLCBtZXRob2QgImNyZWF0ZU5ld1Byb2plY3QoKHN0cmluZyxzdHJpbmcsdWludDY0KSl2b2lkIgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggbWFpbl9jcmVhdGVBcHBsaWNhdGlvbl9yb3V0ZUAzIG1haW5fY3JlYXRlTmV3UHJvamVjdF9yb3V0ZUA0CgptYWluX2FmdGVyX2lmX2Vsc2VAMTE6CiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjEzCiAgICAvLyBleHBvcnQgY2xhc3MgV2VSZXBvIGV4dGVuZHMgQ29udHJhY3QgewogICAgaW50Y18wIC8vIDAKICAgIHJldHVybgoKbWFpbl9jcmVhdGVOZXdQcm9qZWN0X3JvdXRlQDQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjI5CiAgICAvLyBwdWJsaWMgY3JlYXRlTmV3UHJvamVjdChwcm9qZWN0RGF0YTogUHJvamVjdERhdGFUeXBlKTogdm9pZCB7CiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MTMKICAgIC8vIGV4cG9ydCBjbGFzcyBXZVJlcG8gZXh0ZW5kcyBDb250cmFjdCB7CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjI5CiAgICAvLyBwdWJsaWMgY3JlYXRlTmV3UHJvamVjdChwcm9qZWN0RGF0YTogUHJvamVjdERhdGFUeXBlKTogdm9pZCB7CiAgICBjYWxsc3ViIGNyZWF0ZU5ld1Byb2plY3QKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fY3JlYXRlQXBwbGljYXRpb25fcm91dGVAMzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MjIKICAgIC8vIHB1YmxpYyBjcmVhdGVBcHBsaWNhdGlvbigpOiB2b2lkIHsKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgY2FsbHN1YiBjcmVhdGVBcHBsaWNhdGlvbgogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKbWFpbl9iYXJlX3JvdXRpbmdANzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MTMKICAgIC8vIGV4cG9ydCBjbGFzcyBXZVJlcG8gZXh0ZW5kcyBDb250cmFjdCB7CiAgICB0eG4gT25Db21wbGV0aW9uCiAgICBibnogbWFpbl9hZnRlcl9pZl9lbHNlQDExCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgIQogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBjcmVhdGluZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6OldlUmVwby5jcmVhdGVBcHBsaWNhdGlvbigpIC0+IHZvaWQ6CmNyZWF0ZUFwcGxpY2F0aW9uOgogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czoxNQogICAgLy8gbWFuYWdlcl9hZGRyZXNzID0gR2xvYmFsU3RhdGU8QWNjb3VudD4oKQogICAgcHVzaGJ5dGVzICJtYW5hZ2VyX2FkZHJlc3MiCiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjIzCiAgICAvLyB0aGlzLm1hbmFnZXJfYWRkcmVzcy52YWx1ZSA9IFR4bi5zZW5kZXIKICAgIHR4biBTZW5kZXIKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjE2CiAgICAvLyB0b3RhbF9wcm9qZWN0cyA9IEdsb2JhbFN0YXRlPHVpbnQ2ND4oKQogICAgcHVzaGJ5dGVzICJ0b3RhbF9wcm9qZWN0cyIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MjQKICAgIC8vIHRoaXMudG90YWxfcHJvamVjdHMudmFsdWUgPSAwCiAgICBpbnRjXzAgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MTcKICAgIC8vIHRvdGFsX3JlcHV0YXRpb24gPSBHbG9iYWxTdGF0ZTx1aW50NjQ+KCkKICAgIHB1c2hieXRlcyAidG90YWxfcmVwdXRhdGlvbiIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MjUKICAgIC8vIHRoaXMudG90YWxfcmVwdXRhdGlvbi52YWx1ZSA9IDAKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czoxOAogICAgLy8gdG90YWxfY29udHJpYnV0aW9uID0gR2xvYmFsU3RhdGU8dWludDY0PigpCiAgICBwdXNoYnl0ZXMgInRvdGFsX2NvbnRyaWJ1dGlvbiIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MjYKICAgIC8vIHRoaXMudG90YWxfY29udHJpYnV0aW9uLnZhbHVlID0gMAogICAgaW50Y18wIC8vIDAKICAgIGFwcF9nbG9iYWxfcHV0CiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjpXZVJlcG8uY3JlYXRlTmV3UHJvamVjdChwcm9qZWN0RGF0YTogYnl0ZXMpIC0+IHZvaWQ6CmNyZWF0ZU5ld1Byb2plY3Q6CiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjI5CiAgICAvLyBwdWJsaWMgY3JlYXRlTmV3UHJvamVjdChwcm9qZWN0RGF0YTogUHJvamVjdERhdGFUeXBlKTogdm9pZCB7CiAgICBwcm90byAxIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MjAKICAgIC8vIHByb2plY3QgPSBCb3hNYXA8UHJvamVjdElkVHlwZSwgUHJvamVjdERhdGFUeXBlPih7IGtleVByZWZpeDogJ19wJyB9KQogICAgcHVzaGJ5dGVzICJfcCIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MzAKICAgIC8vIGNvbnN0IGNyZWF0b3JBZGRyZXNzOiBBY2NvdW50ID0gVHhuLnNlbmRlcgogICAgdHhuIFNlbmRlcgogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czoyMAogICAgLy8gcHJvamVjdCA9IEJveE1hcDxQcm9qZWN0SWRUeXBlLCBQcm9qZWN0RGF0YVR5cGU+KHsga2V5UHJlZml4OiAnX3AnIH0pCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MzYKICAgIC8vIGFzc2VydCghY3VycmVudFByb2plY3RJbnN0YW5jZS5leGlzdHMsICdQcm9qZWN0IGFscmVhZHkgZXhpc3RzIGZvciB0aGlzIGFkZHJlc3MnKQogICAgZHVwCiAgICBib3hfbGVuCiAgICBidXJ5IDEKICAgICEKICAgIGFzc2VydCAvLyBQcm9qZWN0IGFscmVhZHkgZXhpc3RzIGZvciB0aGlzIGFkZHJlc3MKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6NDAKICAgIC8vIHByb2plY3RfbmFtZTogcHJvamVjdERhdGEucHJvamVjdF9uYW1lLAogICAgZnJhbWVfZGlnIC0xCiAgICBpbnRjXzAgLy8gMAogICAgZXh0cmFjdF91aW50MTYKICAgIGZyYW1lX2RpZyAtMQogICAgcHVzaGludCAyIC8vIDIKICAgIGV4dHJhY3RfdWludDE2CiAgICBmcmFtZV9kaWcgLTEKICAgIHVuY292ZXIgMgogICAgZGlnIDIKICAgIHN1YnN0cmluZzMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6NDEKICAgIC8vIHByb2plY3RfZGVzY3JpcHRpb246IHByb2plY3REYXRhLnByb2plY3RfZGVzY3JpcHRpb24sCiAgICBmcmFtZV9kaWcgLTEKICAgIGxlbgogICAgZnJhbWVfZGlnIC0xCiAgICB1bmNvdmVyIDMKICAgIHVuY292ZXIgMgogICAgc3Vic3RyaW5nMwogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czozOS00MwogICAgLy8gY29uc3QgcHJvamVjdDogUHJvamVjdERhdGFUeXBlID0gbmV3IFByb2plY3REYXRhVHlwZSh7CiAgICAvLyAgIHByb2plY3RfbmFtZTogcHJvamVjdERhdGEucHJvamVjdF9uYW1lLAogICAgLy8gICBwcm9qZWN0X2Rlc2NyaXB0aW9uOiBwcm9qZWN0RGF0YS5wcm9qZWN0X2Rlc2NyaXB0aW9uLAogICAgLy8gICBwcm9qZWN0X2NvbnRyaWJ1dGlvbjogbmV3IGFyYzQuVWludE42NCgwKSwKICAgIC8vIH0pCiAgICBkaWcgMQogICAgbGVuCiAgICBwdXNoaW50IDEyIC8vIDEyCiAgICArCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgcHVzaGJ5dGVzIDB4MDAwYwogICAgc3dhcAogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjQyCiAgICAvLyBwcm9qZWN0X2NvbnRyaWJ1dGlvbjogbmV3IGFyYzQuVWludE42NCgwKSwKICAgIHB1c2hieXRlcyAweDAwMDAwMDAwMDAwMDAwMDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MzktNDMKICAgIC8vIGNvbnN0IHByb2plY3Q6IFByb2plY3REYXRhVHlwZSA9IG5ldyBQcm9qZWN0RGF0YVR5cGUoewogICAgLy8gICBwcm9qZWN0X25hbWU6IHByb2plY3REYXRhLnByb2plY3RfbmFtZSwKICAgIC8vICAgcHJvamVjdF9kZXNjcmlwdGlvbjogcHJvamVjdERhdGEucHJvamVjdF9kZXNjcmlwdGlvbiwKICAgIC8vICAgcHJvamVjdF9jb250cmlidXRpb246IG5ldyBhcmM0LlVpbnRONjQoMCksCiAgICAvLyB9KQogICAgY29uY2F0CiAgICB1bmNvdmVyIDIKICAgIGNvbmNhdAogICAgc3dhcAogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjQ1CiAgICAvLyB0aGlzLnByb2plY3QobmV3IGFyYzQuQWRkcmVzcyhjcmVhdG9yQWRkcmVzcykpLnZhbHVlID0gcHJvamVjdC5jb3B5KCkKICAgIGRpZyAxCiAgICBib3hfZGVsCiAgICBwb3AKICAgIGJveF9wdXQKICAgIHJldHN1Ygo=","clear":"I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBAYWxnb3JhbmRmb3VuZGF0aW9uL2FsZ29yYW5kLXR5cGVzY3JpcHQvYmFzZS1jb250cmFjdC5kLnRzOjpCYXNlQ29udHJhY3QuY2xlYXJTdGF0ZVByb2dyYW0oKSAtPiB1aW50NjQ6Cm1haW46CiAgICBwdXNoaW50IDEgLy8gMQogICAgcmV0dXJuCg=="},"byteCode":{"approval":"CiACAAExG0EAMoICBLhEezYEw25dcjYaAI4CABEAAiJDMRkURDEYRDYaAYgAaiNDMRkURDEYRIgADSNDMRlA/94xGBREI0OAD21hbmFnZXJfYWRkcmVzczEAZ4AOdG90YWxfcHJvamVjdHMiZ4AQdG90YWxfcmVwdXRhdGlvbiJngBJ0b3RhbF9jb250cmlidXRpb24iZ4mKAQCAAl9wMQBQSb1FARREi/8iWYv/gQJZi/9PAksCUov/FYv/TwNPAlJLARWBDAgWVwYCgAIADExQgAgAAAAAAAAAAFBPAlBMUEsBvEi/iQ==","clear":"CoEBQw=="},"compilerInfo":{"compiler":"puya","compilerVersion":{"major":4,"minor":5,"patch":3}},"events":[],"templateVariables":{}} as unknown as Arc56Contract
+export const APP_SPEC: Arc56Contract = {"name":"WeRepo","structs":{"ProjectDataType":[{"name":"projectName","type":"string"},{"name":"projectDescription","type":"string"},{"name":"projectContribution","type":"uint64"}]},"methods":[{"name":"createApplication","args":[],"returns":{"type":"void"},"actions":{"create":["NoOp"],"call":[]},"readonly":false,"events":[],"recommendations":{}},{"name":"ping","args":[{"type":"string","name":"ping"}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"events":[],"recommendations":{}},{"name":"createNewProject","args":[{"type":"string","name":"projectName"},{"type":"string","name":"projectDescription"}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"events":[],"recommendations":{}}],"arcs":[22,28],"networks":{},"state":{"schema":{"global":{"ints":3,"bytes":2},"local":{"ints":0,"bytes":0}},"keys":{"global":{"manager_address":{"keyType":"AVMString","valueType":"AVMBytes","key":"bWFuYWdlcl9hZGRyZXNz"},"total_projects":{"keyType":"AVMString","valueType":"AVMUint64","key":"dG90YWxfcHJvamVjdHM="},"total_reputation":{"keyType":"AVMString","valueType":"AVMUint64","key":"dG90YWxfcmVwdXRhdGlvbg=="},"total_contribution":{"keyType":"AVMString","valueType":"AVMUint64","key":"dG90YWxfY29udHJpYnV0aW9u"},"pong":{"keyType":"AVMString","valueType":"AVMString","key":"cG9uZw=="}},"local":{},"box":{"project":{"keyType":"AVMString","valueType":"ProjectDataType","key":"X3A="}}},"maps":{"global":{},"local":{},"box":{}}},"bareActions":{"create":[],"call":[]},"sourceInfo":{"approval":{"sourceInfo":[{"pc":[65,89,107],"errorMessage":"OnCompletion is not NoOp"},{"pc":[210],"errorMessage":"Project already exists for this address"},{"pc":[111],"errorMessage":"can only call when creating"},{"pc":[68,92],"errorMessage":"can only call when not creating"},{"pc":[266],"errorMessage":"check GlobalState exists"}],"pcOffsetMethod":"none"},"clear":{"sourceInfo":[],"pcOffsetMethod":"none"}},"source":{"approval":"I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBAYWxnb3JhbmRmb3VuZGF0aW9uL2FsZ29yYW5kLXR5cGVzY3JpcHQvYXJjNC9pbmRleC5kLnRzOjpDb250cmFjdC5hcHByb3ZhbFByb2dyYW0oKSAtPiB1aW50NjQ6Cm1haW46CiAgICBpbnRjYmxvY2sgMCAxCiAgICBieXRlY2Jsb2NrICJ0b3RhbF9wcm9qZWN0cyIgInBvbmciCiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjE3CiAgICAvLyBleHBvcnQgY2xhc3MgV2VSZXBvIGV4dGVuZHMgQ29udHJhY3QgewogICAgdHhuIE51bUFwcEFyZ3MKICAgIGJ6IG1haW5fYWZ0ZXJfaWZfZWxzZUA5CiAgICBwdXNoYnl0ZXNzIDB4Yjg0NDdiMzYgMHg4NTUzNDFjNSAweGViMDNjOTI3IC8vIG1ldGhvZCAiY3JlYXRlQXBwbGljYXRpb24oKXZvaWQiLCBtZXRob2QgInBpbmcoc3RyaW5nKXZvaWQiLCBtZXRob2QgImNyZWF0ZU5ld1Byb2plY3Qoc3RyaW5nLHN0cmluZyl2b2lkIgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggbWFpbl9jcmVhdGVBcHBsaWNhdGlvbl9yb3V0ZUAzIG1haW5fcGluZ19yb3V0ZUA0IG1haW5fY3JlYXRlTmV3UHJvamVjdF9yb3V0ZUA1CgptYWluX2FmdGVyX2lmX2Vsc2VAOToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MTcKICAgIC8vIGV4cG9ydCBjbGFzcyBXZVJlcG8gZXh0ZW5kcyBDb250cmFjdCB7CiAgICBpbnRjXzAgLy8gMAogICAgcmV0dXJuCgptYWluX2NyZWF0ZU5ld1Byb2plY3Rfcm91dGVANToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6NDAKICAgIC8vIHB1YmxpYyBjcmVhdGVOZXdQcm9qZWN0KHByb2plY3ROYW1lOiBzdHJpbmcsIHByb2plY3REZXNjcmlwdGlvbjogc3RyaW5nKTogdm9pZCB7CiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MTcKICAgIC8vIGV4cG9ydCBjbGFzcyBXZVJlcG8gZXh0ZW5kcyBDb250cmFjdCB7CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBleHRyYWN0IDIgMAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgZXh0cmFjdCAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6NDAKICAgIC8vIHB1YmxpYyBjcmVhdGVOZXdQcm9qZWN0KHByb2plY3ROYW1lOiBzdHJpbmcsIHByb2plY3REZXNjcmlwdGlvbjogc3RyaW5nKTogdm9pZCB7CiAgICBjYWxsc3ViIGNyZWF0ZU5ld1Byb2plY3QKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fcGluZ19yb3V0ZUA0OgogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czozNgogICAgLy8gcHVibGljIHBpbmcocGluZzogc3RyaW5nKTogdm9pZCB7CiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MTcKICAgIC8vIGV4cG9ydCBjbGFzcyBXZVJlcG8gZXh0ZW5kcyBDb250cmFjdCB7CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBleHRyYWN0IDIgMAogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czozNgogICAgLy8gcHVibGljIHBpbmcocGluZzogc3RyaW5nKTogdm9pZCB7CiAgICBjYWxsc3ViIHBpbmcKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fY3JlYXRlQXBwbGljYXRpb25fcm91dGVAMzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MjcKICAgIC8vIEBhYmltZXRob2QoeyBhbGxvd0FjdGlvbnM6ICdOb09wJywgb25DcmVhdGU6ICdyZXF1aXJlJyB9KQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgICEKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gY3JlYXRpbmcKICAgIGNhbGxzdWIgY3JlYXRlQXBwbGljYXRpb24KICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCgovLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjpXZVJlcG8uY3JlYXRlQXBwbGljYXRpb24oKSAtPiB2b2lkOgpjcmVhdGVBcHBsaWNhdGlvbjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MTkKICAgIC8vIG1hbmFnZXJfYWRkcmVzcyA9IEdsb2JhbFN0YXRlPEFjY291bnQ+KCkKICAgIHB1c2hieXRlcyAibWFuYWdlcl9hZGRyZXNzIgogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czoyOQogICAgLy8gdGhpcy5tYW5hZ2VyX2FkZHJlc3MudmFsdWUgPSBUeG4uc2VuZGVyCiAgICB0eG4gU2VuZGVyCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czoyMAogICAgLy8gdG90YWxfcHJvamVjdHMgPSBHbG9iYWxTdGF0ZTx1aW50NjQ+KCkKICAgIGJ5dGVjXzAgLy8gInRvdGFsX3Byb2plY3RzIgogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czozMAogICAgLy8gdGhpcy50b3RhbF9wcm9qZWN0cy52YWx1ZSA9IDAKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czoyMQogICAgLy8gdG90YWxfcmVwdXRhdGlvbiA9IEdsb2JhbFN0YXRlPHVpbnQ2ND4oKQogICAgcHVzaGJ5dGVzICJ0b3RhbF9yZXB1dGF0aW9uIgogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czozMQogICAgLy8gdGhpcy50b3RhbF9yZXB1dGF0aW9uLnZhbHVlID0gMAogICAgaW50Y18wIC8vIDAKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjIyCiAgICAvLyB0b3RhbF9jb250cmlidXRpb24gPSBHbG9iYWxTdGF0ZTx1aW50NjQ+KCkKICAgIHB1c2hieXRlcyAidG90YWxfY29udHJpYnV0aW9uIgogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czozMgogICAgLy8gdGhpcy50b3RhbF9jb250cmlidXRpb24udmFsdWUgPSAwCiAgICBpbnRjXzAgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MjMKICAgIC8vIHBvbmcgPSBHbG9iYWxTdGF0ZTxzdHJpbmc+KCkKICAgIGJ5dGVjXzEgLy8gInBvbmciCiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjMzCiAgICAvLyB0aGlzLnBvbmcudmFsdWUgPSAnJwogICAgcHVzaGJ5dGVzICIiCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czo6V2VSZXBvLnBpbmcocGluZzogYnl0ZXMpIC0+IHZvaWQ6CnBpbmc6CiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjM2CiAgICAvLyBwdWJsaWMgcGluZyhwaW5nOiBzdHJpbmcpOiB2b2lkIHsKICAgIHByb3RvIDEgMAogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czoyMwogICAgLy8gcG9uZyA9IEdsb2JhbFN0YXRlPHN0cmluZz4oKQogICAgYnl0ZWNfMSAvLyAicG9uZyIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MzcKICAgIC8vIHRoaXMucG9uZy52YWx1ZSA9IHBpbmcKICAgIGZyYW1lX2RpZyAtMQogICAgYXBwX2dsb2JhbF9wdXQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6OldlUmVwby5jcmVhdGVOZXdQcm9qZWN0KHByb2plY3ROYW1lOiBieXRlcywgcHJvamVjdERlc2NyaXB0aW9uOiBieXRlcykgLT4gdm9pZDoKY3JlYXRlTmV3UHJvamVjdDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6NDAKICAgIC8vIHB1YmxpYyBjcmVhdGVOZXdQcm9qZWN0KHByb2plY3ROYW1lOiBzdHJpbmcsIHByb2plY3REZXNjcmlwdGlvbjogc3RyaW5nKTogdm9pZCB7CiAgICBwcm90byAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MjUKICAgIC8vIHByb2plY3QgPSBCb3hNYXA8UHJvamVjdElkVHlwZSwgUHJvamVjdERhdGFUeXBlPih7IGtleVByZWZpeDogJ19wJyB9KQogICAgcHVzaGJ5dGVzICJfcCIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6NDEKICAgIC8vIGNvbnN0IGNyZWF0b3JBZGRyZXNzOiBBY2NvdW50ID0gVHhuLnNlbmRlcgogICAgdHhuIFNlbmRlcgogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czoyNQogICAgLy8gcHJvamVjdCA9IEJveE1hcDxQcm9qZWN0SWRUeXBlLCBQcm9qZWN0RGF0YVR5cGU+KHsga2V5UHJlZml4OiAnX3AnIH0pCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6NDcKICAgIC8vIGFzc2VydCghY3VycmVudFByb2plY3RJbnN0YW5jZS5leGlzdHMsICdQcm9qZWN0IGFscmVhZHkgZXhpc3RzIGZvciB0aGlzIGFkZHJlc3MnKQogICAgZHVwCiAgICBib3hfbGVuCiAgICBidXJ5IDEKICAgICEKICAgIGFzc2VydCAvLyBQcm9qZWN0IGFscmVhZHkgZXhpc3RzIGZvciB0aGlzIGFkZHJlc3MKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6NTEKICAgIC8vIHByb2plY3RfbmFtZTogbmV3IGFyYzQuU3RyKHByb2plY3ROYW1lKSwKICAgIGZyYW1lX2RpZyAtMgogICAgbGVuCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgZnJhbWVfZGlnIC0yCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6NTIKICAgIC8vIHByb2plY3RfZGVzY3JpcHRpb246IG5ldyBhcmM0LlN0cihwcm9qZWN0RGVzY3JpcHRpb24pLAogICAgZnJhbWVfZGlnIC0xCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBmcmFtZV9kaWcgLTEKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czo1MC01NAogICAgLy8gY29uc3QgcHJvamVjdDogUHJvamVjdERhdGFUeXBlID0gbmV3IFByb2plY3REYXRhVHlwZSh7CiAgICAvLyAgIHByb2plY3RfbmFtZTogbmV3IGFyYzQuU3RyKHByb2plY3ROYW1lKSwKICAgIC8vICAgcHJvamVjdF9kZXNjcmlwdGlvbjogbmV3IGFyYzQuU3RyKHByb2plY3REZXNjcmlwdGlvbiksCiAgICAvLyAgIHByb2plY3RfY29udHJpYnV0aW9uOiBuZXcgYXJjNC5VaW50TjY0KDApLAogICAgLy8gfSkKICAgIGRpZyAxCiAgICBsZW4KICAgIHB1c2hpbnQgMTIgLy8gMTIKICAgICsKICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBwdXNoYnl0ZXMgMHgwMDBjCiAgICBzd2FwCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6NTMKICAgIC8vIHByb2plY3RfY29udHJpYnV0aW9uOiBuZXcgYXJjNC5VaW50TjY0KDApLAogICAgcHVzaGJ5dGVzIDB4MDAwMDAwMDAwMDAwMDAwMAogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czo1MC01NAogICAgLy8gY29uc3QgcHJvamVjdDogUHJvamVjdERhdGFUeXBlID0gbmV3IFByb2plY3REYXRhVHlwZSh7CiAgICAvLyAgIHByb2plY3RfbmFtZTogbmV3IGFyYzQuU3RyKHByb2plY3ROYW1lKSwKICAgIC8vICAgcHJvamVjdF9kZXNjcmlwdGlvbjogbmV3IGFyYzQuU3RyKHByb2plY3REZXNjcmlwdGlvbiksCiAgICAvLyAgIHByb2plY3RfY29udHJpYnV0aW9uOiBuZXcgYXJjNC5VaW50TjY0KDApLAogICAgLy8gfSkKICAgIGNvbmNhdAogICAgdW5jb3ZlciAyCiAgICBjb25jYXQKICAgIHN3YXAKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czoyMAogICAgLy8gdG90YWxfcHJvamVjdHMgPSBHbG9iYWxTdGF0ZTx1aW50NjQ+KCkKICAgIGludGNfMCAvLyAwCiAgICBieXRlY18wIC8vICJ0b3RhbF9wcm9qZWN0cyIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgR2xvYmFsU3RhdGUgZXhpc3RzCiAgICAvLyBzbWFydF9jb250cmFjdHMvd2VfcmVwby9jb250cmFjdC5hbGdvLnRzOjU1CiAgICAvLyB0aGlzLnRvdGFsX3Byb2plY3RzLnZhbHVlID0gVWludDY0KHRoaXMudG90YWxfcHJvamVjdHMudmFsdWUgKyAxKQogICAgaW50Y18xIC8vIDEKICAgICsKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6MjAKICAgIC8vIHRvdGFsX3Byb2plY3RzID0gR2xvYmFsU3RhdGU8dWludDY0PigpCiAgICBieXRlY18wIC8vICJ0b3RhbF9wcm9qZWN0cyIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy93ZV9yZXBvL2NvbnRyYWN0LmFsZ28udHM6NTUKICAgIC8vIHRoaXMudG90YWxfcHJvamVjdHMudmFsdWUgPSBVaW50NjQodGhpcy50b3RhbF9wcm9qZWN0cy52YWx1ZSArIDEpCiAgICBzd2FwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL3dlX3JlcG8vY29udHJhY3QuYWxnby50czo1NwogICAgLy8gdGhpcy5wcm9qZWN0KG5ldyBhcmM0LkFkZHJlc3MoY3JlYXRvckFkZHJlc3MpKS52YWx1ZSA9IHByb2plY3QuY29weSgpCiAgICBkaWcgMQogICAgYm94X2RlbAogICAgcG9wCiAgICBib3hfcHV0CiAgICByZXRzdWIK","clear":"I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBAYWxnb3JhbmRmb3VuZGF0aW9uL2FsZ29yYW5kLXR5cGVzY3JpcHQvYmFzZS1jb250cmFjdC5kLnRzOjpCYXNlQ29udHJhY3QuY2xlYXJTdGF0ZVByb2dyYW0oKSAtPiB1aW50NjQ6Cm1haW46CiAgICBwdXNoaW50IDEgLy8gMQogICAgcmV0dXJuCg=="},"byteCode":{"approval":"CiACAAEmAg50b3RhbF9wcm9qZWN0cwRwb25nMRtBAByCAwS4RHs2BIVTQcUE6wPJJzYaAI4DACwAGgACIkMxGRREMRhENhoBVwIANhoCVwIAiABvI0MxGRREMRhENhoBVwIAiABVI0MxGRREMRgURIgAAiNDgA9tYW5hZ2VyX2FkZHJlc3MxAGcoImeAEHRvdGFsX3JlcHV0YXRpb24iZ4ASdG90YWxfY29udHJpYnV0aW9uImcpgABniYoBACmL/2eJigIAgAJfcDEAUEm9RQEURIv+FRZXBgKL/lCL/xUWVwYCi/9QSwEVgQwIFlcGAoACAAxMUIAIAAAAAAAAAABQTwJQTFAiKGVEIwgoTGdLAbxIv4k=","clear":"CoEBQw=="},"compilerInfo":{"compiler":"puya","compilerVersion":{"major":4,"minor":5,"patch":3}},"events":[],"templateVariables":{}} as unknown as Arc56Contract
 
 /**
  * A state record containing binary data
@@ -88,8 +88,12 @@ export type WeRepoArgs = {
    */
   obj: {
     'createApplication()void': Record<string, never>
-    'createNewProject((string,string,uint64))void': {
-      projectData: ProjectDataType
+    'ping(string)void': {
+      ping: string
+    }
+    'createNewProject(string,string)void': {
+      projectName: string
+      projectDescription: string
     }
   }
   /**
@@ -97,7 +101,8 @@ export type WeRepoArgs = {
    */
   tuple: {
     'createApplication()void': []
-    'createNewProject((string,string,uint64))void': [projectData: ProjectDataType]
+    'ping(string)void': [ping: string]
+    'createNewProject(string,string)void': [projectName: string, projectDescription: string]
   }
 }
 
@@ -106,7 +111,8 @@ export type WeRepoArgs = {
  */
 export type WeRepoReturns = {
   'createApplication()void': void
-  'createNewProject((string,string,uint64))void': void
+  'ping(string)void': void
+  'createNewProject(string,string)void': void
 }
 
 /**
@@ -122,10 +128,15 @@ export type WeRepoTypes = {
       argsTuple: WeRepoArgs['tuple']['createApplication()void']
       returns: WeRepoReturns['createApplication()void']
     }>
-    & Record<'createNewProject((string,string,uint64))void' | 'createNewProject', {
-      argsObj: WeRepoArgs['obj']['createNewProject((string,string,uint64))void']
-      argsTuple: WeRepoArgs['tuple']['createNewProject((string,string,uint64))void']
-      returns: WeRepoReturns['createNewProject((string,string,uint64))void']
+    & Record<'ping(string)void' | 'ping', {
+      argsObj: WeRepoArgs['obj']['ping(string)void']
+      argsTuple: WeRepoArgs['tuple']['ping(string)void']
+      returns: WeRepoReturns['ping(string)void']
+    }>
+    & Record<'createNewProject(string,string)void' | 'createNewProject', {
+      argsObj: WeRepoArgs['obj']['createNewProject(string,string)void']
+      argsTuple: WeRepoArgs['tuple']['createNewProject(string,string)void']
+      returns: WeRepoReturns['createNewProject(string,string)void']
     }>
   /**
    * Defines the shape of the state of the application.
@@ -137,6 +148,7 @@ export type WeRepoTypes = {
         totalProjects: bigint
         totalReputation: bigint
         totalContribution: bigint
+        pong: string
       }
       maps: {}
     }
@@ -191,7 +203,8 @@ export type BoxKeysState = WeRepoTypes['state']['box']['keys']
  * Defines supported create method params for this smart contract
  */
 export type WeRepoCreateCallParams =
-  | Expand<AppClientBareCallParams & {method?: never} & {onComplete?: OnApplicationComplete.NoOpOC} & CreateSchema>
+  | Expand<CallParams<WeRepoArgs['obj']['createApplication()void'] | WeRepoArgs['tuple']['createApplication()void']> & {method: 'createApplication'} & {onComplete?: OnApplicationComplete.NoOpOC} & CreateSchema>
+  | Expand<CallParams<WeRepoArgs['obj']['createApplication()void'] | WeRepoArgs['tuple']['createApplication()void']> & {method: 'createApplication()void'} & {onComplete?: OnApplicationComplete.NoOpOC} & CreateSchema>
 /**
  * Defines arguments required for the deploy method.
  */
@@ -208,29 +221,59 @@ export type WeRepoDeployParams = Expand<Omit<AppFactoryDeployParams, 'createPara
  */
 export abstract class WeRepoParamsFactory {
   /**
-   * Constructs a no op call for the createApplication()void ABI method
+   * Gets available create ABI call param factories
+   */
+  static get create() {
+    return {
+      _resolveByMethod<TParams extends WeRepoCreateCallParams & {method: string}>(params: TParams) {
+        switch(params.method) {
+          case 'createApplication':
+          case 'createApplication()void':
+            return WeRepoParamsFactory.create.createApplication(params)
+        }
+        throw new Error(`Unknown ' + verb + ' method`)
+      },
+
+      /**
+       * Constructs create ABI call params for the WeRepo smart contract using the createApplication()void ABI method
+       *
+       * @param params Parameters for the call
+       * @returns An `AppClientMethodCallParams` object for the call
+       */
+      createApplication(params: CallParams<WeRepoArgs['obj']['createApplication()void'] | WeRepoArgs['tuple']['createApplication()void']> & AppClientCompilationParams & {onComplete?: OnApplicationComplete.NoOpOC}): AppClientMethodCallParams & AppClientCompilationParams & {onComplete?: OnApplicationComplete.NoOpOC} {
+        return {
+          ...params,
+          method: 'createApplication()void' as const,
+          args: Array.isArray(params.args) ? params.args : [],
+        }
+      },
+    }
+  }
+
+  /**
+   * Constructs a no op call for the ping(string)void ABI method
    *
    * @param params Parameters for the call
    * @returns An `AppClientMethodCallParams` object for the call
    */
-  static createApplication(params: CallParams<WeRepoArgs['obj']['createApplication()void'] | WeRepoArgs['tuple']['createApplication()void']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
+  static ping(params: CallParams<WeRepoArgs['obj']['ping(string)void'] | WeRepoArgs['tuple']['ping(string)void']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
     return {
       ...params,
-      method: 'createApplication()void' as const,
-      args: Array.isArray(params.args) ? params.args : [],
+      method: 'ping(string)void' as const,
+      args: Array.isArray(params.args) ? params.args : [params.args.ping],
     }
   }
   /**
-   * Constructs a no op call for the createNewProject((string,string,uint64))void ABI method
+   * Constructs a no op call for the createNewProject(string,string)void ABI method
    *
    * @param params Parameters for the call
    * @returns An `AppClientMethodCallParams` object for the call
    */
-  static createNewProject(params: CallParams<WeRepoArgs['obj']['createNewProject((string,string,uint64))void'] | WeRepoArgs['tuple']['createNewProject((string,string,uint64))void']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
+  static createNewProject(params: CallParams<WeRepoArgs['obj']['createNewProject(string,string)void'] | WeRepoArgs['tuple']['createNewProject(string,string)void']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
     return {
       ...params,
-      method: 'createNewProject((string,string,uint64))void' as const,
-      args: Array.isArray(params.args) ? params.args : [params.args.projectData],
+      method: 'createNewProject(string,string)void' as const,
+      args: Array.isArray(params.args) ? params.args : [params.args.projectName, params.args.projectDescription],
     }
   }
 }
@@ -307,6 +350,7 @@ export class WeRepoFactory {
   public async deploy(params: WeRepoDeployParams = {}) {
     const result = await this.appFactory.deploy({
       ...params,
+      createParams: params.createParams?.method ? WeRepoParamsFactory.create._resolveByMethod(params.createParams) : params.createParams ? params.createParams as (WeRepoCreateCallParams & { args: Uint8Array[] }) : undefined,
     })
     return { result: result.result, appClient: new WeRepoClient(result.appClient) }
   }
@@ -320,13 +364,13 @@ export class WeRepoFactory {
      */
     create: {
       /**
-       * Creates a new instance of the WeRepo smart contract using a bare call.
+       * Creates a new instance of the WeRepo smart contract using the createApplication()void ABI method.
        *
-       * @param params The params for the bare (raw) call
-       * @returns The params for a create call
+       * @param params The params for the smart contract call
+       * @returns The create params
        */
-      bare: (params?: Expand<AppClientBareCallParams & AppClientCompilationParams & CreateSchema & {onComplete?: OnApplicationComplete.NoOpOC}>) => {
-        return this.appFactory.params.bare.create(params)
+      createApplication: (params: CallParams<WeRepoArgs['obj']['createApplication()void'] | WeRepoArgs['tuple']['createApplication()void']> & AppClientCompilationParams & CreateSchema & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+        return this.appFactory.params.create(WeRepoParamsFactory.create.createApplication(params))
       },
     },
 
@@ -341,13 +385,13 @@ export class WeRepoFactory {
      */
     create: {
       /**
-       * Creates a new instance of the WeRepo smart contract using a bare call.
+       * Creates a new instance of the WeRepo smart contract using the createApplication()void ABI method.
        *
-       * @param params The params for the bare (raw) call
-       * @returns The transaction for a create call
+       * @param params The params for the smart contract call
+       * @returns The create transaction
        */
-      bare: (params?: Expand<AppClientBareCallParams & AppClientCompilationParams & CreateSchema & {onComplete?: OnApplicationComplete.NoOpOC}>) => {
-        return this.appFactory.createTransaction.bare.create(params)
+      createApplication: (params: CallParams<WeRepoArgs['obj']['createApplication()void'] | WeRepoArgs['tuple']['createApplication()void']> & AppClientCompilationParams & CreateSchema & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+        return this.appFactory.createTransaction.create(WeRepoParamsFactory.create.createApplication(params))
       },
     },
 
@@ -362,14 +406,14 @@ export class WeRepoFactory {
      */
     create: {
       /**
-       * Creates a new instance of the WeRepo smart contract using a bare call.
+       * Creates a new instance of the WeRepo smart contract using an ABI method call using the createApplication()void ABI method.
        *
-       * @param params The params for the bare (raw) call
+       * @param params The params for the smart contract call
        * @returns The create result
        */
-      bare: async (params?: Expand<AppClientBareCallParams & AppClientCompilationParams & CreateSchema & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}>) => {
-        const result = await this.appFactory.send.bare.create(params)
-        return { result: result.result, appClient: new WeRepoClient(result.appClient) }
+      createApplication: async (params: CallParams<WeRepoArgs['obj']['createApplication()void'] | WeRepoArgs['tuple']['createApplication()void']> & AppClientCompilationParams & CreateSchema & SendParams & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+        const result = await this.appFactory.send.create(WeRepoParamsFactory.create.createApplication(params))
+        return { result: { ...result.result, return: result.result.return as unknown as (undefined | WeRepoReturns['createApplication()void']) }, appClient: new WeRepoClient(result.appClient) }
       },
     },
 
@@ -474,22 +518,22 @@ export class WeRepoClient {
     },
 
     /**
-     * Makes a call to the WeRepo smart contract using the `createApplication()void` ABI method.
+     * Makes a call to the WeRepo smart contract using the `ping(string)void` ABI method.
      *
      * @param params The params for the smart contract call
      * @returns The call params
      */
-    createApplication: (params: CallParams<WeRepoArgs['obj']['createApplication()void'] | WeRepoArgs['tuple']['createApplication()void']> & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
-      return this.appClient.params.call(WeRepoParamsFactory.createApplication(params))
+    ping: (params: CallParams<WeRepoArgs['obj']['ping(string)void'] | WeRepoArgs['tuple']['ping(string)void']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      return this.appClient.params.call(WeRepoParamsFactory.ping(params))
     },
 
     /**
-     * Makes a call to the WeRepo smart contract using the `createNewProject((string,string,uint64))void` ABI method.
+     * Makes a call to the WeRepo smart contract using the `createNewProject(string,string)void` ABI method.
      *
      * @param params The params for the smart contract call
      * @returns The call params
      */
-    createNewProject: (params: CallParams<WeRepoArgs['obj']['createNewProject((string,string,uint64))void'] | WeRepoArgs['tuple']['createNewProject((string,string,uint64))void']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+    createNewProject: (params: CallParams<WeRepoArgs['obj']['createNewProject(string,string)void'] | WeRepoArgs['tuple']['createNewProject(string,string)void']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
       return this.appClient.params.call(WeRepoParamsFactory.createNewProject(params))
     },
 
@@ -510,22 +554,22 @@ export class WeRepoClient {
     },
 
     /**
-     * Makes a call to the WeRepo smart contract using the `createApplication()void` ABI method.
+     * Makes a call to the WeRepo smart contract using the `ping(string)void` ABI method.
      *
      * @param params The params for the smart contract call
      * @returns The call transaction
      */
-    createApplication: (params: CallParams<WeRepoArgs['obj']['createApplication()void'] | WeRepoArgs['tuple']['createApplication()void']> & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
-      return this.appClient.createTransaction.call(WeRepoParamsFactory.createApplication(params))
+    ping: (params: CallParams<WeRepoArgs['obj']['ping(string)void'] | WeRepoArgs['tuple']['ping(string)void']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      return this.appClient.createTransaction.call(WeRepoParamsFactory.ping(params))
     },
 
     /**
-     * Makes a call to the WeRepo smart contract using the `createNewProject((string,string,uint64))void` ABI method.
+     * Makes a call to the WeRepo smart contract using the `createNewProject(string,string)void` ABI method.
      *
      * @param params The params for the smart contract call
      * @returns The call transaction
      */
-    createNewProject: (params: CallParams<WeRepoArgs['obj']['createNewProject((string,string,uint64))void'] | WeRepoArgs['tuple']['createNewProject((string,string,uint64))void']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+    createNewProject: (params: CallParams<WeRepoArgs['obj']['createNewProject(string,string)void'] | WeRepoArgs['tuple']['createNewProject(string,string)void']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
       return this.appClient.createTransaction.call(WeRepoParamsFactory.createNewProject(params))
     },
 
@@ -546,25 +590,25 @@ export class WeRepoClient {
     },
 
     /**
-     * Makes a call to the WeRepo smart contract using the `createApplication()void` ABI method.
+     * Makes a call to the WeRepo smart contract using the `ping(string)void` ABI method.
      *
      * @param params The params for the smart contract call
      * @returns The call result
      */
-    createApplication: async (params: CallParams<WeRepoArgs['obj']['createApplication()void'] | WeRepoArgs['tuple']['createApplication()void']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
-      const result = await this.appClient.send.call(WeRepoParamsFactory.createApplication(params))
-      return {...result, return: result.return as unknown as (undefined | WeRepoReturns['createApplication()void'])}
+    ping: async (params: CallParams<WeRepoArgs['obj']['ping(string)void'] | WeRepoArgs['tuple']['ping(string)void']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      const result = await this.appClient.send.call(WeRepoParamsFactory.ping(params))
+      return {...result, return: result.return as unknown as (undefined | WeRepoReturns['ping(string)void'])}
     },
 
     /**
-     * Makes a call to the WeRepo smart contract using the `createNewProject((string,string,uint64))void` ABI method.
+     * Makes a call to the WeRepo smart contract using the `createNewProject(string,string)void` ABI method.
      *
      * @param params The params for the smart contract call
      * @returns The call result
      */
-    createNewProject: async (params: CallParams<WeRepoArgs['obj']['createNewProject((string,string,uint64))void'] | WeRepoArgs['tuple']['createNewProject((string,string,uint64))void']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+    createNewProject: async (params: CallParams<WeRepoArgs['obj']['createNewProject(string,string)void'] | WeRepoArgs['tuple']['createNewProject(string,string)void']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
       const result = await this.appClient.send.call(WeRepoParamsFactory.createNewProject(params))
-      return {...result, return: result.return as unknown as (undefined | WeRepoReturns['createNewProject((string,string,uint64))void'])}
+      return {...result, return: result.return as unknown as (undefined | WeRepoReturns['createNewProject(string,string)void'])}
     },
 
   }
@@ -597,6 +641,7 @@ export class WeRepoClient {
           totalProjects: result.total_projects,
           totalReputation: result.total_reputation,
           totalContribution: result.total_contribution,
+          pong: result.pong,
         }
       },
       /**
@@ -615,6 +660,10 @@ export class WeRepoClient {
        * Get the current value of the total_contribution key in global state
        */
       totalContribution: async (): Promise<bigint | undefined> => { return (await this.appClient.state.global.getValue("total_contribution")) as bigint | undefined },
+      /**
+       * Get the current value of the pong key in global state
+       */
+      pong: async (): Promise<string | undefined> => { return (await this.appClient.state.global.getValue("pong")) as string | undefined },
     },
     /**
      * Methods to access box state for the current WeRepo app
@@ -643,17 +692,17 @@ export class WeRepoClient {
     const resultMappers: Array<undefined | ((x: ABIReturn | undefined) => any)> = []
     return {
       /**
-       * Add a createApplication()void method call against the WeRepo contract
+       * Add a ping(string)void method call against the WeRepo contract
        */
-      createApplication(params: CallParams<WeRepoArgs['obj']['createApplication()void'] | WeRepoArgs['tuple']['createApplication()void']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
-        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.createApplication(params)))
+      ping(params: CallParams<WeRepoArgs['obj']['ping(string)void'] | WeRepoArgs['tuple']['ping(string)void']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.ping(params)))
         resultMappers.push(undefined)
         return this
       },
       /**
-       * Add a createNewProject((string,string,uint64))void method call against the WeRepo contract
+       * Add a createNewProject(string,string)void method call against the WeRepo contract
        */
-      createNewProject(params: CallParams<WeRepoArgs['obj']['createNewProject((string,string,uint64))void'] | WeRepoArgs['tuple']['createNewProject((string,string,uint64))void']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+      createNewProject(params: CallParams<WeRepoArgs['obj']['createNewProject(string,string)void'] | WeRepoArgs['tuple']['createNewProject(string,string)void']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
         promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.createNewProject(params)))
         resultMappers.push(undefined)
         return this
@@ -694,22 +743,22 @@ export class WeRepoClient {
 }
 export type WeRepoComposer<TReturns extends [...any[]] = []> = {
   /**
-   * Calls the createApplication()void ABI method.
+   * Calls the ping(string)void ABI method.
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  createApplication(params?: CallParams<WeRepoArgs['obj']['createApplication()void'] | WeRepoArgs['tuple']['createApplication()void']>): WeRepoComposer<[...TReturns, WeRepoReturns['createApplication()void'] | undefined]>
+  ping(params?: CallParams<WeRepoArgs['obj']['ping(string)void'] | WeRepoArgs['tuple']['ping(string)void']>): WeRepoComposer<[...TReturns, WeRepoReturns['ping(string)void'] | undefined]>
 
   /**
-   * Calls the createNewProject((string,string,uint64))void ABI method.
+   * Calls the createNewProject(string,string)void ABI method.
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  createNewProject(params?: CallParams<WeRepoArgs['obj']['createNewProject((string,string,uint64))void'] | WeRepoArgs['tuple']['createNewProject((string,string,uint64))void']>): WeRepoComposer<[...TReturns, WeRepoReturns['createNewProject((string,string,uint64))void'] | undefined]>
+  createNewProject(params?: CallParams<WeRepoArgs['obj']['createNewProject(string,string)void'] | WeRepoArgs['tuple']['createNewProject(string,string)void']>): WeRepoComposer<[...TReturns, WeRepoReturns['createNewProject(string,string)void'] | undefined]>
 
   /**
    * Makes a clear_state call to an existing instance of the WeRepo smart contract.

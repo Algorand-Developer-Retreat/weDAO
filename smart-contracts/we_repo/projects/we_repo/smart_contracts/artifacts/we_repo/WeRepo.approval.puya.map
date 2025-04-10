@@ -3,7 +3,7 @@
   "sources": [
     "/home/arthur/Documents/retreat/weDAO/smart-contracts/we_repo/projects/we_repo/smart_contracts/we_repo/contract.algo.ts"
   ],
-  "mappings": ";;;;;AAYA;;AAAA;;;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;;AAgBE;;AAAA;AAAA;AAAA;;AAAA;AAhBF;;;AAgBE;;;AAAA;;AAPA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;AAAA;;AATF;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAEE;;;;;;;;;;;;;;;;;AAQmC;;AAAjC;AAPF;;;;;;;;;;;;;;;;AAQ8B;AAA5B;AAPF;;;;;;;;;;;;;;;;;;AAQgC;AAA9B;AAPF;;;;;;;;;;;;;;;;;;;;AAQkC;AAAhC;;AAGF;;;AAT8D;;;;AAUxB;;AAVwB;AAgB7B;AAAA;AAAA;;AAAxB;AAAP;AAI4B;;AAAA;AAAA;AAAA;;AAAA;;AAAA;AAAA;;AAAA;;AAAA;;AAAA;AACO;;AAAA;AAAA;;AAAA;;AAAA;;AAAA;AAFF;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAAA;;;;AAAA;AAAA;AAGT;;;;;;;;;;AAHS;AAAA;;AAAA;AAAA;AAAA;AAMjC;;AAAA;;AAAA;",
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;AAgBA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;;AAuBE;;AAAA;AAAA;AAAA;;AAAA;AAvBF;;;AAAA;;;AAAA;;;AAAA;;;AAuBE;;;AAAA;;AAJA;;AAAA;AAAA;AAAA;;AAAA;AAnBF;;;AAAA;;;AAmBE;;;AAAA;;AATC;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAAA;;AARD;;;;;;;;;;;;;;;;;AAUmC;;AAAjC;AATF;AAU8B;AAA5B;AATF;;;;;;;;;;;;;;;;;;AAUgC;AAA9B;AATF;;;;;;;;;;;;;;;;;;;;AAUkC;AAAhC;AATF;AAUoB;;AAAlB;;AAGF;;;AAbA;AAcE;;AAAA;;AAGF;;;AAf8D;;;;AAgBxB;;AAhBwB;AAsB7B;AAAA;AAAA;;AAAxB;AAAP;AAIgB;;AAAA;AAAA;AAAA;;;AAAA;;AAAA;AACO;;AAAA;AAAA;AAAA;;;AAAA;;AAAA;AAFU;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAAA;;;;AAAA;AAAA;AAGT;;;;;;;;;;AAHS;AAAA;;AAAA;AAAA;AAAA;AA9BnC;AAAA;AAAA;AAAA;AAmCiE;AAA5B;AAnCrC;AAmCE;AAAA;AAEA;;AAAA;;AAAA;",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -14,6 +14,9 @@
       "op": "intcblock 0 1"
     },
     "5": {
+      "op": "bytecblock \"total_projects\" \"pong\""
+    },
+    "27": {
       "op": "txn NumAppArgs",
       "defined_out": [
         "tmp%0#1"
@@ -22,40 +25,44 @@
         "tmp%0#1"
       ]
     },
-    "7": {
-      "op": "bz main_bare_routing@7",
+    "29": {
+      "op": "bz main_after_if_else@9",
       "stack_out": []
     },
-    "10": {
-      "op": "pushbytess 0xb8447b36 0xc36e5d72 // method \"createApplication()void\", method \"createNewProject((string,string,uint64))void\"",
+    "32": {
+      "op": "pushbytess 0xb8447b36 0x855341c5 0xeb03c927 // method \"createApplication()void\", method \"ping(string)void\", method \"createNewProject(string,string)void\"",
       "defined_out": [
         "Method(createApplication()void)",
-        "Method(createNewProject((string,string,uint64))void)"
+        "Method(createNewProject(string,string)void)",
+        "Method(ping(string)void)"
       ],
       "stack_out": [
         "Method(createApplication()void)",
-        "Method(createNewProject((string,string,uint64))void)"
+        "Method(ping(string)void)",
+        "Method(createNewProject(string,string)void)"
       ]
     },
-    "22": {
+    "49": {
       "op": "txna ApplicationArgs 0",
       "defined_out": [
         "Method(createApplication()void)",
-        "Method(createNewProject((string,string,uint64))void)",
+        "Method(createNewProject(string,string)void)",
+        "Method(ping(string)void)",
         "tmp%2#0"
       ],
       "stack_out": [
         "Method(createApplication()void)",
-        "Method(createNewProject((string,string,uint64))void)",
+        "Method(ping(string)void)",
+        "Method(createNewProject(string,string)void)",
         "tmp%2#0"
       ]
     },
-    "25": {
-      "op": "match main_createApplication_route@3 main_createNewProject_route@4",
+    "52": {
+      "op": "match main_createApplication_route@3 main_ping_route@4 main_createNewProject_route@5",
       "stack_out": []
     },
-    "31": {
-      "block": "main_after_if_else@11",
+    "60": {
+      "block": "main_after_if_else@9",
       "stack_in": [],
       "op": "intc_0 // 0",
       "defined_out": [
@@ -65,12 +72,109 @@
         "tmp%0#0"
       ]
     },
-    "32": {
+    "61": {
       "op": "return",
       "stack_out": []
     },
-    "33": {
-      "block": "main_createNewProject_route@4",
+    "62": {
+      "block": "main_createNewProject_route@5",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%13#0"
+      ]
+    },
+    "64": {
+      "op": "!",
+      "defined_out": [
+        "tmp%14#0"
+      ],
+      "stack_out": [
+        "tmp%14#0"
+      ]
+    },
+    "65": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "66": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%15#0"
+      ],
+      "stack_out": [
+        "tmp%15#0"
+      ]
+    },
+    "68": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "69": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%17#0"
+      ],
+      "stack_out": [
+        "tmp%17#0"
+      ]
+    },
+    "72": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "tmp%18#0"
+      ],
+      "stack_out": [
+        "tmp%18#0"
+      ]
+    },
+    "75": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "tmp%18#0",
+        "tmp%19#0"
+      ],
+      "stack_out": [
+        "tmp%18#0",
+        "tmp%19#0"
+      ]
+    },
+    "78": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "tmp%18#0",
+        "tmp%20#0"
+      ],
+      "stack_out": [
+        "tmp%18#0",
+        "tmp%20#0"
+      ]
+    },
+    "81": {
+      "callsub": "smart_contracts/we_repo/contract.algo.ts::WeRepo.createNewProject",
+      "op": "callsub createNewProject",
+      "stack_out": []
+    },
+    "84": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "85": {
+      "op": "return",
+      "stack_out": []
+    },
+    "86": {
+      "block": "main_ping_route@4",
       "stack_in": [],
       "op": "txn OnCompletion",
       "defined_out": [
@@ -80,7 +184,7 @@
         "tmp%7#0"
       ]
     },
-    "35": {
+    "88": {
       "op": "!",
       "defined_out": [
         "tmp%8#0"
@@ -89,12 +193,12 @@
         "tmp%8#0"
       ]
     },
-    "36": {
+    "89": {
       "error": "OnCompletion is not NoOp",
       "op": "assert // OnCompletion is not NoOp",
       "stack_out": []
     },
-    "37": {
+    "90": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%9#0"
@@ -103,12 +207,12 @@
         "tmp%9#0"
       ]
     },
-    "39": {
+    "92": {
       "error": "can only call when not creating",
       "op": "assert // can only call when not creating",
       "stack_out": []
     },
-    "40": {
+    "93": {
       "op": "txna ApplicationArgs 1",
       "defined_out": [
         "tmp%11#0"
@@ -117,12 +221,21 @@
         "tmp%11#0"
       ]
     },
-    "43": {
-      "callsub": "smart_contracts/we_repo/contract.algo.ts::WeRepo.createNewProject",
-      "op": "callsub createNewProject",
+    "96": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "tmp%12#0"
+      ],
+      "stack_out": [
+        "tmp%12#0"
+      ]
+    },
+    "99": {
+      "callsub": "smart_contracts/we_repo/contract.algo.ts::WeRepo.ping",
+      "op": "callsub ping",
       "stack_out": []
     },
-    "46": {
+    "102": {
       "op": "intc_1 // 1",
       "defined_out": [
         "tmp%0#0"
@@ -131,11 +244,11 @@
         "tmp%0#0"
       ]
     },
-    "47": {
+    "103": {
       "op": "return",
       "stack_out": []
     },
-    "48": {
+    "104": {
       "block": "main_createApplication_route@3",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -146,7 +259,7 @@
         "tmp%3#0"
       ]
     },
-    "50": {
+    "106": {
       "op": "!",
       "defined_out": [
         "tmp%4#0"
@@ -155,12 +268,12 @@
         "tmp%4#0"
       ]
     },
-    "51": {
+    "107": {
       "error": "OnCompletion is not NoOp",
       "op": "assert // OnCompletion is not NoOp",
       "stack_out": []
     },
-    "52": {
+    "108": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%5#0"
@@ -169,67 +282,25 @@
         "tmp%5#0"
       ]
     },
-    "54": {
-      "error": "can only call when not creating",
-      "op": "assert // can only call when not creating",
-      "stack_out": []
-    },
-    "55": {
-      "callsub": "smart_contracts/we_repo/contract.algo.ts::WeRepo.createApplication",
-      "op": "callsub createApplication"
-    },
-    "58": {
-      "op": "intc_1 // 1",
-      "defined_out": [
-        "tmp%0#0"
-      ],
-      "stack_out": [
-        "tmp%0#0"
-      ]
-    },
-    "59": {
-      "op": "return",
-      "stack_out": []
-    },
-    "60": {
-      "block": "main_bare_routing@7",
-      "stack_in": [],
-      "op": "txn OnCompletion",
-      "defined_out": [
-        "tmp%12#0"
-      ],
-      "stack_out": [
-        "tmp%12#0"
-      ]
-    },
-    "62": {
-      "op": "bnz main_after_if_else@11",
-      "stack_out": []
-    },
-    "65": {
-      "op": "txn ApplicationID",
-      "defined_out": [
-        "tmp%13#0"
-      ],
-      "stack_out": [
-        "tmp%13#0"
-      ]
-    },
-    "67": {
+    "110": {
       "op": "!",
       "defined_out": [
-        "tmp%14#0"
+        "tmp%6#0"
       ],
       "stack_out": [
-        "tmp%14#0"
+        "tmp%6#0"
       ]
     },
-    "68": {
+    "111": {
       "error": "can only call when creating",
       "op": "assert // can only call when creating",
       "stack_out": []
     },
-    "69": {
+    "112": {
+      "callsub": "smart_contracts/we_repo/contract.algo.ts::WeRepo.createApplication",
+      "op": "callsub createApplication"
+    },
+    "115": {
       "op": "intc_1 // 1",
       "defined_out": [
         "tmp%0#0"
@@ -238,11 +309,11 @@
         "tmp%0#0"
       ]
     },
-    "70": {
+    "116": {
       "op": "return",
       "stack_out": []
     },
-    "71": {
+    "117": {
       "subroutine": "smart_contracts/we_repo/contract.algo.ts::WeRepo.createApplication",
       "params": {},
       "block": "createApplication",
@@ -255,7 +326,7 @@
         "\"manager_address\""
       ]
     },
-    "88": {
+    "134": {
       "op": "txn Sender",
       "defined_out": [
         "\"manager_address\"",
@@ -266,12 +337,12 @@
         "new_state_value%0#0"
       ]
     },
-    "90": {
+    "136": {
       "op": "app_global_put",
       "stack_out": []
     },
-    "91": {
-      "op": "pushbytes \"total_projects\"",
+    "137": {
+      "op": "bytec_0 // \"total_projects\"",
       "defined_out": [
         "\"total_projects\""
       ],
@@ -279,7 +350,7 @@
         "\"total_projects\""
       ]
     },
-    "107": {
+    "138": {
       "op": "intc_0 // 0",
       "defined_out": [
         "\"total_projects\"",
@@ -290,11 +361,11 @@
         "0"
       ]
     },
-    "108": {
+    "139": {
       "op": "app_global_put",
       "stack_out": []
     },
-    "109": {
+    "140": {
       "op": "pushbytes \"total_reputation\"",
       "defined_out": [
         "\"total_reputation\""
@@ -303,18 +374,18 @@
         "\"total_reputation\""
       ]
     },
-    "127": {
+    "158": {
       "op": "intc_0 // 0",
       "stack_out": [
         "\"total_reputation\"",
         "0"
       ]
     },
-    "128": {
+    "159": {
       "op": "app_global_put",
       "stack_out": []
     },
-    "129": {
+    "160": {
       "op": "pushbytes \"total_contribution\"",
       "defined_out": [
         "\"total_contribution\""
@@ -323,31 +394,93 @@
         "\"total_contribution\""
       ]
     },
-    "149": {
+    "180": {
       "op": "intc_0 // 0",
       "stack_out": [
         "\"total_contribution\"",
         "0"
       ]
     },
-    "150": {
+    "181": {
       "op": "app_global_put",
       "stack_out": []
     },
-    "151": {
+    "182": {
+      "op": "bytec_1 // \"pong\"",
+      "defined_out": [
+        "\"pong\""
+      ],
+      "stack_out": [
+        "\"pong\""
+      ]
+    },
+    "183": {
+      "op": "pushbytes \"\"",
+      "defined_out": [
+        "\"\"",
+        "\"pong\""
+      ],
+      "stack_out": [
+        "\"pong\"",
+        "\"\""
+      ]
+    },
+    "185": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "186": {
       "retsub": true,
       "op": "retsub"
     },
-    "152": {
-      "subroutine": "smart_contracts/we_repo/contract.algo.ts::WeRepo.createNewProject",
+    "187": {
+      "subroutine": "smart_contracts/we_repo/contract.algo.ts::WeRepo.ping",
       "params": {
-        "projectData#0": "bytes"
+        "ping#0": "bytes"
       },
-      "block": "createNewProject",
+      "block": "ping",
       "stack_in": [],
       "op": "proto 1 0"
     },
-    "155": {
+    "190": {
+      "op": "bytec_1 // \"pong\"",
+      "defined_out": [
+        "\"pong\""
+      ],
+      "stack_out": [
+        "\"pong\""
+      ]
+    },
+    "191": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "\"pong\"",
+        "ping#0 (copy)"
+      ],
+      "stack_out": [
+        "\"pong\"",
+        "ping#0 (copy)"
+      ]
+    },
+    "193": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "194": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "195": {
+      "subroutine": "smart_contracts/we_repo/contract.algo.ts::WeRepo.createNewProject",
+      "params": {
+        "projectName#0": "bytes",
+        "projectDescription#0": "bytes"
+      },
+      "block": "createNewProject",
+      "stack_in": [],
+      "op": "proto 2 0"
+    },
+    "198": {
       "op": "pushbytes \"_p\"",
       "defined_out": [
         "\"_p\""
@@ -356,7 +489,7 @@
         "\"_p\""
       ]
     },
-    "159": {
+    "202": {
       "op": "txn Sender",
       "defined_out": [
         "\"_p\"",
@@ -367,7 +500,7 @@
         "creatorAddress#0"
       ]
     },
-    "161": {
+    "204": {
       "op": "concat",
       "defined_out": [
         "currentProjectInstance#0"
@@ -376,7 +509,7 @@
         "currentProjectInstance#0"
       ]
     },
-    "162": {
+    "205": {
       "op": "dup",
       "defined_out": [
         "currentProjectInstance#0",
@@ -387,7 +520,7 @@
         "currentProjectInstance#0 (copy)"
       ]
     },
-    "163": {
+    "206": {
       "op": "box_len",
       "defined_out": [
         "currentProjectInstance#0",
@@ -400,14 +533,14 @@
         "maybe_exists%0#0"
       ]
     },
-    "164": {
+    "207": {
       "op": "bury 1",
       "stack_out": [
         "currentProjectInstance#0",
         "maybe_exists%0#0"
       ]
     },
-    "166": {
+    "209": {
       "op": "!",
       "defined_out": [
         "currentProjectInstance#0",
@@ -418,396 +551,347 @@
         "tmp%0#0"
       ]
     },
-    "167": {
+    "210": {
       "error": "Project already exists for this address",
       "op": "assert // Project already exists for this address",
       "stack_out": [
         "currentProjectInstance#0"
       ]
     },
-    "168": {
-      "op": "frame_dig -1",
+    "211": {
+      "op": "frame_dig -2",
       "defined_out": [
         "currentProjectInstance#0",
-        "projectData#0 (copy)"
+        "projectName#0 (copy)"
       ],
       "stack_out": [
         "currentProjectInstance#0",
-        "projectData#0 (copy)"
+        "projectName#0 (copy)"
       ]
     },
-    "170": {
-      "op": "intc_0 // 0",
-      "defined_out": [
-        "0",
-        "currentProjectInstance#0",
-        "projectData#0 (copy)"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "projectData#0 (copy)",
-        "0"
-      ]
-    },
-    "171": {
-      "op": "extract_uint16",
-      "defined_out": [
-        "currentProjectInstance#0",
-        "item_start_offset%0#0"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "item_start_offset%0#0"
-      ]
-    },
-    "172": {
-      "op": "frame_dig -1",
-      "stack_out": [
-        "currentProjectInstance#0",
-        "item_start_offset%0#0",
-        "projectData#0 (copy)"
-      ]
-    },
-    "174": {
-      "op": "pushint 2 // 2",
-      "defined_out": [
-        "2",
-        "currentProjectInstance#0",
-        "item_start_offset%0#0",
-        "projectData#0 (copy)"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "item_start_offset%0#0",
-        "projectData#0 (copy)",
-        "2"
-      ]
-    },
-    "176": {
-      "op": "extract_uint16",
-      "defined_out": [
-        "currentProjectInstance#0",
-        "item_end_offset%0#0",
-        "item_start_offset%0#0"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "item_start_offset%0#0",
-        "item_end_offset%0#0"
-      ]
-    },
-    "177": {
-      "op": "frame_dig -1",
-      "stack_out": [
-        "currentProjectInstance#0",
-        "item_start_offset%0#0",
-        "item_end_offset%0#0",
-        "projectData#0 (copy)"
-      ]
-    },
-    "179": {
-      "op": "uncover 2",
-      "stack_out": [
-        "currentProjectInstance#0",
-        "item_end_offset%0#0",
-        "projectData#0 (copy)",
-        "item_start_offset%0#0"
-      ]
-    },
-    "181": {
-      "op": "dig 2",
-      "defined_out": [
-        "currentProjectInstance#0",
-        "item_end_offset%0#0",
-        "item_end_offset%0#0 (copy)",
-        "item_start_offset%0#0",
-        "projectData#0 (copy)"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "item_end_offset%0#0",
-        "projectData#0 (copy)",
-        "item_start_offset%0#0",
-        "item_end_offset%0#0 (copy)"
-      ]
-    },
-    "183": {
-      "op": "substring3",
-      "defined_out": [
-        "currentProjectInstance#0",
-        "item_end_offset%0#0",
-        "tmp%1#0"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "item_end_offset%0#0",
-        "tmp%1#0"
-      ]
-    },
-    "184": {
-      "op": "frame_dig -1",
-      "stack_out": [
-        "currentProjectInstance#0",
-        "item_end_offset%0#0",
-        "tmp%1#0",
-        "projectData#0 (copy)"
-      ]
-    },
-    "186": {
+    "213": {
       "op": "len",
       "defined_out": [
         "currentProjectInstance#0",
-        "item_end_offset%0#0",
-        "item_end_offset%1#0",
-        "tmp%1#0"
+        "length%0#0"
       ],
       "stack_out": [
         "currentProjectInstance#0",
-        "item_end_offset%0#0",
-        "tmp%1#0",
-        "item_end_offset%1#0"
+        "length%0#0"
       ]
     },
-    "187": {
-      "op": "frame_dig -1",
-      "stack_out": [
-        "currentProjectInstance#0",
-        "item_end_offset%0#0",
-        "tmp%1#0",
-        "item_end_offset%1#0",
-        "projectData#0 (copy)"
-      ]
-    },
-    "189": {
-      "op": "uncover 3",
-      "stack_out": [
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "item_end_offset%1#0",
-        "projectData#0 (copy)",
-        "item_end_offset%0#0"
-      ]
-    },
-    "191": {
-      "op": "uncover 2",
-      "stack_out": [
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "projectData#0 (copy)",
-        "item_end_offset%0#0",
-        "item_end_offset%1#0"
-      ]
-    },
-    "193": {
-      "op": "substring3",
-      "defined_out": [
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0"
-      ]
-    },
-    "194": {
-      "op": "dig 1",
-      "defined_out": [
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%1#0 (copy)",
-        "tmp%2#0"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0",
-        "tmp%1#0 (copy)"
-      ]
-    },
-    "196": {
-      "op": "len",
-      "defined_out": [
-        "currentProjectInstance#0",
-        "data_length%0#0",
-        "tmp%1#0",
-        "tmp%2#0"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0",
-        "data_length%0#0"
-      ]
-    },
-    "197": {
-      "op": "pushint 12 // 12",
-      "defined_out": [
-        "12",
-        "currentProjectInstance#0",
-        "data_length%0#0",
-        "tmp%1#0",
-        "tmp%2#0"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0",
-        "data_length%0#0",
-        "12"
-      ]
-    },
-    "199": {
-      "op": "+",
-      "defined_out": [
-        "currentProjectInstance#0",
-        "current_tail_offset%1#0",
-        "tmp%1#0",
-        "tmp%2#0"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0",
-        "current_tail_offset%1#0"
-      ]
-    },
-    "200": {
+    "214": {
       "op": "itob",
       "defined_out": [
-        "as_bytes%1#0",
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0"
+        "as_bytes%0#0",
+        "currentProjectInstance#0"
       ],
       "stack_out": [
         "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0",
-        "as_bytes%1#0"
+        "as_bytes%0#0"
       ]
     },
-    "201": {
+    "215": {
       "op": "extract 6 2",
       "defined_out": [
         "currentProjectInstance#0",
-        "offset_as_uint16%1#0",
-        "tmp%1#0",
-        "tmp%2#0"
+        "length_uint16%0#0"
       ],
       "stack_out": [
         "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0",
-        "offset_as_uint16%1#0"
+        "length_uint16%0#0"
       ]
     },
-    "204": {
-      "op": "pushbytes 0x000c",
-      "defined_out": [
-        "0x000c",
-        "currentProjectInstance#0",
-        "offset_as_uint16%1#0",
-        "tmp%1#0",
-        "tmp%2#0"
-      ],
+    "218": {
+      "op": "frame_dig -2",
       "stack_out": [
         "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0",
-        "offset_as_uint16%1#0",
-        "0x000c"
-      ]
-    },
-    "208": {
-      "op": "swap",
-      "stack_out": [
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0",
-        "0x000c",
-        "offset_as_uint16%1#0"
-      ]
-    },
-    "209": {
-      "op": "concat",
-      "defined_out": [
-        "currentProjectInstance#0",
-        "encoded_tuple_buffer%2#0",
-        "tmp%1#0",
-        "tmp%2#0"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0",
-        "encoded_tuple_buffer%2#0"
-      ]
-    },
-    "210": {
-      "op": "pushbytes 0x0000000000000000",
-      "defined_out": [
-        "0x0000000000000000",
-        "currentProjectInstance#0",
-        "encoded_tuple_buffer%2#0",
-        "tmp%1#0",
-        "tmp%2#0"
-      ],
-      "stack_out": [
-        "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0",
-        "encoded_tuple_buffer%2#0",
-        "0x0000000000000000"
+        "length_uint16%0#0",
+        "projectName#0 (copy)"
       ]
     },
     "220": {
       "op": "concat",
       "defined_out": [
         "currentProjectInstance#0",
-        "encoded_tuple_buffer%3#0",
-        "tmp%1#0",
-        "tmp%2#0"
+        "encoded_value%0#0"
       ],
       "stack_out": [
         "currentProjectInstance#0",
-        "tmp%1#0",
-        "tmp%2#0",
-        "encoded_tuple_buffer%3#0"
+        "encoded_value%0#0"
       ]
     },
     "221": {
-      "op": "uncover 2",
+      "op": "frame_dig -1",
+      "defined_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "projectDescription#0 (copy)"
+      ],
       "stack_out": [
         "currentProjectInstance#0",
-        "tmp%2#0",
-        "encoded_tuple_buffer%3#0",
-        "tmp%1#0"
+        "encoded_value%0#0",
+        "projectDescription#0 (copy)"
       ]
     },
     "223": {
+      "op": "len",
+      "defined_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "length%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "length%1#0"
+      ]
+    },
+    "224": {
+      "op": "itob",
+      "defined_out": [
+        "as_bytes%1#0",
+        "currentProjectInstance#0",
+        "encoded_value%0#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "as_bytes%1#0"
+      ]
+    },
+    "225": {
+      "op": "extract 6 2",
+      "defined_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "length_uint16%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "length_uint16%1#0"
+      ]
+    },
+    "228": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "length_uint16%1#0",
+        "projectDescription#0 (copy)"
+      ]
+    },
+    "230": {
+      "op": "concat",
+      "defined_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0"
+      ]
+    },
+    "231": {
+      "op": "dig 1",
+      "defined_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%0#0 (copy)",
+        "encoded_value%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "encoded_value%0#0 (copy)"
+      ]
+    },
+    "233": {
+      "op": "len",
+      "defined_out": [
+        "currentProjectInstance#0",
+        "data_length%0#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "data_length%0#0"
+      ]
+    },
+    "234": {
+      "op": "pushint 12 // 12",
+      "defined_out": [
+        "12",
+        "currentProjectInstance#0",
+        "data_length%0#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "data_length%0#0",
+        "12"
+      ]
+    },
+    "236": {
+      "op": "+",
+      "defined_out": [
+        "currentProjectInstance#0",
+        "current_tail_offset%1#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "current_tail_offset%1#0"
+      ]
+    },
+    "237": {
+      "op": "itob",
+      "defined_out": [
+        "as_bytes%3#0",
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "as_bytes%3#0"
+      ]
+    },
+    "238": {
+      "op": "extract 6 2",
+      "defined_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "offset_as_uint16%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "offset_as_uint16%1#0"
+      ]
+    },
+    "241": {
+      "op": "pushbytes 0x000c",
+      "defined_out": [
+        "0x000c",
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "offset_as_uint16%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "offset_as_uint16%1#0",
+        "0x000c"
+      ]
+    },
+    "245": {
+      "op": "swap",
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "0x000c",
+        "offset_as_uint16%1#0"
+      ]
+    },
+    "246": {
+      "op": "concat",
+      "defined_out": [
+        "currentProjectInstance#0",
+        "encoded_tuple_buffer%2#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "encoded_tuple_buffer%2#0"
+      ]
+    },
+    "247": {
+      "op": "pushbytes 0x0000000000000000",
+      "defined_out": [
+        "0x0000000000000000",
+        "currentProjectInstance#0",
+        "encoded_tuple_buffer%2#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "encoded_tuple_buffer%2#0",
+        "0x0000000000000000"
+      ]
+    },
+    "257": {
+      "op": "concat",
+      "defined_out": [
+        "currentProjectInstance#0",
+        "encoded_tuple_buffer%3#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%0#0",
+        "encoded_value%1#0",
+        "encoded_tuple_buffer%3#0"
+      ]
+    },
+    "258": {
+      "op": "uncover 2",
+      "stack_out": [
+        "currentProjectInstance#0",
+        "encoded_value%1#0",
+        "encoded_tuple_buffer%3#0",
+        "encoded_value%0#0"
+      ]
+    },
+    "260": {
       "op": "concat",
       "defined_out": [
         "currentProjectInstance#0",
         "encoded_tuple_buffer%4#0",
-        "tmp%2#0"
+        "encoded_value%1#0"
       ],
       "stack_out": [
         "currentProjectInstance#0",
-        "tmp%2#0",
+        "encoded_value%1#0",
         "encoded_tuple_buffer%4#0"
       ]
     },
-    "224": {
+    "261": {
       "op": "swap",
       "stack_out": [
         "currentProjectInstance#0",
         "encoded_tuple_buffer%4#0",
-        "tmp%2#0"
+        "encoded_value%1#0"
       ]
     },
-    "225": {
+    "262": {
       "op": "concat",
       "defined_out": [
         "currentProjectInstance#0",
@@ -818,7 +902,112 @@
         "project#0"
       ]
     },
-    "226": {
+    "263": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "currentProjectInstance#0",
+        "project#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "project#0",
+        "0"
+      ]
+    },
+    "264": {
+      "op": "bytec_0 // \"total_projects\"",
+      "defined_out": [
+        "\"total_projects\"",
+        "0",
+        "currentProjectInstance#0",
+        "project#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "project#0",
+        "0",
+        "\"total_projects\""
+      ]
+    },
+    "265": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "currentProjectInstance#0",
+        "maybe_exists%1#0",
+        "maybe_value%1#0",
+        "project#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "project#0",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "266": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "currentProjectInstance#0",
+        "project#0",
+        "maybe_value%1#0"
+      ]
+    },
+    "267": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "currentProjectInstance#0",
+        "maybe_value%1#0",
+        "project#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "project#0",
+        "maybe_value%1#0",
+        "1"
+      ]
+    },
+    "268": {
+      "op": "+",
+      "defined_out": [
+        "currentProjectInstance#0",
+        "new_state_value%0#0",
+        "project#0"
+      ],
+      "stack_out": [
+        "currentProjectInstance#0",
+        "project#0",
+        "new_state_value%0#0"
+      ]
+    },
+    "269": {
+      "op": "bytec_0 // \"total_projects\"",
+      "stack_out": [
+        "currentProjectInstance#0",
+        "project#0",
+        "new_state_value%0#0",
+        "\"total_projects\""
+      ]
+    },
+    "270": {
+      "op": "swap",
+      "stack_out": [
+        "currentProjectInstance#0",
+        "project#0",
+        "\"total_projects\"",
+        "new_state_value%0#0"
+      ]
+    },
+    "271": {
+      "op": "app_global_put",
+      "stack_out": [
+        "currentProjectInstance#0",
+        "project#0"
+      ]
+    },
+    "272": {
       "op": "dig 1",
       "stack_out": [
         "currentProjectInstance#0",
@@ -826,7 +1015,7 @@
         "currentProjectInstance#0 (copy)"
       ]
     },
-    "228": {
+    "274": {
       "op": "box_del",
       "defined_out": [
         "currentProjectInstance#0",
@@ -839,18 +1028,18 @@
         "{box_del}"
       ]
     },
-    "229": {
+    "275": {
       "op": "pop",
       "stack_out": [
         "currentProjectInstance#0",
         "project#0"
       ]
     },
-    "230": {
+    "276": {
       "op": "box_put",
       "stack_out": []
     },
-    "231": {
+    "277": {
       "retsub": true,
       "op": "retsub"
     }

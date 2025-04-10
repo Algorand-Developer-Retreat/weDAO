@@ -1,53 +1,55 @@
-import { Config } from '@algorandfoundation/algokit-utils'
-import { registerDebugEventHandlers } from '@algorandfoundation/algokit-utils-debug'
+import { AlgorandClient, microAlgo } from '@algorandfoundation/algokit-utils'
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
-import { Address } from 'algosdk'
-import { beforeAll, beforeEach, describe, expect, test } from 'vitest'
-import { WeRepoFactory } from '../artifacts/we_repo/WeRepoClient'
+import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
+import { beforeAll, beforeEach, describe, test } from 'vitest'
+import { WeRepoClient, WeRepoFactory } from '../artifacts/we_repo/WeRepoClient'
 
-describe('WeRepo contract', () => {
-  const localnet = algorandFixture()
-  beforeAll(() => {
-    Config.configure({
-      debug: true,
-      // traceAll: true,
+const fixture = algorandFixture()
+
+let algorand: AlgorandClient
+let managerAccount: TransactionSignerAccount
+let projectCreatorAccount: TransactionSignerAccount
+let weRepoClient: WeRepoClient
+describe('WeRepo contract', async () => {
+  beforeEach(fixture.newScope)
+  beforeAll(async () => {
+    await fixture.newScope()
+    algorand = AlgorandClient.fromEnvironment()
+
+    managerAccount = await algorand.account.kmd.getOrCreateWalletAccount('MANAGER-ACCOUNT')
+    projectCreatorAccount = await algorand.account.kmd.getOrCreateWalletAccount('PROJECT-CREATOR-ACCOUNT')
+    algorand.setSignerFromAccount(managerAccount)
+    algorand.setSignerFromAccount(projectCreatorAccount)
+    algorand.account.ensureFundedFromEnvironment(managerAccount.addr, microAlgo(10000000000))
+
+    await algorand.send.payment({
+      sender: managerAccount.addr,
+      receiver: projectCreatorAccount.addr,
+      amount: microAlgo(1000000),
     })
-    registerDebugEventHandlers()
+
+    const factory = algorand.client.getTypedAppFactory(WeRepoFactory, { defaultSender: managerAccount.addr })
+
+    const { appClient } = await factory.send.create.createApplication({ args: [], sender: managerAccount.addr })
+    weRepoClient = appClient
+
+    await algorand.send.payment({
+      sender: managerAccount.addr,
+      receiver: appClient.appAddress,
+      amount: microAlgo(1000000), // Send 1 Algo to the new wallet
+    })
   })
-  beforeEach(localnet.newScope)
 
-  const deploy = async (account: Address) => {
-    const factory = localnet.algorand.client.getTypedAppFactory(WeRepoFactory, {
-      defaultSender: account,
-    })
-
-    const { appClient } = await factory.deploy({
-      onUpdate: 'append',
-      onSchemaBreak: 'append',
-    })
-    return { client: appClient }
-  }
-
-  test('says hello', async () => {
-    const { testAccount } = localnet.context
-    const { client } = await deploy(testAccount)
-
-    const result = await client.send.hello({ args: { name: 'World' } })
-
-    expect(result.return).toBe('Hello, World')
+  test('see if test runs', async () => {
+    console.log('algorand', algorand)
+    const result = await weRepoClient.appClient.getGlobalState()
+    console.log('result', result.manager_address)
   })
 
-  test('simulate says hello with correct budget consumed', async () => {
-    const { testAccount } = localnet.context
-    const { client } = await deploy(testAccount)
-    const result = await client
-      .newGroup()
-      .hello({ args: { name: 'World' } })
-      .hello({ args: { name: 'Jane' } })
-      .simulate()
-
-    expect(result.returns[0]).toBe('Hello, World')
-    expect(result.returns[1]).toBe('Hello, Jane')
-    expect(result.simulateResponse.txnGroups[0].appBudgetConsumed).toBeLessThan(100)
+  test('see if were able to create a new project', async () => {
+    await weRepoClient.send.createNewProject({
+      args: [{ projectName: 'Test project', projectContribution: BigInt(0), projectDescription: 'some fuck' }],
+      sender: projectCreatorAccount.addr,
+    })
   })
 })
