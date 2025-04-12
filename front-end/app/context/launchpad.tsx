@@ -37,15 +37,24 @@ export const LaunchpadProvider: React.FC<{ children: React.ReactNode }> = ({
     walletAddress: string,
     signer: TransactionSigner
   ): Promise<number> => {
-    const { appClient, appId } = await deployHoldersContract(
-      anyoneCanCreate,
-      minHolding,
-      assetId,
-      walletAddress,
-      signer
-    );
+    try {
+      console.log("launchNewProject", anyoneCanCreate);
+      const appClient = await deployHoldersContract(
+        true,
+        0,
+        0,
+        walletAddress,
+        signer,
+        "Project title",
+        "Project description"
+      );
+      console.log("appClient", appClient);
 
-    return Number(appId);
+      return Number();
+    } catch (error) {
+      console.error("error creaing new project", error);
+      throw new Error("Error launching new project: " + error);
+    }
   };
 
   return (

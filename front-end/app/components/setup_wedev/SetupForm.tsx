@@ -20,7 +20,9 @@ interface SetupFormProps {
 
 export function SetupForm({ onSubmit, isLoading = false }: SetupFormProps) {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState(
+    "Description from the front end"
+  );
   const [expiryDate, setExpiryDate] = useState("");
 
   const navigate = useNavigate();
@@ -54,6 +56,7 @@ export function SetupForm({ onSubmit, isLoading = false }: SetupFormProps) {
     e.preventDefault();
 
     try {
+      console.log("creating new project nessa poha");
       if (!activeAccount || !formData) return;
       const appId = await launchNewProject(
         formData.anyone_can_create!,
@@ -214,7 +217,7 @@ export function SetupForm({ onSubmit, isLoading = false }: SetupFormProps) {
                               >
                                 {param}
                               </label>
-
+                              poha
                               {typeof formData[
                                 param as keyof HoldersDaoDeploymentParams
                               ] === "boolean" ? (

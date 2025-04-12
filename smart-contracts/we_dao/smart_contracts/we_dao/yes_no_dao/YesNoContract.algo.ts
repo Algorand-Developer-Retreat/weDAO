@@ -41,13 +41,7 @@ export class YesNoDao extends Contract {
   vote = BoxMap<VoteIdType, VoteDataType>({ keyPrefix: '_v' })
 
   @abimethod({ allowActions: 'NoOp', onCreate: 'require' })
-  public createApplication(
-    anyone_can_create: boolean,
-    minimum_holding: uint64,
-    asset_id: uint64,
-    projectTitle: string,
-    projectDescription: string,
-  ): void {
+  public createApplication(anyone_can_create: boolean, minimum_holding: uint64, asset_id: uint64): void {
     // When creating the application we set the manager address
     this.manager_address.value = Txn.sender
 
@@ -62,20 +56,18 @@ export class YesNoDao extends Contract {
     // Set the asset id value
     this.asset_id.value = asset_id
 
-    this.createProjectRecord(projectTitle, projectDescription)
+    this.createProjectRecord(this.manager_address.value)
   }
-
-  private createProjectRecord(projectTitle: string, projectDescription: string) {
-    this.project_name.value = projectTitle
-
+  private createProjectRecord(creatorAddress: Account) {
     itxn
       .applicationCall({
-        appId: 1025,
+        appId: 737409438,
         appArgs: [
-          arc4.methodSelector('createNewProject(string,string)void'),
-          new arc4.Str(projectTitle),
-          new arc4.Str(projectDescription),
+          arc4.methodSelector('addNewDappsToProject(uint64[],Account)void'),
+          new arc4.DynamicArray<arc4.UintN64>(new arc4.UintN64(op.Global.currentApplicationId.id)),
+          Account('this.manager_address.value.authAddress'),
         ],
+        accounts: [creatorAddress], // If the target contract expects the creator address as an account reference
       })
       .submit()
   }

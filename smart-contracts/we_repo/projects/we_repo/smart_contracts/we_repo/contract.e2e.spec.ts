@@ -17,7 +17,7 @@ describe('WeRepo contract', async () => {
     algorand = AlgorandClient.fromEnvironment()
 
     managerAccount = await algorand.account.kmd.getOrCreateWalletAccount('MANAGER-ACCOUNT')
-    projectCreatorAccount = await algorand.account.kmd.getOrCreateWalletAccount('PROJECT-CREATOR-ACCOUNT')
+    projectCreatorAccount = await algorand.account.kmd.getOrCreateWalletAccount('PROJECT-CREATOR')
     algorand.setSignerFromAccount(managerAccount)
     algorand.setSignerFromAccount(projectCreatorAccount)
     algorand.account.ensureFundedFromEnvironment(managerAccount.addr, microAlgo(10000000000))
@@ -38,7 +38,7 @@ describe('WeRepo contract', async () => {
       receiver: appClient.appAddress,
       amount: microAlgo(1000000), // Send 1 Algo to the new wallet
     })
-  })
+  }, 3000000)
 
   test('see if test runs', async () => {
     console.log('algorand', algorand)
@@ -47,9 +47,16 @@ describe('WeRepo contract', async () => {
   })
 
   test('see if were able to create a new project', async () => {
-    await weRepoClient.send.createNewProject({
-      args: [{ projectName: 'Test project', projectContribution: BigInt(0), projectDescription: 'some fuck' }],
+    const project = await weRepoClient.send.createNewProject({
+      args: ['Test project', 'Test project'],
       sender: projectCreatorAccount.addr,
     })
+
+    const dapps = await weRepoClient.send.addNewDappsToProject({
+      args: [[1, 2, 3]],
+      sender: projectCreatorAccount.addr,
+    })
+
+    console.log('dapps', dapps.returns)
   })
 })

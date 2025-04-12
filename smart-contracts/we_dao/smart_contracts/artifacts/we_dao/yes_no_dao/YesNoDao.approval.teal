@@ -9,7 +9,7 @@ main:
     // export class YesNoDao extends Contract {
     txn NumAppArgs
     bz main_after_if_else@12
-    pushbytess 0x07f28a11 0x21b89dde 0xef0ffc68 0x6b509907 0x97d5cecd 0xf812fd3d // method "createApplication(bool,uint64,uint64,string,string)void", method "configureContract(bool,uint64,uint64)void", method "createProposal(string,string,uint64,pay)void", method "voteProposal(uint64,bool,pay)void", method "hasVoted(uint64,account)bool", method "getProposal(uint64)(uint64,uint64,uint64,uint64,address,string)"
+    pushbytess 0xf15e53b2 0x21b89dde 0xef0ffc68 0x6b509907 0x97d5cecd 0xf812fd3d // method "createApplication(bool,uint64,uint64)void", method "configureContract(bool,uint64,uint64)void", method "createProposal(string,string,uint64,pay)void", method "voteProposal(uint64,bool,pay)void", method "hasVoted(uint64,account)bool", method "getProposal(uint64)(uint64,uint64,uint64,uint64,address,string)"
     txna ApplicationArgs 0
     match main_createApplication_route@3 main_configureContract_route@4 main_createProposal_route@5 main_voteProposal_route@6 main_hasVoted_route@7 main_getProposal_route@8
 
@@ -20,7 +20,7 @@ main_after_if_else@12:
     return
 
 main_getProposal_route@8:
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:214
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:206
     // @abimethod({ allowActions: 'NoOp', readonly: true })
     txn OnCompletion
     !
@@ -31,7 +31,7 @@ main_getProposal_route@8:
     // export class YesNoDao extends Contract {
     txna ApplicationArgs 1
     btoi
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:214
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:206
     // @abimethod({ allowActions: 'NoOp', readonly: true })
     callsub getProposal
     bytec 6 // 0x151f7c75
@@ -42,7 +42,7 @@ main_getProposal_route@8:
     return
 
 main_hasVoted_route@7:
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:204
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:196
     // @abimethod({ allowActions: 'NoOp', readonly: true })
     txn OnCompletion
     !
@@ -56,7 +56,7 @@ main_hasVoted_route@7:
     txna ApplicationArgs 2
     btoi
     txnas Accounts
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:204
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:196
     // @abimethod({ allowActions: 'NoOp', readonly: true })
     callsub hasVoted
     pushbytes 0x00
@@ -71,7 +71,7 @@ main_hasVoted_route@7:
     return
 
 main_voteProposal_route@6:
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:144
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:136
     // @abimethod({ allowActions: 'NoOp' })
     txn OnCompletion
     !
@@ -93,14 +93,14 @@ main_voteProposal_route@6:
     intc_1 // pay
     ==
     assert // transaction type is pay
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:144
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:136
     // @abimethod({ allowActions: 'NoOp' })
     callsub voteProposal
     intc_1 // 1
     return
 
 main_createProposal_route@5:
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:97
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:89
     // @abimethod({ allowActions: 'NoOp' })
     txn OnCompletion
     !
@@ -123,14 +123,14 @@ main_createProposal_route@5:
     intc_1 // pay
     ==
     assert // transaction type is pay
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:97
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:89
     // @abimethod({ allowActions: 'NoOp' })
     callsub createProposal
     intc_1 // 1
     return
 
 main_configureContract_route@4:
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:83
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:75
     // @abimethod({ allowActions: 'NoOp' })
     txn OnCompletion
     !
@@ -146,7 +146,7 @@ main_configureContract_route@4:
     btoi
     txna ApplicationArgs 3
     btoi
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:83
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:75
     // @abimethod({ allowActions: 'NoOp' })
     callsub configureContract
     intc_1 // 1
@@ -170,10 +170,6 @@ main_createApplication_route@3:
     btoi
     txna ApplicationArgs 3
     btoi
-    txna ApplicationArgs 4
-    extract 2 0
-    txna ApplicationArgs 5
-    extract 2 0
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:43
     // @abimethod({ allowActions: 'NoOp', onCreate: 'require' })
     callsub createApplication
@@ -181,122 +177,113 @@ main_createApplication_route@3:
     return
 
 
-// smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts::YesNoDao.createApplication(anyone_can_create: uint64, minimum_holding: uint64, asset_id: uint64, projectTitle: bytes, projectDescription: bytes) -> void:
+// smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts::YesNoDao.createApplication(anyone_can_create: uint64, minimum_holding: uint64, asset_id: uint64) -> void:
 createApplication:
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:43-50
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:43-44
     // @abimethod({ allowActions: 'NoOp', onCreate: 'require' })
-    // public createApplication(
-    //   anyone_can_create: boolean,
-    //   minimum_holding: uint64,
-    //   asset_id: uint64,
-    //   projectTitle: string,
-    //   projectDescription: string,
-    // ): void {
-    proto 5 0
+    // public createApplication(anyone_can_create: boolean, minimum_holding: uint64, asset_id: uint64): void {
+    proto 3 0
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:20
     // manager_address = GlobalState<Account>()
     bytec_0 // "manager_address"
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:52
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:46
     // this.manager_address.value = Txn.sender
     txn Sender
     app_global_put
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:23
     // proposal_count = GlobalState<uint64>()
     bytec_1 // "proposal_count"
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:55
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:49
     // this.proposal_count.value = 0
     intc_0 // 0
     app_global_put
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:26
     // anyone_can_create = GlobalState<boolean>()
     bytec_2 // "anyone_can_create"
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:58
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:52
     // this.anyone_can_create.value = anyone_can_create
-    frame_dig -5
+    frame_dig -3
     app_global_put
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:32
     // minimum_holding = GlobalState<uint64>()
     bytec_3 // "minimum_holding"
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:60
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:54
     // this.minimum_holding.value = minimum_holding
-    frame_dig -4
+    frame_dig -2
     app_global_put
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:29
     // asset_id = GlobalState<uint64>()
     bytec 4 // "asset_id"
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:63
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:57
     // this.asset_id.value = asset_id
-    frame_dig -3
+    frame_dig -1
     app_global_put
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:35
-    // project_name = GlobalState<string>()
-    pushbytes "project_name"
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:69
-    // this.project_name.value = projectTitle
-    frame_dig -2
-    app_global_put
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:71-80
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:20
+    // manager_address = GlobalState<Account>()
+    intc_0 // 0
+    bytec_0 // "manager_address"
+    app_global_get_ex
+    assert // check GlobalState exists
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:62-72
     // itxn
     //   .applicationCall({
-    //     appId: 1025,
+    //     appId: 737409438,
     //     appArgs: [
-    //       arc4.methodSelector('createNewProject(string,string)void'),
-    //       new arc4.Str(projectTitle),
-    //       new arc4.Str(projectDescription),
+    //       arc4.methodSelector('addNewDappsToProject(uint64[],string)void'),
+    //       new arc4.DynamicArray<arc4.UintN64>(new arc4.UintN64(op.Global.currentApplicationId.id)),
+    //       new arc4.Str('this.manager_address.value.authAddress'),
     //     ],
+    //     accounts: [creatorAddress], // If the target contract expects the creator address as an account reference
     //   })
     //   .submit()
     itxn_begin
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:76
-    // new arc4.Str(projectTitle),
-    frame_dig -2
-    len
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:67
+    // new arc4.DynamicArray<arc4.UintN64>(new arc4.UintN64(op.Global.currentApplicationId.id)),
+    global CurrentApplicationID
     itob
-    extract 6 2
-    frame_dig -2
-    concat
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:77
-    // new arc4.Str(projectDescription),
-    frame_dig -1
-    len
-    itob
-    extract 6 2
-    frame_dig -1
-    concat
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:75
-    // arc4.methodSelector('createNewProject(string,string)void'),
-    pushbytes 0xeb03c927 // method "createNewProject(string,string)void"
-    itxn_field ApplicationArgs
+    pushbytes 0x0001
     swap
+    concat
+    swap
+    itxn_field Accounts
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:66
+    // arc4.methodSelector('addNewDappsToProject(uint64[],string)void'),
+    pushbytes 0x6f127ed6 // method "addNewDappsToProject(uint64[],string)void"
     itxn_field ApplicationArgs
     itxn_field ApplicationArgs
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:73
-    // appId: 1025,
-    pushint 1025 // 1025
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:68
+    // new arc4.Str('this.manager_address.value.authAddress'),
+    pushbytes 0x0026746869732e6d616e616765725f616464726573732e76616c75652e6175746841646472657373
+    itxn_field ApplicationArgs
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:64
+    // appId: 737409438,
+    pushint 737409438 // 737409438
     itxn_field ApplicationID
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:71-79
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:62-71
     // itxn
     //   .applicationCall({
-    //     appId: 1025,
+    //     appId: 737409438,
     //     appArgs: [
-    //       arc4.methodSelector('createNewProject(string,string)void'),
-    //       new arc4.Str(projectTitle),
-    //       new arc4.Str(projectDescription),
+    //       arc4.methodSelector('addNewDappsToProject(uint64[],string)void'),
+    //       new arc4.DynamicArray<arc4.UintN64>(new arc4.UintN64(op.Global.currentApplicationId.id)),
+    //       new arc4.Str('this.manager_address.value.authAddress'),
     //     ],
+    //     accounts: [creatorAddress], // If the target contract expects the creator address as an account reference
     //   })
     pushint 6 // 6
     itxn_field TypeEnum
     intc_0 // 0
     itxn_field Fee
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:71-80
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:62-72
     // itxn
     //   .applicationCall({
-    //     appId: 1025,
+    //     appId: 737409438,
     //     appArgs: [
-    //       arc4.methodSelector('createNewProject(string,string)void'),
-    //       new arc4.Str(projectTitle),
-    //       new arc4.Str(projectDescription),
+    //       arc4.methodSelector('addNewDappsToProject(uint64[],string)void'),
+    //       new arc4.DynamicArray<arc4.UintN64>(new arc4.UintN64(op.Global.currentApplicationId.id)),
+    //       new arc4.Str('this.manager_address.value.authAddress'),
     //     ],
+    //     accounts: [creatorAddress], // If the target contract expects the creator address as an account reference
     //   })
     //   .submit()
     itxn_submit
@@ -305,7 +292,7 @@ createApplication:
 
 // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts::YesNoDao.configureContract(anyone_can_create: uint64, minimum_holding: uint64, assetId: uint64) -> void:
 configureContract:
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:83-84
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:75-76
     // @abimethod({ allowActions: 'NoOp' })
     // public configureContract(anyone_can_create: boolean, minimum_holding: uint64, assetId: uint64): void {
     proto 3 0
@@ -315,7 +302,7 @@ configureContract:
     bytec_0 // "manager_address"
     app_global_get_ex
     assert // check GlobalState exists
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:86
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:78
     // assert(this.manager_address.value === Txn.sender, 'Only the manager can configure the contract')
     txn Sender
     ==
@@ -323,21 +310,21 @@ configureContract:
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:26
     // anyone_can_create = GlobalState<boolean>()
     bytec_2 // "anyone_can_create"
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:88
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:80
     // this.anyone_can_create.value = anyone_can_create
     frame_dig -3
     app_global_put
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:32
     // minimum_holding = GlobalState<uint64>()
     bytec_3 // "minimum_holding"
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:91
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:83
     // this.minimum_holding.value = minimum_holding
     frame_dig -2
     app_global_put
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:29
     // asset_id = GlobalState<uint64>()
     bytec 4 // "asset_id"
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:94
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:86
     // this.asset_id.value = assetId
     frame_dig -1
     app_global_put
@@ -346,7 +333,7 @@ configureContract:
 
 // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts::YesNoDao.createProposal(proposal_title: bytes, proposal_description: bytes, expires_in: uint64, mbr_txn: uint64) -> void:
 createProposal:
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:97-103
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:89-95
     // @abimethod({ allowActions: 'NoOp' })
     // public createProposal(
     //   proposal_title: string,
@@ -361,7 +348,7 @@ createProposal:
     bytec_2 // "anyone_can_create"
     app_global_get_ex
     assert // check GlobalState exists
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:104
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:96
     // if (this.anyone_can_create.value === false) {
     bnz createProposal_after_if_else@2
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:20
@@ -370,46 +357,46 @@ createProposal:
     bytec_0 // "manager_address"
     app_global_get_ex
     assert // check GlobalState exists
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:105
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:97
     // assert(this.manager_address.value === Txn.sender, 'Only the manager can create proposals')
     txn Sender
     ==
     assert // Only the manager can create proposals
 
 createProposal_after_if_else@2:
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:109
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:101
     // const currentTimestamp: uint64 = op.Global.latestTimestamp
     global LatestTimestamp
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:113
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:105
     // assert(mbr_txn.amount >= 16490, 'Payment must cover the box MBR')
     frame_dig -1
     gtxns Amount
     intc_2 // 16490
     >=
     assert // Payment must cover the box MBR
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:116
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:108
     // assert(mbr_txn.receiver === op.Global.currentApplicationAddress, 'Payment must be to the contract')
     frame_dig -1
     gtxns Receiver
     global CurrentApplicationAddress
     ==
     assert // Payment must be to the contract
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:119
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:111
     // const proposal_expiry_timestamp: uint64 = currentTimestamp + expires_in
     dup
     frame_dig -2
     +
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:122
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:114
     // proposal_expiry_timestamp: new arc4.UintN64(proposal_expiry_timestamp),
     itob
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:123
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:115
     // proposal_start_timestamp: new arc4.UintN64(proposal_start_timestamp),
     swap
     itob
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:126
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:118
     // proposal_creator: new arc4.Address(Txn.sender),
     txn Sender
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:127
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:119
     // proposal_title_and_description: new arc4.Str(proposal_title + ':' + proposal_description),
     frame_dig -4
     pushbytes ":"
@@ -422,7 +409,7 @@ createProposal_after_if_else@2:
     extract 6 2
     swap
     concat
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:121-128
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:113-120
     // const proposal: ProposalDataType = new ProposalDataType({
     //   proposal_expiry_timestamp: new arc4.UintN64(proposal_expiry_timestamp),
     //   proposal_start_timestamp: new arc4.UintN64(proposal_start_timestamp),
@@ -434,10 +421,10 @@ createProposal_after_if_else@2:
     uncover 3
     uncover 3
     concat
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:124
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:116
     // proposal_total_votes: new arc4.UintN64(0),
     bytec 7 // 0x0000000000000000
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:121-128
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:113-120
     // const proposal: ProposalDataType = new ProposalDataType({
     //   proposal_expiry_timestamp: new arc4.UintN64(proposal_expiry_timestamp),
     //   proposal_start_timestamp: new arc4.UintN64(proposal_start_timestamp),
@@ -447,10 +434,10 @@ createProposal_after_if_else@2:
     //   proposal_title_and_description: new arc4.Str(proposal_title + ':' + proposal_description),
     // })
     concat
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:125
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:117
     // proposal_yes_votes: new arc4.UintN64(0),
     bytec 7 // 0x0000000000000000
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:121-128
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:113-120
     // const proposal: ProposalDataType = new ProposalDataType({
     //   proposal_expiry_timestamp: new arc4.UintN64(proposal_expiry_timestamp),
     //   proposal_start_timestamp: new arc4.UintN64(proposal_start_timestamp),
@@ -472,11 +459,11 @@ createProposal_after_if_else@2:
     bytec_1 // "proposal_count"
     app_global_get_ex
     assert // check GlobalState exists
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:131
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:123
     // const newProposalNonce = Uint64(this.proposal_count.value + 1)
     intc_1 // 1
     +
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:134
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:126
     // assert(!this.proposal(new arc4.UintN64(newProposalNonce)).exists, 'Proposal already exists')
     dup
     itob
@@ -485,7 +472,7 @@ createProposal_after_if_else@2:
     bytec 5 // "_p"
     swap
     concat
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:134
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:126
     // assert(!this.proposal(new arc4.UintN64(newProposalNonce)).exists, 'Proposal already exists')
     dup
     box_len
@@ -495,11 +482,11 @@ createProposal_after_if_else@2:
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:23
     // proposal_count = GlobalState<uint64>()
     bytec_1 // "proposal_count"
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:137
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:129
     // this.proposal_count.value = newProposalNonce
     uncover 2
     app_global_put
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:140
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:132
     // this.proposal(new arc4.UintN64(newProposalNonce)).value = proposal.copy()
     dup
     box_del
@@ -511,11 +498,11 @@ createProposal_after_if_else@2:
 
 // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts::YesNoDao.voteProposal(proposal_id: uint64, vote: uint64, mbr_txn: uint64) -> void:
 voteProposal:
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:144-145
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:136-137
     // @abimethod({ allowActions: 'NoOp' })
     // public voteProposal(proposal_id: uint64, vote: boolean, mbr_txn: gtxn.PaymentTxn): void {
     proto 3 0
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:148
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:140
     // this.proposal(new arc4.UintN64(proposal_id)).exists,
     frame_dig -3
     itob
@@ -524,21 +511,21 @@ voteProposal:
     bytec 5 // "_p"
     dig 1
     concat
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:148
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:140
     // this.proposal(new arc4.UintN64(proposal_id)).exists,
     dup
     box_len
     bury 1
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:147-150
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:139-142
     // assert(
     //   this.proposal(new arc4.UintN64(proposal_id)).exists,
     //   'The proposal the user is trying to vote on does not exist',
     // )
     assert // The proposal the user is trying to vote on does not exist
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:155
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:147
     // voter_address: new arc4.Address(Txn.sender),
     txn Sender
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:153-156
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:145-148
     // const voteId = new VoteIdType({
     //   proposal_id: new arc4.UintN64(proposal_id),
     //   voter_address: new arc4.Address(Txn.sender),
@@ -551,32 +538,32 @@ voteProposal:
     bytec 8 // "_v"
     swap
     concat
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:159
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:151
     // assert(!this.vote(voteId).exists, 'The user has already voted on this proposal')
     dup
     box_len
     bury 1
     !
     assert // The user has already voted on this proposal
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:162
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:154
     // const currentProposal: ProposalDataType = this.proposal(new arc4.UintN64(proposal_id)).value.copy()
     dig 1
     box_get
     assert // Box must have value
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:165
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:157
     // const currentTime = op.Global.latestTimestamp
     global LatestTimestamp
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:166
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:158
     // const expiryTime = currentProposal.proposal_expiry_timestamp.native
     dig 1
     intc_0 // 0
     extract_uint64
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:167
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:159
     // assert(currentTime < expiryTime, 'The proposal has expired')
     dig 1
     >
     assert // The proposal has expired
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:170
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:162
     // assert(Txn.sender !== this.manager_address.value, 'The manager cannot vote on proposals')
     txn Sender
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:20
@@ -585,25 +572,25 @@ voteProposal:
     bytec_0 // "manager_address"
     app_global_get_ex
     assert // check GlobalState exists
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:170
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:162
     // assert(Txn.sender !== this.manager_address.value, 'The manager cannot vote on proposals')
     !=
     assert // The manager cannot vote on proposals
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:173
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:165
     // assert(mbr_txn.amount >= 16490, 'Payment must cover the vote box MBR')
     frame_dig -1
     gtxns Amount
     intc_2 // 16490
     >=
     assert // Payment must cover the vote box MBR
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:176
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:168
     // assert(mbr_txn.receiver === op.Global.currentApplicationAddress, 'Payment must be to the contract')
     frame_dig -1
     gtxns Receiver
     global CurrentApplicationAddress
     ==
     assert // Payment must be to the contract
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:179
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:171
     // const [assetBalance, hasAsset] = op.AssetHolding.assetBalance(Txn.sender, this.asset_id.value)
     txn Sender
     // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:29
@@ -612,7 +599,7 @@ voteProposal:
     bytec 4 // "asset_id"
     app_global_get_ex
     assert // check GlobalState exists
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:179
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:171
     // const [assetBalance, hasAsset] = op.AssetHolding.assetBalance(Txn.sender, this.asset_id.value)
     asset_holding_get AssetBalance
     pop
@@ -622,44 +609,44 @@ voteProposal:
     bytec_3 // "minimum_holding"
     app_global_get_ex
     assert // check GlobalState exists
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:181
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:173
     // assert(assetBalance >= this.minimum_holding.value, 'The user does not have enough asset to vote')
     >=
     assert // The user does not have enough asset to vote
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:185
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:177
     // vote_timestamp: new arc4.UintN64(currentTime),
     itob
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:189
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:181
     // const updatedVotes = Uint64(currentProposal.proposal_total_votes.native + 1)
     dig 1
     pushint 16 // 16
     extract_uint64
     intc_1 // 1
     +
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:190
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:182
     // const updatedYesVotes = Uint64(currentProposal.proposal_yes_votes.native + (vote ? 1 : 0))
     dig 2
     pushint 24 // 24
     extract_uint64
     frame_dig -2
     +
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:194
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:186
     // updatedProposal.proposal_total_votes = new arc4.UintN64(updatedVotes)
     swap
     itob
     uncover 3
     swap
     replace2 16
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:195
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:187
     // updatedProposal.proposal_yes_votes = new arc4.UintN64(updatedYesVotes)
     swap
     itob
     replace2 24
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:198
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:190
     // this.vote(voteId).value = voteData.copy()
     cover 2
     box_put
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:200
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:192
     // this.proposal(new arc4.UintN64(proposal_id)).value = updatedProposal.copy()
     dig 1
     box_del
@@ -670,15 +657,15 @@ voteProposal:
 
 // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts::YesNoDao.hasVoted(proposal_id: uint64, voter: bytes) -> uint64:
 hasVoted:
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:204-205
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:196-197
     // @abimethod({ allowActions: 'NoOp', readonly: true })
     // public hasVoted(proposal_id: uint64, voter: Account): boolean {
     proto 2 1
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:207
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:199
     // proposal_id: new arc4.UintN64(proposal_id),
     frame_dig -2
     itob
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:206-209
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:198-201
     // const voteId = new VoteIdType({
     //   proposal_id: new arc4.UintN64(proposal_id),
     //   voter_address: new arc4.Address(voter),
@@ -690,7 +677,7 @@ hasVoted:
     bytec 8 // "_v"
     swap
     concat
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:211
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:203
     // return this.vote(voteId).exists
     box_len
     bury 1
@@ -699,11 +686,11 @@ hasVoted:
 
 // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts::YesNoDao.getProposal(proposal_id: uint64) -> bytes:
 getProposal:
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:214-215
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:206-207
     // @abimethod({ allowActions: 'NoOp', readonly: true })
     // public getProposal(proposal_id: uint64): ProposalDataType {
     proto 1 1
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:216
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:208
     // const proposal: ProposalDataType = this.proposal(new arc4.UintN64(proposal_id)).value.copy()
     frame_dig -1
     itob
@@ -712,10 +699,10 @@ getProposal:
     bytec 5 // "_p"
     swap
     concat
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:216
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:208
     // const proposal: ProposalDataType = this.proposal(new arc4.UintN64(proposal_id)).value.copy()
     box_get
     assert // Box must have value
-    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:217
+    // smart_contracts/we_dao/yes_no_dao/YesNoContract.algo.ts:209
     // return proposal
     retsub
